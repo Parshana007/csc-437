@@ -1,0 +1,27 @@
+:root {
+  /* Icon Sizes */
+  --size-icon-normal: 2em;
+  --size-icon-large: 4em;
+
+  /* Font Sizes */
+  --size-type-small: 0.5rem;
+  --size-type-body: 1rem;
+  --size-type-mlarge: 1.25rem;
+  --size-type-large: 1.5rem;
+  --size-type-xlarge: 2rem;
+  --size-type-xxlarge: 2.5rem;
+
+  /* Colors */
+  --color-light-orange: #fcd0a1;
+  --color-sage: #b1b695;
+  --color-rose-quartz: #a690a4;
+  --color-eggplant: #5e4b56;
+  --color-columbia-blue: #afd2e9;
+  --color-white: white;
+  --color-link: var(--color-accent);
+  
+
+  /* Typography */
+  --font-family-body: 'Roboto', sans-serif;
+  --font-family-display: 'Playfair Display', serif;
+}
