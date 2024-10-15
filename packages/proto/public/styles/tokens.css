@@ -19,9 +19,39 @@
   --color-columbia-blue: #afd2e9;
   --color-white: white;
   --color-link: var(--color-accent);
-  
 
   /* Typography */
-  --font-family-body: 'Roboto', sans-serif;
-  --font-family-display: 'Playfair Display', serif;
+  --font-family-body: "Roboto", sans-serif;
+  --font-family-display: "Playfair Display", serif;
+
+  /* Bold */
+  --font-bold: bold;
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  header {
+    background-color: var(--color-eggplant);
+    color: var(--color-white);
+  }
+  
+  body {
+    background-color: var(--color-sage);
+    font-family: var(--font-family-body);
+    font-size: var(--size-type-mlarge);
+    margin: 0.5rem;
+    color: var(--color-white);
+  }
+  
+  h1 {
+    font-size: var(--size-type-xxlarge);
+    font-family: var(--font-family-display);
+    padding: 0.2rem;
+  }
 }

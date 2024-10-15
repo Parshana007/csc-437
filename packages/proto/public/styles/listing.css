@@ -1,7 +1,30 @@
-img {
-    max-width: 100%;
+.listing {
+    margin: 3rem;
 }
 
-h1 {
-    font-size: xx-large;
+.listing-description {
+  display: flex;
+  flex-direction: row;
+}
+
+.details {
+  padding: var(--size-type-large);
+}
+
+img {
+  max-height: calc(70vh - 2rem); /* vh is the visual height */
+}
+
+.crossImage {
+  width: 30px; /* Set width */
+  height: 30px; /* Set height */
+}
+
+dt {
+  margin-top: 1rem; /* Add space above each term */
+  font-weight: var(--font-bold); /* Make the terms bold for emphasis */
+}
+
+dd {
+  margin-bottom: 1rem; /* Add space below each description */
 }
