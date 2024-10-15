@@ -1,30 +1,6 @@
-img {
-  max-width: 100%;
-}
-
-header {
-  background-color: var(--color-eggplant);
-  color: var(--color-white)
-}
-
-body {
-  background-color: var(--color-sage);
-  font-family: var(--font-family-body);
-  font-size: var(--size-type-body);
-}
-
-h1 {
-  font-size: var(--size-type-xxlarge);
-  font-family: var(--font-family-display);
-}
-
-a {
-  color: var(--color-link);
-}
-
 .listings {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); /* Responsive grid */
   gap: var(--size-type-small); /* Space between grid items */
 }
 
@@ -42,10 +18,10 @@ figure img {
 
 figcaption {
   background-color: var(--color-eggplant);
-  color: var(--color-white);
   display: flex; /* Use flexbox */
   flex-direction: column;
   align-items: center; /* Vertically center the content */
   padding: var(--size-type-small);
+  font-size: calc(1.5rem - 0.3vw);
 }
 
