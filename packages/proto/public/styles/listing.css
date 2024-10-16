@@ -18,7 +18,7 @@ img {
 .crossSvg {
   width: 3rem; 
   height: 3rem;
-  color: var(--color-white);
+  fill: var(--color-white);
 }
 
 dt {
