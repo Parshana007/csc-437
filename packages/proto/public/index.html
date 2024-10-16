@@ -3,38 +3,54 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles/tokens.css" />
-    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="stylesheet" href="styles/page.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
     <title>Uni Market</title>
+    <link rel="icon" href="assets/storeLogo.svg" type="image/svg+xml" />
   </head>
   <body>
     <header>
-      <h1>UniMarket</h1>
+      <a href="index.html" class="navBar">
+        <svg class="icon-market">
+          <use href="../icons/icons.svg#icon-market" />
+        </svg>
+        <h1>UniMarket</h1>
+      </a>
     </header>
     <section class="listings">
       <figure>
-        <img src="./assets/loftbed.jpg" />
-        <figcaption>
-          <a href="listing/TwinBed.html">Twin Bed</a>
-          <p>Price: $280</p>
-        </figcaption>
+        <a href="listing/TwinBed.html">
+          <img src="./assets/loftbed.jpg" />
+          <figcaption>
+            <p>Twin Bed</p>
+            <p>Price: $280</p>
+          </figcaption>
+        </a>
       </figure>
       <figure>
-        <img src="./assets/desk.jpg" />
-        <figcaption>
-          <a href="listing/Desk.html">Desk</a>
-          <p>Price: $70</p>
-        </figcaption>
+        <a href="listing/Desk.html">
+          <img src="./assets/desk.jpg" />
+          <figcaption>
+            <p>Desk</p>
+            <p>Price: $70</p>
+          </figcaption>
+        </a>
       </figure>
       <figure>
-        <img src="./assets/coffeetable.jpg" />
-        <figcaption>
-          <a href="listing/CoffeeTable.html">Coffee Table</a>
-          <p>Price $60</p>
-        </figcaption>
+        <a href="listing/CoffeeTable.html">
+          <img src="./assets/coffeetable.jpg" />
+          <figcaption>
+            <p>Coffee Table</p>
+            <p>Price $60</p>
+          </figcaption>
+        </a>
       </figure>
     </section>
   </body>
