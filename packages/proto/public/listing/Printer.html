@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="../styles/reset.css" />
     <link rel="stylesheet" href="../styles/tokens.css" />
     <link rel="stylesheet" href="../styles/listing.css" />
     <link rel="stylesheet" href="../styles/page.css" />
@@ -17,20 +18,25 @@
   </head>
   <body>
     <header>
-      <a href="../index.html" class="navBar">
-        <svg class="icon-market">
-          <use href="../icons/icons.svg#icon-market" />
-        </svg>
-        <h1>UniMarket</h1>
+      <a href="../index.html">
+        <h1 class="navBar">
+          <svg class="icon-market">
+            <use href="../icons/icons.svg#icon-market" />
+          </svg>
+          <span>UniMarket</span>
+        </h1>
       </a>
     </header>
-    <a href="../index.html">
-      <svg class="crossSvg">
-        <use href="../icons/icons.svg#icon-cross" />
-      </svg>
-    </a>
+
     <section class="listing">
-      <h2>All-in-One Printer</h2>
+      <div class="listing-header">
+        <h2>All in one-printer</h2>
+        <a href="../index.html">
+          <svg class="crossSvg">
+            <use href="../icons/icons.svg#icon-cross" />
+          </svg>
+        </a>
+      </div>
       <section class="listing-description">
         <img src="../assets/printer.jpg" alt="Multi-function printer" />
         <div class="details">
