@@ -24,6 +24,12 @@
   --font-family-body: "Roboto", sans-serif;
   --font-family-display: "Playfair Display", serif;
 
+  /* Content Sizing */
+  --content-size-small: 1rem;
+  --content-size-medium: 2rem;
+  --content-size-large: 3rem;
+  --content-size-xlarge: 4rem;
+
   /* Bold */
   --font-bold: bold;
 }
