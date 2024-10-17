@@ -1,5 +1,5 @@
 .listing {
-    margin: 1rem 3rem 3rem 3rem;
+  margin: 1rem;
 }
 
 .listing-description {
@@ -16,16 +16,24 @@ img {
 }
 
 .crossSvg {
-  width: 3rem; 
+  width: 3rem;
   height: 3rem;
-  fill: var(--color-white);
+  fill: var(--color-sage);
+  stroke: var(--color-white);
 }
 
 dt {
-  margin-top: 1rem; /* Add space above each term */
   font-weight: var(--font-bold); /* Make the terms bold for emphasis */
 }
 
 dd {
   margin-bottom: 1rem; /* Add space below each description */
+  margin-left: 1rem;
+}
+
+.listing-header {
+  display: flex;
+  align-items: center; /* Align the items vertically in the center */
+  justify-content: space-between; /* Push items to the edges */
+  padding-bottom: 1rem; /* Optional: Adds some space below the header */
 }
