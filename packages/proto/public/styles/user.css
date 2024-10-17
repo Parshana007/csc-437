@@ -3,10 +3,10 @@
   flex-direction: column;
   align-items: center;
   background-color: var(--color-eggplant);
-  padding: 4rem;
+  padding: var(--content-size-xlarge);
   width: 80%;
   max-width: 600px;
-  margin-bottom: 2rem;
+  margin-bottom: var(--content-size-medium);
 }
 
 .userPhoto {

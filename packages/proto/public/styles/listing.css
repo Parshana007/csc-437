@@ -1,5 +1,5 @@
 .listing {
-  margin: 1rem;
+  margin: var(--content-size-small);
 }
 
 .listing-description {
@@ -12,12 +12,14 @@
 }
 
 img {
-  max-height: calc(70vh - 2rem); /* vh is the visual height */
+  max-height: calc(
+    70vh - var(--content-size-medium)
+  ); /* vh is the visual height */
 }
 
 .crossSvg {
-  width: 3rem;
-  height: 3rem;
+  width: var(--content-size-large);
+  height: var(--content-size-large);
   fill: var(--color-sage);
   stroke: var(--color-white);
 }
@@ -27,13 +29,15 @@ dt {
 }
 
 dd {
-  margin-bottom: 1rem; /* Add space below each description */
-  margin-left: 1rem;
+  margin-bottom: var(--content-size-small);
+  margin-left: var(--content-size-small);
 }
 
 .listing-header {
   display: flex;
   align-items: center; /* Align the items vertically in the center */
   justify-content: space-between; /* Push items to the edges */
-  padding-bottom: 1rem; /* Optional: Adds some space below the header */
+  padding-bottom: var(
+    --content-size-small
+  ); /* Optional: Adds some space below the header */
 }
