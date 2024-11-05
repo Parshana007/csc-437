@@ -23,9 +23,11 @@
     <script type="module">
       import { define } from "@calpoly/mustang";
       import { UniListing } from "../js/uni-listing.js";
+      import { UniMarketNav } from "../js/uni-market-nav.js";
 
       define({
         "uni-listing": UniListing,
+        "uni-market-nav" : UniMarketNav
       });
     </script>
     <title>IKEA Coffee Table Listing</title>
@@ -33,16 +35,7 @@
   </head>
 
   <body>
-    <header>
-      <a href="../index.html">
-        <h1 class="navBar">
-          <svg class="icon-market">
-            <use href="../icons/icons.svg#icon-market" />
-          </svg>
-          <span>UniMarket</span>
-        </h1>
-      </a>
-    </header>
+    <uni-market-nav></uni-market-nav>
     <uni-listing>
       <span slot="title">IKEA Coffee Table</span>
       <img
