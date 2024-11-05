@@ -1,4 +1,5 @@
 import { css, html, shadow } from "@calpoly/mustang";
+import reset from "./reset.css.js";
 
 export class UniMarketNav extends HTMLElement {
   static template = html`
@@ -25,8 +26,8 @@ export class UniMarketNav extends HTMLElement {
     }
 
     .icon-market {
-      width: 1.1em;
-      height: 1.1em;
+      width: 1.5em;
+      height: 1.5em;
       margin: 0;
       padding-left: var(--content-size-small);
       fill: var(--color-white);
@@ -59,6 +60,6 @@ export class UniMarketNav extends HTMLElement {
 
   constructor() {
     super();
-    shadow(this).template(UniMarketNav.template).styles(UniMarketNav.styles);
+    shadow(this).template(UniMarketNav.template).styles(reset.styles, UniMarketNav.styles);
   }
 }

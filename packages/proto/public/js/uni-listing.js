@@ -1,4 +1,5 @@
 import { css, html, shadow } from "@calpoly/mustang";
+import reset from "./reset.css.js";
 
 export class UniListing extends HTMLElement {
   static template = html`
@@ -85,6 +86,6 @@ export class UniListing extends HTMLElement {
 
   constructor() {
     super();
-    shadow(this).template(UniListing.template).styles(UniListing.styles);
+    shadow(this).template(UniListing.template).styles(reset.styles, UniListing.styles);
   }
 }

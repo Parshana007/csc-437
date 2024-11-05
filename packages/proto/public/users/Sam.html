@@ -7,30 +7,31 @@
     <link rel="stylesheet" href="../styles/page.css" />
     <title>Sam Sullivan</title>
     <link rel="icon" href="../assets/storeLogo.svg" type="image/svg+xml" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
+      }
+    </script>
+    <script type="module">
+      import { define } from "@calpoly/mustang";
+      import { UserProfile } from "../js/user-profile.js";
+      import { UniMarketNav } from "../js/uni-market-nav.js";
+
+      define({
+        "user-profile": UserProfile,
+        "uni-market-nav": UniMarketNav,
+      });
+    </script>
   </head>
   <body>
-    <header>
-      <a href="../index.html">
-        <h1 class="navBar">
-          <svg class="icon-market">
-            <use href="../icons/icons.svg#icon-market" />
-          </svg>
-          <span>UniMarket</span>
-        </h1>
-      </a>
-    </header>
-    <main class="center-container">
-      <section class="userProfile">
-        <img class="userPhoto" src="../assets/user.png" alt="userPhoto" />
-        <h2>Sam Sullivan</h2>
-        <section class="userDescription">
-          <dl>
-            <dt>Contact Information</dt>
-            <dd>samsullivan@calpoly.edu</dd>
-          </dl>
-        </section>
-      </section>
-    </main>
+    <uni-market-nav></uni-market-nav>
+    <user-profile>
+      <img slot="userPhoto" src="../assets/user.png" alt="User Photo" />
+      <span slot="userName">Sam Sullivan</span>
+      <span slot="contactInfo">samsullivan@calpoly.edu</span>
+    </user-profile>
     <section class="listings">
       <a href="../listing/CoffeeTable.html">
         <figure>
