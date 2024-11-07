@@ -15,6 +15,21 @@
     />
     <title>Uni Market</title>
     <link rel="icon" href="assets/storeLogo.svg" type="image/svg+xml" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
+      }
+    </script>
+    <script type="module">
+      import { define } from "@calpoly/mustang";
+      import { ListingHeader } from "../js/listing-header.js";
+
+      define({
+        "listing-header": ListingHeader,
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -28,150 +43,128 @@
       </a>
     </header>
     <section class="listings">
-      <a href="listing/TwinBed.html">
-        <figure>
-          <img src="./assets/loftbed.jpg" alt="Twin Bed" />
-          <figcaption>
-            <p>Twin Bed</p>
-            <p>Price: $280</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Desk.html">
-        <figure>
-          <img src="./assets/desk.jpg" alt="Desk" />
-          <figcaption>
-            <p>Desk</p>
-            <p>Price: $70</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/CoffeeTable.html">
-        <figure>
-          <img src="./assets/coffeeTable.jpg" alt="Coffee Table" />
-          <figcaption>
-            <p>Coffee Table</p>
-            <p>Price: $60</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Sweater.html">
-        <figure>
-          <img src="./assets/sweater.jpg" alt="Sweater" />
-          <figcaption>
-            <p>Sweater</p>
-            <p>Price: $30</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Computer.html">
-        <figure>
-          <img src="./assets/computer.jpg" alt="Computer" />
-          <figcaption>
-            <p>Computer</p>
-            <p>Price: $500</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Pot.html">
-        <figure>
-          <img src="./assets/cookingPot.jpg" alt="Cooking Pot" />
-          <figcaption>
-            <p>Cooking Pot</p>
-            <p>Price: $25</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Couch.html">
-        <figure>
-          <img src="./assets/couch.jpg" alt="Couch" />
-          <figcaption>
-            <p>Couch</p>
-            <p>Price: $350</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/TV.html">
-        <figure>
-          <img src="./assets/tv.jpg" alt="Television" />
-          <figcaption>
-            <p>Television</p>
-            <p>Price: $200</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Pillow.html">
-        <figure>
-          <img src="./assets/pillow.jpg" alt="Pillow" />
-          <figcaption>
-            <p>Pillow</p>
-            <p>Price: $10</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Printer.html">
-        <figure>
-          <img src="./assets/printer.jpg" alt="Printer" />
-          <figcaption>
-            <p>Printer</p>
-            <p>Price: $100</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Headphones.html">
-        <figure>
-          <img src="./assets/headphones.jpg" alt="Headphones" />
-          <figcaption>
-            <p>Headphones</p>
-            <p>Price: $50</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Painting.html">
-        <figure>
-          <img src="./assets/painting.jpg" alt="Painting" />
-          <figcaption>
-            <p>Painting</p>
-            <p>Price: $120</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Lights.html">
-        <figure>
-          <img src="./assets/lights.jpg" alt="LED Lights" />
-          <figcaption>
-            <p>LED Lights</p>
-            <p>Price: $20</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Washer.html">
-        <figure>
-          <img src="./assets/washer.jpg" alt="Washing Machine" />
-          <figcaption>
-            <p>Washing Machine</p>
-            <p>Price: $400</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Microwave.html">
-        <figure>
-          <img src="./assets/microwave.jpg" alt="Microwave" />
-          <figcaption>
-            <p>Microwave</p>
-            <p>Price: $80</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="listing/Table.html">
-        <figure>
-          <img src="./assets/diningTable.jpg" alt="Dining Table" />
-          <figcaption>
-            <p>Dining Table</p>
-            <p>Price: $250</p>
-          </figcaption>
-        </figure>
-      </a>
+      <listing-header>
+        <img
+          slot="image"
+          src="./assets/loftbed.jpg"
+          alt="Desk with shelves and wheels"
+        />
+        <span slot="listingName"
+          ><a href="./listing/TwinBed.html">Twin Bed</a></span
+        >
+        <span slot="price">Price: $280</span>
+      </listing-header>
+      <listing-header>
+        <img slot="image" src="./assets/desk.jpg" alt="Desk" />
+        <span slot="listingName"><a href="listing/Desk.html">Desk</a></span>
+        <span slot="price">Price: $70</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/coffeeTable.jpg" alt="Coffee Table" />
+        <span slot="listingName"
+          ><a href="listing/CoffeeTable.html">Coffee Table</a></span
+        >
+        <span slot="price">Price: $60</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/sweater.jpg" alt="Sweater" />
+        <span slot="listingName"
+          ><a href="listing/Sweater.html">Sweater</a></span
+        >
+        <span slot="price">Price: $30</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/computer.jpg" alt="Computer" />
+        <span slot="listingName"
+          ><a href="listing/Computer.html">Computer</a></span
+        >
+        <span slot="price">Price: $500</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/cookingPot.jpg" alt="Cooking Pot" />
+        <span slot="listingName"
+          ><a href="listing/Pot.html">Cooking Pot</a></span
+        >
+        <span slot="price">Price: $25</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/couch.jpg" alt="Couch" />
+        <span slot="listingName"><a href="listing/Couch.html">Couch</a></span>
+        <span slot="price">Price: $350</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/tv.jpg" alt="Television" />
+        <span slot="listingName"><a href="listing/TV.html">Television</a></span>
+        <span slot="price">Price: $200</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/pillow.jpg" alt="Pillow" />
+        <span slot="listingName"><a href="listing/Pillow.html">Pillow</a></span>
+        <span slot="price">Price: $10</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/printer.jpg" alt="Printer" />
+        <span slot="listingName"
+          ><a href="listing/Printer.html">Printer</a></span
+        >
+        <span slot="price">Price: $100</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/headphones.jpg" alt="Headphones" />
+        <span slot="listingName"
+          ><a href="listing/Headphones.html">Headphones</a></span
+        >
+        <span slot="price">Price: $50</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/painting.jpg" alt="Painting" />
+        <span slot="listingName"
+          ><a href="listing/Painting.html">Painting</a></span
+        >
+        <span slot="price">Price: $120</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/lights.jpg" alt="LED Lights" />
+        <span slot="listingName"
+          ><a href="listing/Lights.html">LED Lights</a></span
+        >
+        <span slot="price">Price: $20</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/washer.jpg" alt="Washing Machine" />
+        <span slot="listingName"
+          ><a href="listing/Washer.html">Washing Machine</a></span
+        >
+        <span slot="price">Price: $400</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/microwave.jpg" alt="Microwave" />
+        <span slot="listingName"
+          ><a href="listing/Microwave.html">Microwave</a></span
+        >
+        <span slot="price">Price: $80</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/diningTable.jpg" alt="Dining Table" />
+        <span slot="listingName"
+          ><a href="listing/Table.html">Dining Table</a></span
+        >
+        <span slot="price">Price: $250</span>
+      </listing-header>
     </section>
   </body>
 </html>
