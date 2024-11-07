@@ -11,6 +11,11 @@ figure {
   margin: 0;
 }
 
+header {
+  display: flex;
+  flex-direction: row;
+}
+
 header h1 {
   font-size: var(--size-type-xxlarge);
   font-family: var(--font-family-display);

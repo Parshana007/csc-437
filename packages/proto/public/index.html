@@ -30,17 +30,43 @@
         "listing-header": ListingHeader,
       });
     </script>
+    <script type="module">
+      import { Events } from "@calpoly/mustang";
+
+      window.relayEvent = Events.relay;
+    </script>
+    <script type="module">
+      function toggleDarkMode(page, checked) {
+        page.classList.toggle("dark-mode", checked);
+      }
+
+      document.body.addEventListener("dark-mode", (event) =>
+        toggleDarkMode(event.currentTarget, event.detail.checked)
+      );
+    </script>
   </head>
   <body>
     <header>
-      <a href="index.html">
-        <h1 class="navBar">
-          <svg class="icon-market">
-            <use href="../icons/icons.svg#icon-market" />
-          </svg>
-          <span>UniMarket</span>
-        </h1>
-      </a>
+      <!-- <a href="index.html"> -->
+      <h1 class="navBar">
+        <svg class="icon-market">
+          <use href="../icons/icons.svg#icon-market" />
+        </svg>
+        <span><a href="index.html"></a>UniMarket</span>
+        <!-- <span>UniMarket</span> -->
+      </h1>
+      <!-- </a> -->
+      <drop-down>
+        <label
+          onchange="relayEvent(
+            event,
+            'dark-mode',
+            {checked: event.target.checked})"
+        >
+          <input type="checkbox" autocomplete="off" />
+          Dark mode
+        </label>
+      </drop-down>
     </header>
     <section class="listings">
       <listing-header>
