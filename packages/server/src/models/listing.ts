@@ -8,7 +8,7 @@ export interface Listing {
   listedDate: Date;
   condition: Condition;
   pickUpLocation: PickupLocation;
-  seller: User; /*TODO: Just the name appears with the link to userspage*/
+  seller: User; /*Just the name appears with the link to userspage*/
   featuredImage: string; /* Consider changing this to get a list of images?*/
 }
 
