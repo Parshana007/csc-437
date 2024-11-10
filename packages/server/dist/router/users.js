@@ -26,41 +26,32 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var userPage_exports = {};
-__export(userPage_exports, {
-  UserPage: () => UserPage
+var users_exports = {};
+__export(users_exports, {
+  default: () => users_default
 });
-module.exports = __toCommonJS(userPage_exports);
-var import_server = require("@calpoly/mustang/server");
-var import_renderPage = __toESM(require("./renderPage"));
-class UserPage {
-  data;
-  constructor(data) {
-    this.data = data;
-  }
-  render() {
-    return (0, import_renderPage.default)({
-      body: this.renderBody(),
-      stylesheets: ["/styles/user.css"],
-      scripts: [
-        `import { define } from "@calpoly/mustang";
-        import { UserProfile } from "../js/user-profile.js";
-
-        define({
-            "user-profile": UserProfile,
-        });`
-      ]
-    });
-  }
-  renderBody() {
-    const { name, contactInfo, profilePic } = this.data;
-    return import_server.html`
-      <uni-market-nav></uni-market-nav>
-      <user-profile src="/api/users/Sam"></user-profile>
-    `;
-  }
-}
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  UserPage
+module.exports = __toCommonJS(users_exports);
+var import_express = __toESM(require("express"));
+var import_users_svc = __toESM(require("../services/users-svc"));
+const router = import_express.default.Router();
+router.get("/", (_, res) => {
+  import_users_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
 });
+router.post("/", (req, res) => {
+  const newUser = req.body;
+  import_users_svc.default.create(newUser).then((user) => res.status(201).json(user)).catch((err) => res.status(500).send(err));
+});
+router.get("/:userName", (req, res) => {
+  const { userName } = req.params;
+  import_users_svc.default.get(userName).then((user) => res.json(user)).catch((err) => res.status(404).send(err));
+});
+router.put("/:userName", (req, res) => {
+  const { userName } = req.params;
+  const newUser = req.body;
+  import_users_svc.default.update(userName, newUser).then((user) => res.json(user)).catch((err) => res.status(404).end());
+});
+router.delete("/:userName", (req, res) => {
+  const { userName } = req.params;
+  import_users_svc.default.remove(userName).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+});
+var users_default = router;

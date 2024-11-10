@@ -28,10 +28,12 @@
     </script>
   </head>
   <body>
-    <uni-market-nav></uni-market-nav>
+    <uni-market-nav>
+      <a slot="homeLink" href="../index.html"><span>UniMarket</span></a>
+    </uni-market-nav>
     <user-profile>
-      <img slot="userPhoto" src="../assets/user.png" alt="User Photo" />
-      <span slot="userName">Sally Smith</span>
+      <img slot="profilePic" src="../assets/user.png" alt="User Photo" />
+      <span slot="name">Sally Smith</span>
       <span slot="contactInfo">sallysmith@calpoly.edu</span>
     </user-profile>
     <section class="listings">

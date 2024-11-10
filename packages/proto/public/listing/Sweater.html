@@ -27,7 +27,7 @@
 
       define({
         "uni-listing": UniListing,
-        "uni-market-nav": UniMarketNav
+        "uni-market-nav": UniMarketNav,
       });
     </script>
     <title>Cozy Sweater Listing</title>
@@ -37,12 +37,8 @@
   <body>
     <uni-market-nav></uni-market-nav>
     <uni-listing>
-      <span slot="title">Sweater Set</span>
-      <img
-        slot="image"
-        src="../assets/sweater.jpg"
-        alt="Warm cozy sweater"
-      />
+      <span slot="name">Sweater Set</span>
+      <img slot="image" src="../assets/sweater.jpg" alt="Warm cozy sweater" />
       <span slot="description"
         >Warm and cozy sweater in excellent condition, size medium. Perfect for
         winter!</span

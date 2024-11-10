@@ -7,7 +7,7 @@ const defaults = {
         import { UniMarketNav } from "../js/uni-market-nav.js";
 
         define({
-            "uni-market-nav" : UniMarketNav
+             "uni-market-nav" : UniMarketNav
         });
       `,
   ],

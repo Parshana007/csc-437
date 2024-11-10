@@ -27,14 +27,9 @@ export class UserPage {
 
   renderBody() {
     const { name, contactInfo, profilePic } = this.data;
-
     return html`
       <uni-market-nav></uni-market-nav>
-      <user-profile>
-        <img slot="userPhoto" src="../assets/${profilePic}" alt="User Photo" />
-        <span slot="userName">${name}</span>
-        <span slot="contactInfo">${contactInfo}</span>
-      </user-profile>
+      <user-profile src="/api/users/Sam"></user-profile>
     `;
   }
 }
