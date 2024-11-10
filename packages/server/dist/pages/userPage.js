@@ -56,7 +56,7 @@ class UserPage {
     const { name, contactInfo, profilePic } = this.data;
     return import_server.html`
       <uni-market-nav></uni-market-nav>
-      <user-profile src="/api/users/Sam"></user-profile>
+      <user-profile src="/api/users/${name}"></user-profile>
     `;
   }
 }

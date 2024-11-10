@@ -29,7 +29,7 @@ export class UserPage {
     const { name, contactInfo, profilePic } = this.data;
     return html`
       <uni-market-nav></uni-market-nav>
-      <user-profile src="/api/users/Sam"></user-profile>
+      <user-profile src="/api/users/${name}"></user-profile>
     `;
   }
 }
