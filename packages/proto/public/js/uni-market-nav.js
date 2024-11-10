@@ -5,7 +5,7 @@ export class UniMarketNav extends HTMLElement {
   static template = html`
     <template>
       <header>
-        <a href="../index.html">
+        <a href="/listings">
           <h1 class="navBar">
             <svg class="icon-market">
               <use href="../icons/icons.svg#icon-market" />

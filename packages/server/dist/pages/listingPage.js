@@ -70,20 +70,21 @@ class ListingPage {
     } else if (pickUpLocation.locationType === "disclosed in communication") {
       locationText = "Location disclosed in communication";
     }
-    return import_server.html`<uni-listing>
-      <span slot="title">${name}</span>
-      <img
-        slot="image"
-        src="../assets/${featuredImage}"
-        alt="IKEA white laminate coffee table"
-      />
-      <span slot="description">${description}</span>
-      <span slot="price">$${price}</span>
-      <span slot="listed-date">${formattedDate}</span>
-      <span slot="condition">${condition}</span>
-      <span slot="location">${locationText}</span>
-      <span slot="seller"><a href="../users/${seller.name}">Sam</a></span>
-    </uni-listing>`;
+    return import_server.html`<uni-market-nav></uni-market-nav>
+    <uni-listing>
+        <span slot="title">${name}</span>
+        <img
+          slot="image"
+          src="../assets/${featuredImage}"
+          alt="IKEA white laminate coffee table"
+        />
+        <span slot="description">${description}</span>
+        <span slot="price">$${price}</span>
+        <span slot="listed-date">${formattedDate}</span>
+        <span slot="condition">${condition}</span>
+        <span slot="location">${locationText}</span>
+        <span slot="seller"><a href="../users/${seller.name}">Sam</a></span>
+      </uni-listing>`;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

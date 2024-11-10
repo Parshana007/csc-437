@@ -55,11 +55,12 @@ class UserPage {
   renderBody() {
     const { name, contactInfo, profilePic } = this.data;
     return import_server.html`
-        <user-profile>
+      <uni-market-nav></uni-market-nav>
+      <user-profile>
         <img slot="userPhoto" src="../assets/${profilePic}" alt="User Photo" />
         <span slot="userName">${name}</span>
         <span slot="contactInfo">${contactInfo}</span>
-        </user-profile>
+      </user-profile>
     `;
   }
 }

@@ -45,19 +45,20 @@ export class ListingPage {
       locationText = "Location disclosed in communication";
     }
 
-    return html`<uni-listing>
-      <span slot="title">${name}</span>
-      <img
-        slot="image"
-        src="../assets/${featuredImage}"
-        alt="IKEA white laminate coffee table"
-      />
-      <span slot="description">${description}</span>
-      <span slot="price">$${price}</span>
-      <span slot="listed-date">${formattedDate}</span>
-      <span slot="condition">${condition}</span>
-      <span slot="location">${locationText}</span>
-      <span slot="seller"><a href="../users/${seller.name}">Sam</a></span>
-    </uni-listing>`;
+    return html`<uni-market-nav></uni-market-nav>
+    <uni-listing>
+        <span slot="title">${name}</span>
+        <img
+          slot="image"
+          src="../assets/${featuredImage}"
+          alt="IKEA white laminate coffee table"
+        />
+        <span slot="description">${description}</span>
+        <span slot="price">$${price}</span>
+        <span slot="listed-date">${formattedDate}</span>
+        <span slot="condition">${condition}</span>
+        <span slot="location">${locationText}</span>
+        <span slot="seller"><a href="../users/${seller.name}">Sam</a></span>
+      </uni-listing>`;
   }
 }
