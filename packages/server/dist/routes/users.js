@@ -50,4 +50,8 @@ router.put("/:userName", (req, res) => {
   const newUser = req.body;
   import_users_svc.default.update(userName, newUser).then((user) => res.json(user)).catch((err) => res.status(404).end());
 });
+router.delete("/:userName", (req, res) => {
+  const { userName } = req.params;
+  import_users_svc.default.remove(userName).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+});
 var users_default = router;

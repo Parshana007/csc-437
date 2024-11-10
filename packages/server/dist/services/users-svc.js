@@ -51,4 +51,9 @@ function update(userName, user) {
     else return updated;
   });
 }
-var users_svc_default = { index, get, create, update };
+function remove(userName) {
+  return UserModel.findOneAndDelete({ name: userName }).then((deleted) => {
+    if (!deleted) throw `${userName} not deleted`;
+  });
+}
+var users_svc_default = { index, get, create, update, remove };

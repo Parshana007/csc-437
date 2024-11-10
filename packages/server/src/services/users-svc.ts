@@ -38,4 +38,10 @@ function update(userName: String, user: User): Promise<User> {
   });
 }
 
-export default { index, get, create, update };
+function remove(userName: String): Promise<void> {
+  return UserModel.findOneAndDelete({ name: userName }).then((deleted) => {
+    if (!deleted) throw `${userName} not deleted`;
+  });
+}
+
+export default { index, get, create, update, remove };
