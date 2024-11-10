@@ -1,26 +1,29 @@
 import { User } from "../models/user";
+import { Schema, model } from "mongoose";
 
-const users = {
-  userList: [
+const UserSchema = new Schema<User>(
     {
-      name: "Sam",
-      contactInfo: "samsullivan@calpoly.edu",
-      profilePic: "user.png",
-      profileLink: "../users/Sam.html",
-    } as User,
-    {
-      name: "Sally",
-      contactInfo: "sallysmith@calpoly.edu",
-      profilePic: "user.png",
-      profileLink: "../users/Sally.html",
-    } as User,
-  ],
-};
+      name: { type: String, required: true, trim: true},
+      contactInfo: {type: String, required: true, trim: true}, 
+      profilePic: {type: String, required: true, trim: true}, 
+      profileLink: {type: String, required: true, trim: true}, 
+    },
+    { collection: "market_users" }
+  );
 
-export function getUser(name: string): User {
-  const user = users.userList.find((user) => user.name === name);
-  if (!user) {
-    throw new Error(`User with name "${name}" not found`);
+const UserModel = model<User>("Profile", UserSchema);
+
+
+function index(): Promise<User[]> {
+    return UserModel.find();
   }
-  return user;
-}
+  
+  function get(userName: String): Promise<User> {
+    return UserModel.find({ name: userName })
+      .then((list) => list[0])
+      .catch((err) => {
+        throw `${userName} Not Found`;
+      });
+  }
+  
+  export default { index, get };

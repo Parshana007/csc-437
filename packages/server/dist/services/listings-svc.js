@@ -18,10 +18,49 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var listings_svc_exports = {};
 __export(listings_svc_exports, {
-  getAllListings: () => getAllListings,
-  getListing: () => getListing
+  default: () => listings_svc_default
 });
 module.exports = __toCommonJS(listings_svc_exports);
+var import_mongoose = require("mongoose");
+const PickupLocationSchema = new import_mongoose.Schema({
+  name: { type: String, trim: true },
+  address: { type: String, trim: true },
+  locationType: { type: String, enum: ["address", "disclosed in communication"], required: true }
+});
+const ListingSchema = new import_mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true, trim: true },
+    price: { type: Number, required: true },
+    listedDate: { type: Date, required: true, trim: true },
+    condition: {
+      type: String,
+      enum: [
+        "New",
+        "Used - Almost New",
+        "Used - Good",
+        "Used - Fair",
+        "Refurbished",
+        "For Parts or Repair"
+      ],
+      required: true
+    },
+    pickUpLocation: { type: PickupLocationSchema, required: true },
+    seller: { type: import_mongoose.Schema.Types.ObjectId, ref: "Profile", required: true },
+    featuredImage: { type: String, required: true, trim: true }
+  },
+  { collection: "market_listings" }
+);
+const ListingModel = (0, import_mongoose.model)("market_listings", ListingSchema);
+function index() {
+  return ListingModel.find();
+}
+function get(listingName) {
+  return ListingModel.find({ name: listingName }).then((list) => list[0]).catch((err) => {
+    throw `${listingName} Not Found`;
+  });
+}
+var listings_svc_default = { index, get };
 const marketListings = {
   listings: [
     {
@@ -312,18 +351,3 @@ const marketListings = {
     }
   ]
 };
-function getListing(name) {
-  const listing = marketListings.listings.find((listing2) => listing2.name === name);
-  if (!listing) {
-    throw new Error(`Listing with name "${name}" not found`);
-  }
-  return listing;
-}
-function getAllListings() {
-  return marketListings.listings;
-}
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  getAllListings,
-  getListing
-});
