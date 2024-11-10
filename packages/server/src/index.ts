@@ -1,10 +1,10 @@
 // src/index.ts
 import { MarketPlacePage } from "./pages/marketPlacePage";
 import { UserPage } from "./pages/userPage";
+import { Listing } from "models";
 import { ListingPage } from "./pages/listingPage"
-// import { getListing, getAllListings } from "./services/listings-svc"; // Add a service to retrieve listings
 import Users from "./services/users-svc";
-import Listings from "./services/users-svc"
+import Listings from "./services/listings-svc"
 import { connect } from "./services/mongo";
 connect("UniMarket");
 
@@ -20,17 +20,22 @@ app.get("/hello", (req: Request, res: Response) => {
   res.send("Hello, World");
 });
 
-// app.get("/listings", (req: Request, res: Response) => {
-//   const data = { listings: getAllListings() };
-//   const page = new MarketPlacePage(data);
-
-//   res.set("Content-Type", "text/html").send(page.render());
-// });
+app.get("/listings", (req: Request, res: Response) => {
+  Listings.getAllListings().then((listings: Listing[]) => {
+    const data = { listings }; // Ensure data is structured correctly
+    const page = new MarketPlacePage(data);
+    res
+      .set("Content-Type", "text/html")
+      .send(page.render());
+  }).catch((err) => {
+    console.error('Error fetching listings:', err);
+    res.status(500).send('Error fetching listings');
+  });
+});
 
 app.get("/listings/:listing", (req: Request, res: Response) => {
   const { listing } = req.params;
   Listings.get(listing).then((data: any) => {
-    console.log(data);
     const page = new ListingPage(data);
     res
       .set("Content-Type", "text/html")
