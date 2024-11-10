@@ -5,6 +5,7 @@ import { Listing } from "models";
 import { ListingPage } from "./pages/listingPage"
 import Users from "./services/users-svc";
 import Listings from "./services/listings-svc"
+import users from "./routes/users"
 import { connect } from "./services/mongo";
 connect("UniMarket");
 
@@ -14,7 +15,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
 
+app.use(express.json());
+
 app.use(express.static(staticDir));
+
+app.use("/api/users", users);
 
 app.get("/hello", (req: Request, res: Response) => {
   res.send("Hello, World");
