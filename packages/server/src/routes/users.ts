@@ -34,4 +34,12 @@ router.put("/:userName", (req: Request, res: Response) => {
     .catch((err) => res.status(404).end());
 });
 
+router.delete("/:userName", (req: Request, res: Response) => {
+  const { userName } = req.params;
+
+  Users.remove(userName)
+    .then(() => res.status(204).end())
+    .catch((err) => res.status(404).send(err));
+});
+
 export default router;

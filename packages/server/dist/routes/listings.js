@@ -48,8 +48,10 @@ router.get("/:listing", (req, res) => {
 router.put("/:listingName", (req, res) => {
   const { listingName } = req.params;
   const newListing = req.body;
-  console.log("listingName", listingName);
-  console.log("newListing", newListing);
   import_listings_svc.default.update(listingName, newListing).then((listing) => res.json(listing)).catch((err) => res.status(404).end());
+});
+router.delete("/:listingName", (req, res) => {
+  const { listingName } = req.params;
+  import_listings_svc.default.remove(listingName).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
 var listings_default = router;

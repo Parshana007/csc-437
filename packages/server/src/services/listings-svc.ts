@@ -80,4 +80,10 @@ function update(listingName: String, listing: Listing): Promise<Listing> {
   });
 }
 
-export default { index, get, create, update, getAllListings };
+function remove(listingName: String): Promise<void> {
+  return ListingModel.findOneAndDelete({ name: listingName }).then((deleted) => {
+    if (!deleted) throw `${listingName} not deleted`;
+  });
+}
+
+export default { index, get, create, update, remove, getAllListings };

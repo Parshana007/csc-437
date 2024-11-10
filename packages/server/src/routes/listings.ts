@@ -28,12 +28,18 @@ router.get("/:listing", (req: Request, res: Response) => {
 router.put("/:listingName", (req: Request, res: Response) => {
   const { listingName } = req.params;
   const newListing = req.body;
-  console.log("listingName", listingName);
-  console.log("newListing", newListing);
 
   Listings.update(listingName, newListing)
     .then((listing: Listing) => res.json(listing))
     .catch((err) => res.status(404).end());
+});
+
+router.delete("/:listingName", (req: Request, res: Response) => {
+  const { listingName } = req.params;
+
+  Listings.remove(listingName)
+    .then(() => res.status(204).end())
+    .catch((err) => res.status(404).send(err));
 });
 
 export default router;

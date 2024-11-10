@@ -87,4 +87,9 @@ function update(listingName, listing) {
     else return updated;
   });
 }
-var listings_svc_default = { index, get, create, update, getAllListings };
+function remove(listingName) {
+  return ListingModel.findOneAndDelete({ name: listingName }).then((deleted) => {
+    if (!deleted) throw `${listingName} not deleted`;
+  });
+}
+var listings_svc_default = { index, get, create, update, remove, getAllListings };
