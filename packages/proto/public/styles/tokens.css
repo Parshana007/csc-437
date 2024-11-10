@@ -33,3 +33,18 @@
   /* Bold */
   --font-bold: bold;
 }
+
+body.dark-mode {
+  --color-light-orange: #f2a78d; /* Slightly darker orange for better contrast */
+  --color-sage: #7a7a5a; /* Darkened sage green */
+  --color-rose-quartz: #7d6e7b; /* Darker rose quartz color */
+  --color-eggplant: #3c2f3d; /* Darker eggplant */
+  --color-columbia-blue: #81b1c7; /* Darker blue for better readability */
+  --color-white: #e0e0e0; /* Lighter shade of white for dark mode */
+  --color-background-page: #121212; /* Dark background */
+  --color-text: #e0e0e0; /* Light text */
+  --color-background-card: #2c2c2c; /* Dark card background */
+  --color-accent: var(--color-rose-quartz); /* Rose quartz accent for contrast */
+  --color-text-control: #f0f0f0; /* Light text for controls */
+  --color-text-control-inverted: #121212; /* Dark text for control in dark mode */
+}

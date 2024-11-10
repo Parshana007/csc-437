@@ -7,103 +7,97 @@
     <link rel="stylesheet" href="../styles/page.css" />
     <title>Sally Smith</title>
     <link rel="icon" href="../assets/storeLogo.svg" type="image/svg+xml" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
+      }
+    </script>
+    <script type="module">
+      import { define } from "@calpoly/mustang";
+      import { UserProfile } from "../js/user-profile.js";
+      import { UniMarketNav } from "../js/uni-market-nav.js";
+      import { ListingHeader } from "../js/listing-header.js";
+
+      define({
+        "user-profile": UserProfile,
+        "uni-market-nav": UniMarketNav,
+        "listing-header": ListingHeader,
+      });
+    </script>
   </head>
   <body>
-    <header>
-      <a href="../index.html">
-        <h1 class="navBar">
-          <svg class="icon-market">
-            <use href="../icons/icons.svg#icon-market" />
-          </svg>
-          <span>UniMarket</span>
-        </h1>
-      </a>
-    </header>
-    <main class="center-container">
-      <section class="userProfile">
-        <img class="userPhoto" src="../assets/user.png" alt="userPhoto" />
-        <h2>Sally Smith</h2>
-        <section class="userDescription">
-          <dl>
-            <dt>Contact Information</dt>
-            <dd>sallysmith@calpoly.edu</dd>
-          </dl>
-        </section>
-      </section>
-    </main>
+    <uni-market-nav>
+      <a slot="homeLink" href="../index.html"><span>UniMarket</span></a>
+    </uni-market-nav>
+    <user-profile>
+      <img slot="profilePic" src="../assets/user.png" alt="User Photo" />
+      <span slot="name">Sally Smith</span>
+      <span slot="contactInfo">sallysmith@calpoly.edu</span>
+    </user-profile>
     <section class="listings">
-      <a href="../listing/TwinBed.html">
-        <figure>
-          <img src="../assets/loftbed.jpg" alt="Twin Bed" />
-          <figcaption>
-            <p>Twin Bed</p>
-            <p>Price: $280</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="../listing/Desk.html">
-        <figure>
-          <img src="../assets/desk.jpg" alt="Desk" />
-          <figcaption>
-            <p>Desk</p>
-            <p>Price: $70</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="../listing/Computer.html">
-        <figure>
-          <img src="../assets/computer.jpg" alt="Computer" />
-          <figcaption>
-            <p>Computer</p>
-            <p>Price: $500</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="../listing/TV.html">
-        <figure>
-          <img src="../assets/tv.jpg" alt="Television" />
-          <figcaption>
-            <p>Television</p>
-            <p>Price: $200</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="../listing/Pillow.html">
-        <figure>
-          <img src="../assets/pillow.jpg" alt="Pillow" />
-          <figcaption>
-            <p>Pillow</p>
-            <p>Price: $10</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="../listing/Printer.html">
-        <figure>
-          <img src="../assets/printer.jpg" alt="Printer" />
-          <figcaption>
-            <p>Printer</p>
-            <p>Price: $100</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="../listing/Headphones.html">
-        <figure>
-          <img src="../assets/headphones.jpg" alt="Headphones" />
-          <figcaption>
-            <p>Headphones</p>
-            <p>Price: $50</p>
-          </figcaption>
-        </figure>
-      </a>
-      <a href="../listing/Microwave.html">
-        <figure>
-          <img src="../assets/microwave.jpg" alt="Microwave" />
-          <figcaption>
-            <p>Microwave</p>
-            <p>Price: $80</p>
-          </figcaption>
-        </figure>
-      </a>
+      <listing-header>
+        <img slot="image" src="../assets/loftbed.jpg" alt="Twin Bed" />
+        <span slot="listingName"
+          ><a href="../listing/TwinBed.html">Twin Bed</a></span
+        >
+        <span slot="price">Price: $280</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="../assets/desk.jpg" alt="Desk" />
+        <span slot="listingName"><a href="../listing/Desk.html">Desk</a></span>
+        <span slot="price">Price: $70</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="../assets/computer.jpg" alt="Computer" />
+        <span slot="listingName"
+          ><a href="../listing/Computer.html">Computer</a></span
+        >
+        <span slot="price">Price: $500</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="../assets/tv.jpg" alt="Television" />
+        <span slot="listingName"
+          ><a href="../listing/TV.html">Television</a></span
+        >
+        <span slot="price">Price: $200</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="../assets/pillow.jpg" alt="Pillow" />
+        <span slot="listingName"
+          ><a href="../listing/Pillow.html">Pillow</a></span
+        >
+        <span slot="price">Price: $10</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="../assets/printer.jpg" alt="Printer" />
+        <span slot="listingName"
+          ><a href="../listing/Printer.html">Printer</a></span
+        >
+        <span slot="price">Price: $100</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="../assets/headphones.jpg" alt="Headphones" />
+        <span slot="listingName"
+          ><a href="../listing/Headphones.html">Headphones</a></span
+        >
+        <span slot="price">Price: $50</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="../assets/microwave.jpg" alt="Microwave" />
+        <span slot="listingName"
+          ><a href="../listing/Microwave.html">Microwave</a></span
+        >
+        <span slot="price">Price: $80</span>
+      </listing-header>
     </section>
   </body>
 </html>
