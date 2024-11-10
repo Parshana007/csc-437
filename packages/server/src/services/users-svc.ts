@@ -6,7 +6,6 @@ const UserSchema = new Schema<User>(
     name: { type: String, required: true, trim: true },
     contactInfo: { type: String, required: true, trim: true },
     profilePic: { type: String, required: true, trim: true },
-    profileLink: { type: String, required: true, trim: true },
   },
   { collection: "market_users" }
 );
@@ -25,4 +24,18 @@ function get(userName: String): Promise<User> {
     });
 }
 
-export default { index, get };
+function create(json: User): Promise<User> {
+  const u = new UserModel(json);
+  return u.save();
+}
+
+function update(userName: String, user: User): Promise<User> {
+  return UserModel.findOneAndUpdate({ name: userName }, user, {
+    new: true,
+  }).then((updated) => {
+    if (!updated) throw `${userName} not updated`;
+    else return updated as User;
+  });
+}
+
+export default { index, get, create, update };

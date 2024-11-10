@@ -26,28 +26,30 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var users_exports = {};
-__export(users_exports, {
-  default: () => users_default
+var listings_exports = {};
+__export(listings_exports, {
+  default: () => listings_default
 });
-module.exports = __toCommonJS(users_exports);
+module.exports = __toCommonJS(listings_exports);
 var import_express = __toESM(require("express"));
-var import_users_svc = __toESM(require("../services/users-svc"));
+var import_listings_svc = __toESM(require("../services/listings-svc"));
 const router = import_express.default.Router();
 router.get("/", (_, res) => {
-  import_users_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
+  import_listings_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
 });
 router.post("/", (req, res) => {
-  const newUser = req.body;
-  import_users_svc.default.create(newUser).then((user) => res.status(201).json(user)).catch((err) => res.status(500).send(err));
+  const newListing = req.body;
+  import_listings_svc.default.create(newListing).then((user) => res.status(201).json(user)).catch((err) => res.status(500).send(err));
 });
-router.get("/:userName", (req, res) => {
-  const { userName } = req.params;
-  import_users_svc.default.get(userName).then((user) => res.json(user)).catch((err) => res.status(404).send(err));
+router.get("/:listing", (req, res) => {
+  const { listing } = req.params;
+  import_listings_svc.default.get(listing).then((listing2) => res.json(listing2)).catch((err) => res.status(404).send(err));
 });
-router.put("/:userName", (req, res) => {
-  const { userName } = req.params;
-  const newUser = req.body;
-  import_users_svc.default.update(userName, newUser).then((user) => res.json(user)).catch((err) => res.status(404).end());
+router.put("/:listingName", (req, res) => {
+  const { listingName } = req.params;
+  const newListing = req.body;
+  console.log("listingName", listingName);
+  console.log("newListing", newListing);
+  import_listings_svc.default.update(listingName, newListing).then((listing) => res.json(listing)).catch((err) => res.status(404).end());
 });
-var users_default = router;
+var listings_default = router;

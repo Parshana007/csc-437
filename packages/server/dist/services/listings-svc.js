@@ -26,8 +26,7 @@ const UserSchema = new import_mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     contactInfo: { type: String, required: true, trim: true },
-    profilePic: { type: String, required: true, trim: true },
-    profileLink: { type: String, required: true, trim: true }
+    profilePic: { type: String, required: true, trim: true }
   },
   { collection: "market_users" }
 );
@@ -76,4 +75,16 @@ function get(listingName) {
     throw `${listingName} Not Found`;
   });
 }
-var listings_svc_default = { index, get, getAllListings };
+function create(json) {
+  const l = new ListingModel(json);
+  return l.save();
+}
+function update(listingName, listing) {
+  return ListingModel.findOneAndUpdate({ name: listingName }, listing, {
+    new: true
+  }).then((updated) => {
+    if (!updated) throw `${listingName} not updated`;
+    else return updated;
+  });
+}
+var listings_svc_default = { index, get, create, update, getAllListings };

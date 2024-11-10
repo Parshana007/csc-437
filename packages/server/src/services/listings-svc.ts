@@ -9,7 +9,6 @@ const UserSchema = new Schema<User>(
     name: { type: String, required: true, trim: true },
     contactInfo: { type: String, required: true, trim: true },
     profilePic: { type: String, required: true, trim: true },
-    profileLink: { type: String, required: true, trim: true },
   },
   { collection: "market_users" }
 );
@@ -67,4 +66,18 @@ function get(listingName: String): Promise<Listing> {
     });
 }
 
-export default { index, get, getAllListings };
+function create(json: User): Promise<Listing> {
+  const l = new ListingModel(json);
+  return l.save();
+}
+
+function update(listingName: String, listing: Listing): Promise<Listing> {
+  return ListingModel.findOneAndUpdate({ name: listingName }, listing, {
+    new: true,
+  }).then((updated) => {
+    if (!updated) throw `${listingName} not updated`;
+    else return updated as Listing;
+  });
+}
+
+export default { index, get, create, update, getAllListings };

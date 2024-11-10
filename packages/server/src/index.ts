@@ -6,6 +6,7 @@ import { ListingPage } from "./pages/listingPage"
 import Users from "./services/users-svc";
 import Listings from "./services/listings-svc"
 import users from "./routes/users"
+import listings from "./routes/listings"
 import { connect } from "./services/mongo";
 connect("UniMarket");
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use(express.static(staticDir));
 
+app.use("/api/listings", listings);
 app.use("/api/users", users);
 
 app.get("/hello", (req: Request, res: Response) => {

@@ -27,6 +27,7 @@ var import_listingPage = require("./pages/listingPage");
 var import_users_svc = __toESM(require("./services/users-svc"));
 var import_listings_svc = __toESM(require("./services/listings-svc"));
 var import_users = __toESM(require("./routes/users"));
+var import_listings = __toESM(require("./routes/listings"));
 var import_mongo = require("./services/mongo");
 var import_express = __toESM(require("express"));
 (0, import_mongo.connect)("UniMarket");
@@ -35,13 +36,14 @@ const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.json());
 app.use(import_express.default.static(staticDir));
+app.use("/api/listings", import_listings.default);
 app.use("/api/users", import_users.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
 app.get("/listings", (req, res) => {
-  import_listings_svc.default.getAllListings().then((listings) => {
-    const data = { listings };
+  import_listings_svc.default.getAllListings().then((listings2) => {
+    const data = { listings: listings2 };
     const page = new import_marketPlacePage.MarketPlacePage(data);
     res.set("Content-Type", "text/html").send(page.render());
   }).catch((err) => {

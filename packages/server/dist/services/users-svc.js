@@ -26,8 +26,7 @@ const UserSchema = new import_mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     contactInfo: { type: String, required: true, trim: true },
-    profilePic: { type: String, required: true, trim: true },
-    profileLink: { type: String, required: true, trim: true }
+    profilePic: { type: String, required: true, trim: true }
   },
   { collection: "market_users" }
 );
@@ -40,4 +39,16 @@ function get(userName) {
     throw `${userName} Not Found`;
   });
 }
-var users_svc_default = { index, get };
+function create(json) {
+  const u = new UserModel(json);
+  return u.save();
+}
+function update(userName, user) {
+  return UserModel.findOneAndUpdate({ name: userName }, user, {
+    new: true
+  }).then((updated) => {
+    if (!updated) throw `${userName} not updated`;
+    else return updated;
+  });
+}
+var users_svc_default = { index, get, create, update };
