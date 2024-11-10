@@ -71,7 +71,7 @@ class ListingPage {
       locationText = "Location disclosed in communication";
     }
     return import_server.html`<uni-market-nav></uni-market-nav>
-    <uni-listing src="/api/listings/Computer">
+    <uni-listing src="/api/listings/${name}">
       </uni-listing>`;
   }
 }
