@@ -58,7 +58,7 @@ export class ListingPage {
         <span slot="listed-date">${formattedDate}</span>
         <span slot="condition">${condition}</span>
         <span slot="location">${locationText}</span>
-        <span slot="seller"><a href="../users/${seller.name}">Sam</a></span>
+        <span slot="seller"><a href="../users/${seller.name}">${seller.name}</a></span>
       </uni-listing>`;
   }
 }

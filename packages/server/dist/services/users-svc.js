@@ -18,33 +18,26 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var users_svc_exports = {};
 __export(users_svc_exports, {
-  getUser: () => getUser
+  default: () => users_svc_default
 });
 module.exports = __toCommonJS(users_svc_exports);
-const users = {
-  userList: [
-    {
-      name: "Sam",
-      contactInfo: "samsullivan@calpoly.edu",
-      profilePic: "user.png",
-      profileLink: "../users/Sam.html"
-    },
-    {
-      name: "Sally",
-      contactInfo: "sallysmith@calpoly.edu",
-      profilePic: "user.png",
-      profileLink: "../users/Sally.html"
-    }
-  ]
-};
-function getUser(name) {
-  const user = users.userList.find((user2) => user2.name === name);
-  if (!user) {
-    throw new Error(`User with name "${name}" not found`);
-  }
-  return user;
+var import_mongoose = require("mongoose");
+const UserSchema = new import_mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    contactInfo: { type: String, required: true, trim: true },
+    profilePic: { type: String, required: true, trim: true },
+    profileLink: { type: String, required: true, trim: true }
+  },
+  { collection: "market_users" }
+);
+const UserModel = (0, import_mongoose.model)("Profile", UserSchema);
+function index() {
+  return UserModel.find();
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  getUser
-});
+function get(userName) {
+  return UserModel.find({ name: userName }).then((list) => list[0]).catch((err) => {
+    throw `${userName} Not Found`;
+  });
+}
+var users_svc_default = { index, get };

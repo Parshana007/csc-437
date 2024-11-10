@@ -21,12 +21,13 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-var import_marketPlacePage = require("./pages/marketPlacePage");
 var import_userPage = require("./pages/userPage");
 var import_listingPage = require("./pages/listingPage");
-var import_listings_svc = require("./services/listings-svc");
-var import_users_svc = require("./services/users-svc");
+var import_users_svc = __toESM(require("./services/users-svc"));
+var import_users_svc2 = __toESM(require("./services/users-svc"));
+var import_mongo = require("./services/mongo");
 var import_express = __toESM(require("express"));
+(0, import_mongo.connect)("UniMarket");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
@@ -34,22 +35,20 @@ app.use(import_express.default.static(staticDir));
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
-app.get("/listings", (req, res) => {
-  const data = { listings: (0, import_listings_svc.getAllListings)() };
-  const page = new import_marketPlacePage.MarketPlacePage(data);
-  res.set("Content-Type", "text/html").send(page.render());
-});
 app.get("/listings/:listing", (req, res) => {
   const { listing } = req.params;
-  const data = (0, import_listings_svc.getListing)(listing);
-  const page = new import_listingPage.ListingPage(data);
-  res.set("Content-Type", "text/html").send(page.render());
+  import_users_svc2.default.get(listing).then((data) => {
+    console.log(data);
+    const page = new import_listingPage.ListingPage(data);
+    res.set("Content-Type", "text/html").send(page.render());
+  });
 });
 app.get("/users/:userName", (req, res) => {
   const { userName } = req.params;
-  const data = (0, import_users_svc.getUser)(userName);
-  const page = new import_userPage.UserPage(data);
-  res.set("Content-Type", "text/html").send(page.render());
+  import_users_svc.default.get(userName).then((data) => {
+    const page = new import_userPage.UserPage(data);
+    res.set("Content-Type", "text/html").send(page.render());
+  });
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
