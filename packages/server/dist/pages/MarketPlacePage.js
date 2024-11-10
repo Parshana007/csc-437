@@ -55,7 +55,7 @@ class MarketPlacePage {
   renderBody() {
     const { listings } = this.data;
     const listingList = listings.map((item) => this.renderListing(item));
-    return import_server.html` <section class="listings">${listingList}</section> `;
+    return import_server.html`<uni-market-nav></uni-market-nav><section class="listings">${listingList}</section> `;
   }
   renderListing(list) {
     const { name, price, featuredImage } = list;
@@ -63,7 +63,7 @@ class MarketPlacePage {
       <listing-header>
         <img slot="image" src="./assets/${featuredImage}" alt="${name}" />
         <span slot="listingName">
-          <a href="./listing/${name.replace(/\s+/g, "")}.html">${name}</a>
+          <a href="./listings/${name}">${name}</a>
         </span>
         <span slot="price">Price: $${price}</span>
       </listing-header>

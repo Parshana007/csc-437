@@ -4,10 +4,10 @@ const defaults = {
   stylesheets: ["/styles/reset.css", "/styles/tokens.css", "/styles/page.css"],
   scripts: [
     `import { define } from "@calpoly/mustang";
-        import { ListingHeader } from "../js/listing-header.js";
+        import { UniMarketNav } from "../js/uni-market-nav.js";
 
         define({
-            "listing-header": ListingHeader,
+            "uni-market-nav" : UniMarketNav
         });
       `,
   ],
