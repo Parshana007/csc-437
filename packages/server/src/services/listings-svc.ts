@@ -21,7 +21,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/coffeeTable.jpg",
+          featuredImage: "coffeeTable.jpg",
         },
         {
           name: "Computer",
@@ -40,7 +40,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/computer.jpg",
+          featuredImage: "computer.jpg",
         },
         {
           name: "Couch",
@@ -59,7 +59,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sally.html",
           },
-          featuredImage: "/packages/proto/public/assets/couch.jpg",
+          featuredImage: "couch.jpg",
         },
         {
           name: "Desk",
@@ -78,7 +78,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/desk.jpg",
+          featuredImage: "desk.jpg",
         },
         {
           name: "Headphones",
@@ -96,7 +96,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sally.html",
           },
-          featuredImage: "/packages/proto/public/assets/headphones.jpg",
+          featuredImage: "headphones.jpg",
         },
         {
           name: "Lights",
@@ -114,7 +114,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/lights.jpg",
+          featuredImage: "lights.jpg",
         },
         {
           name: "Microwave",
@@ -132,7 +132,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sally.html",
           },
-          featuredImage: "/packages/proto/public/assets/microwave.jpg",
+          featuredImage: "microwave.jpg",
         },
         {
           name: "Painting",
@@ -150,7 +150,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/painting.jpg",
+          featuredImage: "painting.jpg",
         },
         {
           name: "Pillow",
@@ -169,7 +169,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sally.html",
           },
-          featuredImage: "/packages/proto/public/assets/pillow.jpg",
+          featuredImage: "pillow.jpg",
         },
         {
           name: "Pot",
@@ -187,7 +187,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/pot.jpg",
+          featuredImage: "cookingPot.jpg",
         },
         {
           name: "Printer",
@@ -205,7 +205,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sally.html",
           },
-          featuredImage: "/packages/proto/public/assets/printer.jpg",
+          featuredImage: "printer.jpg",
         },
         {
           name: "Sweater",
@@ -223,7 +223,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/sweater.jpg",
+          featuredImage: "sweater.jpg",
         },
         {
           name: "Table",
@@ -242,7 +242,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sally.html",
           },
-          featuredImage: "/packages/proto/public/assets/diningTable.jpg",
+          featuredImage: "diningTable.jpg",
         },
         {
           name: "TV",
@@ -260,7 +260,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/tv.jpg",
+          featuredImage: "tv.jpg",
         },
         {
           name: "Twin Bed",
@@ -278,7 +278,7 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sally.html",
           },
-          featuredImage: "/packages/proto/public/assets/twinBed.jpg",
+          featuredImage: "loftbed.jpg",
         },
         {
           name: "Washer",
@@ -297,15 +297,17 @@ const marketListings = {
             profilePic: "../assets/user.png",
             profileLink: "../users/Sam.html",
           },
-          featuredImage: "/packages/proto/public/assets/washer.jpg",
+          featuredImage: "washer.jpg",
         },
     ]    
 };
 
-export function getListing(name: string): Listing | null {
-  return (
-    marketListings.listings.find((listing) => listing.name === name) || null
-  );
+export function getListing(name: string): Listing {
+  const listing = marketListings.listings.find((listing) => listing.name === name)
+  if (!listing) {
+    throw new Error(`Listing with name "${name}" not found`);
+  }
+  return listing;
 }
 
 // Function to get all listings
