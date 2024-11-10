@@ -71,19 +71,7 @@ class ListingPage {
       locationText = "Location disclosed in communication";
     }
     return import_server.html`<uni-market-nav></uni-market-nav>
-    <uni-listing>
-        <span slot="title">${name}</span>
-        <img
-          slot="image"
-          src="../assets/${featuredImage}"
-          alt="IKEA white laminate coffee table"
-        />
-        <span slot="description">${description}</span>
-        <span slot="price">$${price}</span>
-        <span slot="listed-date">${formattedDate}</span>
-        <span slot="condition">${condition}</span>
-        <span slot="location">${locationText}</span>
-        <span slot="seller"><a href="../users/${seller.name}">${seller.name}</a></span>
+    <uni-listing src="/api/listings/Computer">
       </uni-listing>`;
   }
 }

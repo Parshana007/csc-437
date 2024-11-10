@@ -7,9 +7,9 @@ export class UserProfile extends HTMLElement {
       <main class="center-container">
         <section class="userProfile">
           <div class="userPhoto-container">
-            <slot name="userPhoto"></slot>
+            <slot name="profilePic"></slot>
           </div>
-          <h2><slot name="userName">User Name</slot></h2>
+          <h2><slot name="name">User Name</slot></h2>
           <section class="userDescription">
             <dl>
               <dt>Contact Information</dt>
@@ -71,8 +71,41 @@ export class UserProfile extends HTMLElement {
     }
   `;
 
+  get src() {
+    return this.getAttribute("src");
+  }
+
+  connectedCallback() {
+    if (this.src) this.hydrate(this.src);
+  }
+
+  hydrate(url) {
+    fetch(url)
+      .then((res) => {
+        if (res.status !== 200) throw `Status: ${res.status}`;
+        return res.json();
+      })
+      .then((json) => this.renderSlots(json))
+      .catch((error) =>
+        console.log(`Failed to render data ${url}:`, error)
+      );
+  }
+
+  renderSlots(json) {
+    const entries = Object.entries(json);
+    const toSlot = ([key, value]) => {
+      return html`<span slot="${key}">${value}</span>`;
+    };
+    
+    const fragment = entries.map(toSlot);
+    this.replaceChildren(...fragment);
+  }
+  
+
   constructor() {
     super();
-    shadow(this).template(UserProfile.template).styles(reset.styles, UserProfile.styles);
+    shadow(this)
+      .template(UserProfile.template)
+      .styles(reset.styles, UserProfile.styles);
   }
 }

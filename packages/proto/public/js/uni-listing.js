@@ -6,7 +6,7 @@ export class UniListing extends HTMLElement {
     <template>
       <section class="listing">
         <div class="listing-header">
-          <h2><slot name="title">Default Title</slot></h2>
+          <h2><slot name="name">Default Title</slot></h2>
           <a href="/listings">
             <svg class="crossSvg">
               <use href="../icons/icons.svg#icon-cross"></use>
@@ -84,8 +84,43 @@ export class UniListing extends HTMLElement {
     }
   `;
 
+  get src() {
+    return this.getAttribute("src");
+  }
+
+  connectedCallback() {
+    if (this.src) this.hydrate(this.src);
+  }
+
+  hydrate(url) {
+    fetch(url)
+      .then((res) => {
+        if (res.status !== 200) throw `Status: ${res.status}`;
+        return res.json();
+      })
+      .then((json) => this.renderSlots(json))
+      .catch((error) => console.log(`Failed to render data ${url}:`, error));
+  }
+
+  renderSlots(json) {
+    const entries = Object.entries(json);
+    const toSlot = ([key, value]) => {
+      if (key === "seller" && typeof value === "object" && value.name) {
+        return html`<span slot="${key}">
+          <a href="../users/${value.name}">${value.name}</a>
+        </span>`;
+      }
+      return html`<span slot="${key}">${value}</span>`;
+    };
+
+    const fragment = entries.map(toSlot);
+    this.replaceChildren(...fragment);
+  }
+
   constructor() {
     super();
-    shadow(this).template(UniListing.template).styles(reset.styles, UniListing.styles);
+    shadow(this)
+      .template(UniListing.template)
+      .styles(reset.styles, UniListing.styles);
   }
 }

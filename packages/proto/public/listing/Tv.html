@@ -27,7 +27,7 @@
 
       define({
         "uni-listing": UniListing,
-        "uni-market-nav": UniMarketNav
+        "uni-market-nav": UniMarketNav,
       });
     </script>
     <title>TV Listing</title>
@@ -37,15 +37,11 @@
   <body>
     <uni-market-nav></uni-market-nav>
     <uni-listing>
-      <span slot="title">Smart TV</span>
-      <img
-        slot="image"
-        src="../assets/tv.jpg"
-        alt="55-inch Smart TV"
-      />
+      <span slot="name">Smart TV</span>
+      <img slot="image" src="../assets/tv.jpg" alt="55-inch Smart TV" />
       <span slot="description"
-        >55-inch Smart TV with 4K resolution, excellent picture quality.
-        Barely used.</span
+        >55-inch Smart TV with 4K resolution, excellent picture quality. Barely
+        used.</span
       >
       <span slot="price">$400</span>
       <span slot="listed-date">10/10/2024</span>

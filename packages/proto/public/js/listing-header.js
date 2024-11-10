@@ -27,7 +27,7 @@ export class ListingHeader extends HTMLElement {
       max-height: 20rem;
       height: 25rem;
     }
-
+    
     figcaption {
       background-color: var(--color-eggplant);
       display: flex;

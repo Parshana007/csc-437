@@ -60,6 +60,9 @@ export class UniMarketNav extends HTMLElement {
 
   constructor() {
     super();
-    shadow(this).template(UniMarketNav.template).styles(reset.styles, UniMarketNav.styles);
+    console.log("UniMarketNav component instantiated");
+    shadow(this)
+      .template(UniMarketNav.template)
+      .styles(reset.styles, UniMarketNav.styles);
   }
 }

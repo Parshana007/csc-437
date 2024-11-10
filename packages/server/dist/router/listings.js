@@ -26,41 +26,32 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var userPage_exports = {};
-__export(userPage_exports, {
-  UserPage: () => UserPage
+var listings_exports = {};
+__export(listings_exports, {
+  default: () => listings_default
 });
-module.exports = __toCommonJS(userPage_exports);
-var import_server = require("@calpoly/mustang/server");
-var import_renderPage = __toESM(require("./renderPage"));
-class UserPage {
-  data;
-  constructor(data) {
-    this.data = data;
-  }
-  render() {
-    return (0, import_renderPage.default)({
-      body: this.renderBody(),
-      stylesheets: ["/styles/user.css"],
-      scripts: [
-        `import { define } from "@calpoly/mustang";
-        import { UserProfile } from "../js/user-profile.js";
-
-        define({
-            "user-profile": UserProfile,
-        });`
-      ]
-    });
-  }
-  renderBody() {
-    const { name, contactInfo, profilePic } = this.data;
-    return import_server.html`
-      <uni-market-nav></uni-market-nav>
-      <user-profile src="/api/users/Sam"></user-profile>
-    `;
-  }
-}
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  UserPage
+module.exports = __toCommonJS(listings_exports);
+var import_express = __toESM(require("express"));
+var import_listings_svc = __toESM(require("../services/listings-svc"));
+const router = import_express.default.Router();
+router.get("/", (_, res) => {
+  import_listings_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
 });
+router.post("/", (req, res) => {
+  const newListing = req.body;
+  import_listings_svc.default.create(newListing).then((user) => res.status(201).json(user)).catch((err) => res.status(500).send(err));
+});
+router.get("/:listing", (req, res) => {
+  const { listing } = req.params;
+  import_listings_svc.default.get(listing).then((listing2) => res.json(listing2)).catch((err) => res.status(404).send(err));
+});
+router.put("/:listingName", (req, res) => {
+  const { listingName } = req.params;
+  const newListing = req.body;
+  import_listings_svc.default.update(listingName, newListing).then((listing) => res.json(listing)).catch((err) => res.status(404).end());
+});
+router.delete("/:listingName", (req, res) => {
+  const { listingName } = req.params;
+  import_listings_svc.default.remove(listingName).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+});
+var listings_default = router;
