@@ -7,11 +7,13 @@ export class UniListing extends HTMLElement {
       <section class="listing">
         <div class="listing-header">
           <h2><slot name="name">Default Title</slot></h2>
-          <a href="/listings">
-            <svg class="crossSvg">
-              <use href="../icons/icons.svg#icon-cross"></use>
-            </svg>
-          </a>
+          <slot name="nav-link">
+            <a href="#">
+              <svg class="crossSvg">
+                <use href="../icons/icons.svg#icon-cross"></use>
+              </svg>
+            </a>
+          </slot>
         </div>
         <section class="listing-description">
           <slot name="image"></slot>
@@ -84,37 +86,49 @@ export class UniListing extends HTMLElement {
     }
   `;
 
+  // Gets source attribute from listingPage.ts (ex. src="/api/listings/${name})
   get src() {
     return this.getAttribute("src");
   }
+
+  // if src is set to hydrate
+  // called when the component is added to the DOM
 
   connectedCallback() {
     if (this.src) this.hydrate(this.src);
   }
 
+  // fetches data from url (ex.src="/api/listings/Computer) & renders them
   hydrate(url) {
     fetch(url)
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
-        return res.json();
+        return res.json(); //includes all the attributes (ex. name, description...)
       })
       .then((json) => this.renderSlots(json))
       .catch((error) => console.log(`Failed to render data ${url}:`, error));
   }
 
+  // takes the json and maps to HTML elements
   renderSlots(json) {
-    const entries = Object.entries(json);
+    const entries = Object.entries(json); // json to key, value
+    console.log("entries", entries);
     const toSlot = ([key, value]) => {
       if (key === "seller" && typeof value === "object" && value.name) {
+        // link element for seller
         return html`<span slot="${key}">
           <a href="../users/${value.name}">${value.name}</a>
         </span>`;
       }
+      if (key == "featuredImage") {
+        return html`<img slot="image" src="../assets/${value}" alt=${value} />`;
+      }
+      // another for links
       return html`<span slot="${key}">${value}</span>`;
     };
 
-    const fragment = entries.map(toSlot);
-    this.replaceChildren(...fragment);
+    const fragment = entries.map(toSlot); //DOM fragment returned (contains HTML)
+    this.replaceChildren(...fragment); //clears existing content & replaces with fragment
   }
 
   constructor() {

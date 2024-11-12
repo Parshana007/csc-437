@@ -45,7 +45,8 @@ export class ListingPage {
       locationText = "Location disclosed in communication";
     }
 
-    return html`<uni-market-nav></uni-market-nav>
+    return html`<uni-market-nav>
+    </uni-market-nav>
     <uni-listing src="/api/listings/${name}">
       </uni-listing>`;
   }

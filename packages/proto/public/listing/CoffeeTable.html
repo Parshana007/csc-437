@@ -27,7 +27,7 @@
 
       define({
         "uni-listing": UniListing,
-        "uni-market-nav" : UniMarketNav
+        "uni-market-nav": UniMarketNav,
       });
     </script>
     <title>IKEA Coffee Table Listing</title>
@@ -35,9 +35,12 @@
   </head>
 
   <body>
-    <uni-market-nav></uni-market-nav>
+    <uni-market-nav>
+      <a slot="nav-link" href="../index.html"></a>
+    </uni-market-nav>
     <uni-listing>
       <span slot="name">IKEA Coffee Table</span>
+      <a slot="nav-link" href="../index.html"></a>
       <img
         slot="image"
         src="../assets/coffeeTable.jpg"
@@ -52,7 +55,6 @@
       <span slot="condition">Used - Almost New</span>
       <span slot="location">Bring to Buyer</span>
       <span slot="seller"><a href="../users/Sam.html">Sam</a></span>
-      
     </uni-listing>
   </body>
 </html>

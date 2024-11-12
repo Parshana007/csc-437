@@ -94,6 +94,9 @@ export class UserProfile extends HTMLElement {
   renderSlots(json) {
     const entries = Object.entries(json);
     const toSlot = ([key, value]) => {
+      if (key == "profilePic") {
+        return html`<img slot="profilePic" src="../assets/${value}" alt=${value} />`;
+      }
       return html`<span slot="${key}">${value}</span>`;
     };
     
