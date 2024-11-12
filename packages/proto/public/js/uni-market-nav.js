@@ -13,6 +13,17 @@ export class UniMarketNav extends HTMLElement {
             <span>UniMarket</span>
           </h1>
         </a>
+        <drop-down>
+        <label
+          onchange="relayEvent(
+            event,
+            'dark-mode',
+            {checked: event.target.checked})"
+        >
+          <input type="checkbox" autocomplete="off" />
+          Dark mode
+        </label>
+      </drop-down>
       </header>
     </template>
   `;

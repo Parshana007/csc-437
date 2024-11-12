@@ -28,7 +28,18 @@ const defaults = {
     `
     import { define } from "@calpoly/mustang";
     import { UniMarketNav } from "../js/uni-market-nav.js";
+    import { Events } from "@calpoly/mustang";
 
+      window.relayEvent = Events.relay;
+
+      function toggleDarkMode(page, checked) {
+        page.classList.toggle("dark-mode", checked);
+      }
+
+      document.body.addEventListener("dark-mode", (event) =>
+        toggleDarkMode(event.currentTarget, event.detail.checked)
+      );
+      
       define({
         "uni-market-nav" : UniMarketNav
       });
