@@ -45,29 +45,18 @@ class MarketPlacePage {
       scripts: [
         `import { define } from "@calpoly/mustang";
         import { ListingHeader } from "../js/listing-header.js";
+        import { UnimarketListings } from "../js/uni-market-listings.js";
 
         define({
             "listing-header": ListingHeader,
+            "uni-market-listings": UnimarketListings
         });`
       ]
     });
   }
   renderBody() {
-    const { listings } = this.data;
-    const listingList = listings.map((item) => this.renderListing(item));
-    return import_server.html`<uni-market-nav></uni-market-nav><section class="listings">${listingList}</section> `;
-  }
-  renderListing(list) {
-    const { name, price, featuredImage } = list;
-    return import_server.html`
-      <listing-header>
-        <img slot="image" src="./assets/${featuredImage}" alt="${name}" />
-        <span slot="listingName">
-          <a href="./listings/${name}">${name}</a>
-        </span>
-        <span slot="price">Price: $${price}</span>
-      </listing-header>
-    `;
+    return import_server.html`<uni-market-nav href="/listings"></uni-market-nav>
+      <uni-market-listings src="/api/listings"></uni-market-listings> `;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

@@ -84,15 +84,6 @@ export class UniListing extends HTMLElement {
     }
   `;
 
-
-  // // runs each time the component is added to the dom
-  // connectedCallback() {
-  //   // Get the href from the element (ex. <uni-listing href="../index.html"> </uni-listing>)
-  //   const href = this.getAttribute("href") || "#";
-  //   // find an a tag in the shadow-DOM and replace with the new href
-  //   this.shadowRoot.querySelector("a").setAttribute("href", href);
-  // }
-
   // Gets source attribute from listingPage.ts (ex. src="/api/listings/${name})
   get src() {
     return this.getAttribute("src");

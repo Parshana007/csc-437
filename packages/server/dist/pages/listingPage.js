@@ -54,26 +54,14 @@ class ListingPage {
   }
   renderBody() {
     const {
-      name,
-      description,
-      price,
-      listedDate,
-      condition,
-      pickUpLocation,
-      seller,
-      featuredImage
+      name
     } = this.data;
-    const formattedDate = listedDate.toLocaleDateString();
-    let locationText = "";
-    if (pickUpLocation.locationType === "address") {
-      locationText = pickUpLocation.address || "Address not provided";
-    } else if (pickUpLocation.locationType === "disclosed in communication") {
-      locationText = "Location disclosed in communication";
-    }
-    return import_server.html`<uni-market-nav href="/listings">
+    return import_server.html`
+    <uni-market-nav href="/listings">
     </uni-market-nav>
     <uni-listing href="/listings" src="/api/listings/${name}">
-      </uni-listing>`;
+      </uni-listing>
+      `;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
