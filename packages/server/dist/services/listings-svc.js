@@ -30,15 +30,6 @@ const UserSchema = new import_mongoose.Schema(
   },
   { collection: "market_users" }
 );
-const PickupLocationSchema = new import_mongoose.Schema({
-  name: { type: String, trim: true },
-  address: { type: String, trim: true },
-  locationType: {
-    type: String,
-    enum: ["address", "disclosed in communication"],
-    required: true
-  }
-});
 const ListingSchema = new import_mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -57,7 +48,7 @@ const ListingSchema = new import_mongoose.Schema(
       ],
       required: true
     },
-    pickUpLocation: { type: PickupLocationSchema, required: true },
+    pickUpLocation: { type: String, required: true, trim: true },
     seller: { type: UserSchema, ref: "Profile", required: true },
     featuredImage: { type: String, required: true, trim: true }
   },
@@ -88,8 +79,10 @@ function update(listingName, listing) {
   });
 }
 function remove(listingName) {
-  return ListingModel.findOneAndDelete({ name: listingName }).then((deleted) => {
-    if (!deleted) throw `${listingName} not deleted`;
-  });
+  return ListingModel.findOneAndDelete({ name: listingName }).then(
+    (deleted) => {
+      if (!deleted) throw `${listingName} not deleted`;
+    }
+  );
 }
 var listings_svc_default = { index, get, create, update, remove, getAllListings };

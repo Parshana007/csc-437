@@ -1,5 +1,4 @@
 import { Listing } from "../models/listing";
-import { PickupLocation } from "../models/geo";
 import { Condition } from "../models/listing";
 import { Schema, model } from "mongoose";
 import { User } from "../models/user";
@@ -12,16 +11,6 @@ const UserSchema = new Schema<User>(
   },
   { collection: "market_users" }
 );
-
-const PickupLocationSchema = new Schema<PickupLocation>({
-  name: { type: String, trim: true },
-  address: { type: String, trim: true },
-  locationType: {
-    type: String,
-    enum: ["address", "disclosed in communication"],
-    required: true,
-  },
-});
 
 const ListingSchema = new Schema<Listing>(
   {
@@ -41,7 +30,7 @@ const ListingSchema = new Schema<Listing>(
       ],
       required: true,
     },
-    pickUpLocation: { type: PickupLocationSchema, required: true },
+    pickUpLocation: { type: String, required: true, trim: true },
     seller: { type: UserSchema, ref: "Profile", required: true },
     featuredImage: { type: String, required: true, trim: true },
   },
@@ -81,9 +70,11 @@ function update(listingName: String, listing: Listing): Promise<Listing> {
 }
 
 function remove(listingName: String): Promise<void> {
-  return ListingModel.findOneAndDelete({ name: listingName }).then((deleted) => {
-    if (!deleted) throw `${listingName} not deleted`;
-  });
+  return ListingModel.findOneAndDelete({ name: listingName }).then(
+    (deleted) => {
+      if (!deleted) throw `${listingName} not deleted`;
+    }
+  );
 }
 
 export default { index, get, create, update, remove, getAllListings };

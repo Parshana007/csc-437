@@ -26,7 +26,7 @@ export class UniListing extends HTMLElement {
               <dt>Condition</dt>
               <dd><slot name="condition">Condition</slot></dd>
               <dt>Pick Up Location</dt>
-              <dd><slot name="location">Location</slot></dd>
+              <dd><slot name="pickUpLocation">Location</slot></dd>
               <dt>Seller Information</dt>
               <dd>
                 <slot name="seller"><a href="#">Seller</a></slot>

@@ -1,4 +1,3 @@
-import { PickupLocation } from "./geo";
 import { User } from "./user"
 
 export interface Listing {
@@ -7,7 +6,7 @@ export interface Listing {
   price: number;
   listedDate: Date;
   condition: Condition;
-  pickUpLocation: PickupLocation;
+  pickUpLocation: string;
   seller: User; /*Just the name appears with the link to userspage*/
   featuredImage: string; /* Consider changing this to get a list of images?*/
 }
