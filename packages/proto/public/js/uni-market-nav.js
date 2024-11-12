@@ -5,16 +5,14 @@ export class UniMarketNav extends HTMLElement {
   static template = html`
     <template>
       <header>
-        <slot name="nav-link">
-          <a href="#">
-            <h1 class="navBar">
-              <svg class="icon-market">
-                <use href="../icons/icons.svg#icon-market" />
-              </svg>
-              <span>UniMarket</span>
-            </h1>
-          </a>
-        </slot>
+        <a href="#">
+          <h1 class="navBar">
+            <svg class="icon-market">
+              <use href="../icons/icons.svg#icon-market" />
+            </svg>
+            <span>UniMarket</span>
+          </h1>
+        </a>
       </header>
     </template>
   `;
@@ -60,50 +58,13 @@ export class UniMarketNav extends HTMLElement {
     }
   `;
 
-  // // runs each time the component is added to the dom 
-  // connectedCallback() {
-  //   // looks in light-DOM for element with slot="nav-link"; created a reference to that element
-  //   const link = this.querySelector('a[slot="nav-link"]'); 
-  //   // Get the href from the element  
-  //   const href = link?.getAttribute("href") || "#"; 
-  //   // find an a tag in the shadow-DOM and replace with the new href
-  //   this.shadowRoot.querySelector("a").setAttribute("href", href); 
-  // }
-
-  // get src() {
-  //   return this.getAttribute("src");
-  // }
-
-  // connectedCallback() {
-  //   if (this.src) this.hydrate(this.src);
-  // }
-
-  // hydrate(url) {
-  //   fetch(url)
-  //     .then((res) => {
-  //       if (res.status !== 200) throw `Status: ${res.status}`;
-  //       return res.json();
-  //     })
-  //     .then((json) => this.renderSlots(json))
-  //     .catch((error) =>
-  //       console.log(`Failed to render data ${url}:`, error)
-  //     );
-  // }
-
-  // renderSlots(json) {
-  //   const entries = Object.entries(json);
-  //   const toSlot = ([key, value]) => {
-  //     console.log("key", key);
-  //     console.log("value", value);
-  //     if (key == "nav-link") {
-  //       return html`<a href="listings"></a>`;
-  //     }
-  //     return html`<span slot="${key}">${value}</span>`;
-  //   };
-    
-  //   const fragment = entries.map(toSlot);
-  //   this.replaceChildren(...fragment);
-  // }
+  // runs each time the component is added to the dom
+  connectedCallback() {
+    // Get the href from the element (ex. <uni-market-nav href="../index.html"> </uni-market-nav>)
+    const href = this.getAttribute("href") || "#";
+    // find an a tag in the shadow-DOM and replace with the new href
+    this.shadowRoot.querySelector("a").setAttribute("href", href);
+  }
 
   constructor() {
     super();

@@ -55,7 +55,7 @@ class UserPage {
   renderBody() {
     const { name, contactInfo, profilePic } = this.data;
     return import_server.html`
-      <uni-market-nav></uni-market-nav>
+      <uni-market-nav href="/listings"></uni-market-nav>
       <user-profile src="/api/users/${name}"></user-profile>
     `;
   }

@@ -70,9 +70,9 @@ class ListingPage {
     } else if (pickUpLocation.locationType === "disclosed in communication") {
       locationText = "Location disclosed in communication";
     }
-    return import_server.html`<uni-market-nav>
+    return import_server.html`<uni-market-nav href="/listings">
     </uni-market-nav>
-    <uni-listing src="/api/listings/${name}">
+    <uni-listing href="/listings" src="/api/listings/${name}">
       </uni-listing>`;
   }
 }
