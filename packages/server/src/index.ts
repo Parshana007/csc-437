@@ -8,6 +8,7 @@ import Listings from "./services/listings-svc"
 import users from "./routes/users"
 import listings from "./routes/listings"
 import { connect } from "./services/mongo";
+import auth, { authenticateUser } from "./routes/auth";
 connect("UniMarket");
 
 import express, { Request, Response } from "express";
@@ -20,8 +21,10 @@ app.use(express.json());
 
 app.use(express.static(staticDir));
 
-app.use("/api/listings", listings);
-app.use("/api/users", users);
+app.use("/api/listings", authenticateUser, listings);
+app.use("/api/users", authenticateUser, users);
+
+app.use("/auth", auth);
 
 app.get("/hello", (req: Request, res: Response) => {
   res.send("Hello, World");
