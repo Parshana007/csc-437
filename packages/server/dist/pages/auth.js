@@ -26,41 +26,55 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var listingPage_exports = {};
-__export(listingPage_exports, {
-  ListingPage: () => ListingPage
+var auth_exports = {};
+__export(auth_exports, {
+  LoginPage: () => LoginPage
 });
-module.exports = __toCommonJS(listingPage_exports);
+module.exports = __toCommonJS(auth_exports);
 var import_server = require("@calpoly/mustang/server");
 var import_renderPage = __toESM(require("./renderPage"));
-class ListingPage {
-  data;
-  constructor(data) {
-    this.data = data;
-  }
+class LoginPage {
   render() {
     return (0, import_renderPage.default)({
-      body: this.renderBody(),
-      stylesheets: ["/styles/listing.css"],
       scripts: [
-        `import { define } from "@calpoly/mustang";
-        import { UniListing } from "../js/uni-listing.js";
-
-        define({
-            "uni-listing": UniListing,
-        });`
-      ]
+        `
+          import { define, Auth } from "@calpoly/mustang";
+          import { LoginForm } from "../js/login-form.js";
+  
+          define({
+            "mu-auth": Auth.Provider,
+            "login-form": LoginForm
+          })
+          `
+      ],
+      styles: [
+        import_server.css`
+          /* your CSS here */
+        `
+      ],
+      body: import_server.html`
+        <body>
+          <mu-auth provides="blazing:auth">
+            <article>
+              <uni-market-nav href="/listings"></uni-market-nav>
+              <main class="page">
+                <login-form api="/auth/login">
+                  <h3 slot="title">Sign in and explore UniMarket!</h3>
+                </login-form>
+                <p class="register">
+                  Or did you want to
+                  <a href="./register"> register as a new user </a>
+                  ?
+                </p>
+              </main>
+            </article>
+          </mu-auth>
+        </body>
+      `
     });
-  }
-  renderBody() {
-    const { name } = this.data;
-    return import_server.html`
-      <uni-market-nav href="/listings"> </uni-market-nav>
-      <uni-listing href="/listings" src="/api/listings/${name}"> </uni-listing>
-    `;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  ListingPage
+  LoginPage
 });

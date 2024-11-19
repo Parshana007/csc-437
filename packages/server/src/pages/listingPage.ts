@@ -25,16 +25,11 @@ export class ListingPage {
   }
 
   renderBody() {
-    const {
-      name
-    } = this.data;
+    const { name } = this.data;
 
-    return html
-    `
-    <uni-market-nav href="/listings">
-    </uni-market-nav>
-    <uni-listing href="/listings" src="/api/listings/${name}">
-      </uni-listing>
-      `;
+    return html`
+      <uni-market-nav href="/listings"> </uni-market-nav>
+      <uni-listing href="/listings" src="/api/listings/${name}"> </uni-listing>
+    `;
   }
 }

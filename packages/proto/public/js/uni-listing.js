@@ -1,40 +1,42 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, Auth, Observer } from "@calpoly/mustang";
 import reset from "./reset.css.js";
 
 export class UniListing extends HTMLElement {
   static template = html`
     <template>
-      <section class="listing">
-        <div class="listing-header">
-          <h2><slot name="name">Default Title</slot></h2>
-          <a href="#">
-            <svg class="crossSvg">
-              <use href="../icons/icons.svg#icon-cross"></use>
-            </svg>
-          </a>
-        </div>
-        <section class="listing-description">
-          <slot name="image"></slot>
-          <div class="details">
-            <dl>
-              <dt>Description</dt>
-              <dd><slot name="description">Default Description</slot></dd>
-              <dt>Price</dt>
-              <dd><slot name="price">$0</slot></dd>
-              <dt>Listed Date</dt>
-              <dd><slot name="listed-date">01/01/2024</slot></dd>
-              <dt>Condition</dt>
-              <dd><slot name="condition">Condition</slot></dd>
-              <dt>Pick Up Location</dt>
-              <dd><slot name="pickUpLocation">Location</slot></dd>
-              <dt>Seller Information</dt>
-              <dd>
-                <slot name="seller"><a href="#">Seller</a></slot>
-              </dd>
-            </dl>
+      <mu-auth provides="blazing:auth">
+        <section class="listing">
+          <div class="listing-header">
+            <h2><slot name="name">Default Title</slot></h2>
+            <a href="#">
+              <svg class="crossSvg">
+                <use href="../icons/icons.svg#icon-cross"></use>
+              </svg>
+            </a>
           </div>
+          <section class="listing-description">
+            <slot name="image"></slot>
+            <div class="details">
+              <dl>
+                <dt>Description</dt>
+                <dd><slot name="description">Default Description</slot></dd>
+                <dt>Price</dt>
+                <dd><slot name="price">$0</slot></dd>
+                <dt>Listed Date</dt>
+                <dd><slot name="listed-date">01/01/2024</slot></dd>
+                <dt>Condition</dt>
+                <dd><slot name="condition">Condition</slot></dd>
+                <dt>Pick Up Location</dt>
+                <dd><slot name="pickUpLocation">Location</slot></dd>
+                <dt>Seller Information</dt>
+                <dd>
+                  <slot name="seller"><a href="#">Seller</a></slot>
+                </dd>
+              </dl>
+            </div>
+          </section>
         </section>
-      </section>
+      </mu-auth>
     </template>
   `;
 
@@ -84,9 +86,19 @@ export class UniListing extends HTMLElement {
     }
   `;
 
+  _authObserver = new Observer(this, "blazing:auth");
+
   // Gets source attribute from listingPage.ts (ex. src="/api/listings/${name})
   get src() {
     return this.getAttribute("src");
+  }
+
+  get authorization() {
+    return (
+      this._user?.authenticated && {
+        Authorization: `Bearer ${this._user.token}`
+      }
+    );
   }
 
   // if src is set to hydrate
@@ -96,11 +108,19 @@ export class UniListing extends HTMLElement {
     // find an a tag in the shadow-DOM and replace with the new href
     this.shadowRoot.querySelector("a").setAttribute("href", href);
     if (this.src) this.hydrate(this.src);
+
+    define({
+      "mu-auth": Auth.Provider,
+    });
+
+    this._authObserver.observe(({ user }) => {
+      this._user = user;
+    });
   }
 
   // fetches data from url (ex.src="/api/listings/Computer) & renders them
   hydrate(url) {
-    fetch(url)
+    fetch(url, { headers: this.authorization })
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json(); //includes all the attributes (ex. name, description...)

@@ -1,23 +1,25 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, Auth, Observer } from "@calpoly/mustang";
 import reset from "./reset.css.js";
 
 export class UserProfile extends HTMLElement {
   static template = html`
     <template>
-      <main class="center-container">
-        <section class="userProfile">
-          <div class="userPhoto-container">
-            <slot name="profilePic"></slot>
-          </div>
-          <h2><slot name="name">User Name</slot></h2>
-          <section class="userDescription">
-            <dl>
-              <dt>Contact Information</dt>
-              <dd><slot name="contactInfo">ContactInfo</slot></dd>
-            </dl>
+      <mu-auth provides="blazing:auth">
+        <main class="center-container">
+          <section class="userProfile">
+            <div class="userPhoto-container">
+              <slot name="profilePic"></slot>
+            </div>
+            <h2><slot name="name">User Name</slot></h2>
+            <section class="userDescription">
+              <dl>
+                <dt>Contact Information</dt>
+                <dd><slot name="contactInfo">ContactInfo</slot></dd>
+              </dl>
+            </section>
           </section>
-        </section>
-      </main>
+        </main>
+      </mu-auth>
     </template>
   `;
 
@@ -71,39 +73,60 @@ export class UserProfile extends HTMLElement {
     }
   `;
 
+  _authObserver = new Observer(this, "blazing:auth");
+
   get src() {
     return this.getAttribute("src");
   }
 
+  get authorization() {
+    return (
+      this._user?.authenticated && {
+        Authorization: `Bearer ${this._user.token}`,
+      }
+    );
+  }
+
   connectedCallback() {
     if (this.src) this.hydrate(this.src);
+
+    define({
+      "mu-auth": Auth.Provider,
+    });
+
+    this._authObserver.observe(({ user }) => {
+      this._user = user;
+    });
   }
 
   hydrate(url) {
-    fetch(url)
+    fetch(url, { headers: this.authorization })
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json();
       })
       .then((json) => this.renderSlots(json))
-      .catch((error) =>
-        console.log(`Failed to render data ${url}:`, error)
-      );
+      .catch((error) => console.log(`Failed to render data ${url}:`, error));
   }
 
   renderSlots(json) {
     const entries = Object.entries(json);
     const toSlot = ([key, value]) => {
       if (key == "profilePic") {
-        return html`<img slot="profilePic" src="../assets/${value}" alt=${value} />`;
+        return html`<img
+          slot="profilePic"
+          src="../assets/${value}"
+          alt=${value}
+        />`;
       }
       return html`<span slot="${key}">${value}</span>`;
     };
-    
+
     const fragment = entries.map(toSlot);
     this.replaceChildren(...fragment);
   }
-  
+
+  _authObserver = new Observer(this, "blazing:auth");
 
   constructor() {
     super();

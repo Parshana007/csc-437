@@ -13,17 +13,21 @@ export class UniMarketNav extends HTMLElement {
             <span>UniMarket</span>
           </h1>
         </a>
+        <a slot="actuator">
+          Hello,
+          <span id="userid"></span>
+        </a>
         <drop-down>
-        <label
-          onchange="relayEvent(
+          <label
+            onchange="relayEvent(
             event,
             'dark-mode',
             {checked: event.target.checked})"
-        >
-          <input type="checkbox" autocomplete="off" />
-          Dark mode
-        </label>
-      </drop-down>
+          >
+            <input type="checkbox" autocomplete="off" />
+            Dark mode
+          </label>
+        </drop-down>
       </header>
     </template>
   `;
@@ -69,12 +73,32 @@ export class UniMarketNav extends HTMLElement {
     }
   `;
 
+  _authObserver = new Observer(this, "blazing:auth");
+
   // runs each time the component is added to the dom
   connectedCallback() {
     // Get the href from the element (ex. <uni-market-nav href="../index.html"> </uni-market-nav>)
     const href = this.getAttribute("href") || "#";
     // find an a tag in the shadow-DOM and replace with the new href
     this.shadowRoot.querySelector("a").setAttribute("href", href);
+
+    this._authObserver.observe(({ user }) => {
+      if (user && user.username !== this.userid) {
+        this.userid = user.username;
+      }
+    });
+  }
+
+  get userid() {
+    return this._userid.textContent;
+  }
+
+  set userid(id) {
+    if (id === "anonymous") {
+      this._userid.textContent = "";
+    } else {
+      this._userid.textContent = id;
+    }
   }
 
   constructor() {
@@ -82,5 +106,11 @@ export class UniMarketNav extends HTMLElement {
     shadow(this)
       .template(UniMarketNav.template)
       .styles(reset.styles, UniMarketNav.styles);
+
+    this._signout = this.shadowRoot.querySelector("#signout");
+
+    this._signout.addEventListener("click", (event) =>
+      Events.relay(event, "auth:message", ["auth/signout"])
+    );
   }
 }
