@@ -1,4 +1,4 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, Observer, Events } from "@calpoly/mustang";
 import reset from "./reset.css.js";
 
 export class UniMarketNav extends HTMLElement {
@@ -17,6 +17,12 @@ export class UniMarketNav extends HTMLElement {
           Hello,
           <span id="userid"></span>
         </a>
+        <li class="when-signed-in">
+          <a id="signout" href="/login">Sign Out</a>
+        </li>
+        <li class="when-signed-out">
+          <a href="/login">Sign In</a>
+        </li>
         <drop-down>
           <label
             onchange="relayEvent(
@@ -96,8 +102,10 @@ export class UniMarketNav extends HTMLElement {
   set userid(id) {
     if (id === "anonymous") {
       this._userid.textContent = "";
+      this._signout.disabled = true;
     } else {
       this._userid.textContent = id;
+      this._signout.disabled = false;
     }
   }
 
@@ -107,6 +115,7 @@ export class UniMarketNav extends HTMLElement {
       .template(UniMarketNav.template)
       .styles(reset.styles, UniMarketNav.styles);
 
+    this._userid = this.shadowRoot.querySelector("#userid");
     this._signout = this.shadowRoot.querySelector("#signout");
 
     this._signout.addEventListener("click", (event) =>

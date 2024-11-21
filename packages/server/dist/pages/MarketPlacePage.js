@@ -55,8 +55,12 @@ class MarketPlacePage {
     });
   }
   renderBody() {
-    return import_server.html`<uni-market-nav href="/listings"></uni-market-nav>
-      <uni-market-listings src="/api/listings"></uni-market-listings> `;
+    return import_server.html`
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav href="/listings"></uni-market-nav>
+        <uni-market-listings src="/api/listings"></uni-market-listings>
+      </mu-auth>
+    `;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

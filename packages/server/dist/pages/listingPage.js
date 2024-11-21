@@ -55,8 +55,11 @@ class ListingPage {
   renderBody() {
     const { name } = this.data;
     return import_server.html`
-      <uni-market-nav href="/listings"> </uni-market-nav>
-      <uni-listing href="/listings" src="/api/listings/${name}"> </uni-listing>
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav href="/listings"> </uni-market-nav>
+        <uni-listing href="/listings" src="/api/listings/${name}">
+        </uni-listing>
+      </mu-auth>
     `;
   }
 }

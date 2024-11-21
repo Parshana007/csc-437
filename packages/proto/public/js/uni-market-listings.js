@@ -1,26 +1,27 @@
-import { css, html, shadow, Auth, Observer } from "@calpoly/mustang";
+import { css, html, shadow, Auth, Observer, define } from "@calpoly/mustang";
 import reset from "./reset.css.js";
 
 export class UnimarketListings extends HTMLElement {
+  static uses = define({
+    "mu-auth": Auth.Provider,
+  });
   static template = html`
     <template>
-      <mu-auth provides="blazing:auth">
-        <section class="listings">
-          <slot>
-            <listing-header>
-              <img
-                slot="image"
-                src="./assets/loftbed.jpg"
-                alt="Desk with shelves and wheels"
-              />
-              <span slot="listingName"
-                ><a href="./listing/TwinBed.html">Twin Bed</a></span
-              >
-              <span slot="price">Price: $280</span>
-            </listing-header>
-          </slot>
-        </section>
-      </mu-auth>
+      <section class="listings">
+        <slot>
+          <listing-header>
+            <img
+              slot="image"
+              src="./assets/loftbed.jpg"
+              alt="Desk with shelves and wheels"
+            />
+            <span slot="listingName"
+              ><a href="./listing/TwinBed.html">Twin Bed</a></span
+            >
+            <span slot="price">Price: $280</span>
+          </listing-header>
+        </slot>
+      </section>
     </template>
   `;
 
@@ -40,23 +41,17 @@ export class UnimarketListings extends HTMLElement {
   }
 
   get authorization() {
-    return (
-      this._user?.authenticated && {
-        Authorization: `Bearer ${this._user.token}`
-      }
-    );
+    const authHeader = this._user?.authenticated && {
+      Authorization: `Bearer ${this._user.token}`,
+    };
+    return authHeader;
   }
 
   connectedCallback() {
-    if (this.src) this.hydrate(this.src);
-
-    define({
-      "mu-auth": Auth.Provider,
-    });
-
     this._authObserver.observe(({ user }) => {
-        this._user = user;
-      });
+      this._user = user;
+      if (this.src) this.hydrate(this.src);
+    });
   }
 
   hydrate(url) {

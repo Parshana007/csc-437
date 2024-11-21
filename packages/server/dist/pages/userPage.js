@@ -55,8 +55,10 @@ class UserPage {
   renderBody() {
     const { name } = this.data;
     return import_server.html`
-      <uni-market-nav href="/listings"></uni-market-nav>
-      <user-profile src="/api/users/${name}"></user-profile>
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav href="/listings"></uni-market-nav>
+        <user-profile src="/api/users/${name}"></user-profile>
+      </mu-auth>
     `;
   }
 }

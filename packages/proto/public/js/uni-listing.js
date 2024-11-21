@@ -1,42 +1,43 @@
-import { css, html, shadow, Auth, Observer } from "@calpoly/mustang";
+import { css, html, shadow, Auth, Observer, define } from "@calpoly/mustang";
 import reset from "./reset.css.js";
 
 export class UniListing extends HTMLElement {
+  static uses = define({
+    "mu-auth": Auth.Provider,
+  });
   static template = html`
     <template>
-      <mu-auth provides="blazing:auth">
-        <section class="listing">
-          <div class="listing-header">
-            <h2><slot name="name">Default Title</slot></h2>
-            <a href="#">
-              <svg class="crossSvg">
-                <use href="../icons/icons.svg#icon-cross"></use>
-              </svg>
-            </a>
+      <section class="listing">
+        <div class="listing-header">
+          <h2><slot name="name">Default Title</slot></h2>
+          <a href="#">
+            <svg class="crossSvg">
+              <use href="../icons/icons.svg#icon-cross"></use>
+            </svg>
+          </a>
+        </div>
+        <section class="listing-description">
+          <slot name="image"></slot>
+          <div class="details">
+            <dl>
+              <dt>Description</dt>
+              <dd><slot name="description">Default Description</slot></dd>
+              <dt>Price</dt>
+              <dd><slot name="price">$0</slot></dd>
+              <dt>Listed Date</dt>
+              <dd><slot name="listed-date">01/01/2024</slot></dd>
+              <dt>Condition</dt>
+              <dd><slot name="condition">Condition</slot></dd>
+              <dt>Pick Up Location</dt>
+              <dd><slot name="pickUpLocation">Location</slot></dd>
+              <dt>Seller Information</dt>
+              <dd>
+                <slot name="seller"><a href="#">Seller</a></slot>
+              </dd>
+            </dl>
           </div>
-          <section class="listing-description">
-            <slot name="image"></slot>
-            <div class="details">
-              <dl>
-                <dt>Description</dt>
-                <dd><slot name="description">Default Description</slot></dd>
-                <dt>Price</dt>
-                <dd><slot name="price">$0</slot></dd>
-                <dt>Listed Date</dt>
-                <dd><slot name="listed-date">01/01/2024</slot></dd>
-                <dt>Condition</dt>
-                <dd><slot name="condition">Condition</slot></dd>
-                <dt>Pick Up Location</dt>
-                <dd><slot name="pickUpLocation">Location</slot></dd>
-                <dt>Seller Information</dt>
-                <dd>
-                  <slot name="seller"><a href="#">Seller</a></slot>
-                </dd>
-              </dl>
-            </div>
-          </section>
         </section>
-      </mu-auth>
+      </section>
     </template>
   `;
 
@@ -96,7 +97,7 @@ export class UniListing extends HTMLElement {
   get authorization() {
     return (
       this._user?.authenticated && {
-        Authorization: `Bearer ${this._user.token}`
+        Authorization: `Bearer ${this._user.token}`,
       }
     );
   }
@@ -109,12 +110,9 @@ export class UniListing extends HTMLElement {
     this.shadowRoot.querySelector("a").setAttribute("href", href);
     if (this.src) this.hydrate(this.src);
 
-    define({
-      "mu-auth": Auth.Provider,
-    });
-
     this._authObserver.observe(({ user }) => {
       this._user = user;
+      if (this.src) this.hydrate(this.src);
     });
   }
 
