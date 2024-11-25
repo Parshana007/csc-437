@@ -1,14 +1,16 @@
-import { User } from "./user"
+import { User } from "./user";
+import { Types } from "mongoose";
 
 export interface Listing {
+  _id?: Types.ObjectId;
   name: string;
   description: string;
   price: number;
   listedDate: Date;
   condition: Condition;
   pickUpLocation: string;
-  seller: User; /*Just the name appears with the link to userspage*/
-  featuredImage: string; /* Consider changing this to get a list of images?*/
+  seller: User /*Just the name appears with the link to userspage*/;
+  featuredImage: string /* Consider changing this to get a list of images?*/;
 }
 
 export type Condition =
@@ -18,4 +20,3 @@ export type Condition =
   | "Used - Fair"
   | "Refurbished"
   | "For Parts or Repair";
-

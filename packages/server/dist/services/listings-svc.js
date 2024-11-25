@@ -61,27 +61,27 @@ function index() {
 function getAllListings() {
   return ListingModel.find();
 }
-function get(listingName) {
-  return ListingModel.find({ name: listingName }).then((list) => list[0]).catch((err) => {
-    throw `${listingName} Not Found`;
+function get(listingId) {
+  return ListingModel.find({ _id: listingId }).then((list) => list[0]).catch((err) => {
+    throw `${listingId} Not Found`;
   });
 }
 function create(json) {
   const l = new ListingModel(json);
   return l.save();
 }
-function update(listingName, listing) {
-  return ListingModel.findOneAndUpdate({ name: listingName }, listing, {
+function update(listingId, listing) {
+  return ListingModel.findOneAndUpdate({ _id: listingId }, listing, {
     new: true
   }).then((updated) => {
-    if (!updated) throw `${listingName} not updated`;
+    if (!updated) throw `${listingId} not updated`;
     else return updated;
   });
 }
-function remove(listingName) {
-  return ListingModel.findOneAndDelete({ name: listingName }).then(
+function remove(listingId) {
+  return ListingModel.findOneAndDelete({ _id: listingId }).then(
     (deleted) => {
-      if (!deleted) throw `${listingName} not deleted`;
+      if (!deleted) throw `${listingId} not deleted`;
     }
   );
 }

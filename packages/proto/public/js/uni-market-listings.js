@@ -65,13 +65,13 @@ export class UnimarketListings extends HTMLElement {
   }
 
   renderListing(item) {
-    const { name, price, featuredImage } = item;
+    const { _id, name, price, featuredImage } = item;
 
     return html`
       <listing-header>
         <img slot="image" src="./assets/${featuredImage}" alt="${name}" />
         <span slot="listingName">
-          <a href="/listings/${name}">${name}</a>
+          <a href="/listings/${_id}">${name}</a>
         </span>
         <span slot="price">Price: $${price}</span>
       </listing-header>

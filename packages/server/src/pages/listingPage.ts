@@ -25,12 +25,12 @@ export class ListingPage {
   }
 
   renderBody() {
-    const { name } = this.data;
-
+    const { _id } = this.data;
+    const idString = _id?.toString() || "unknown";
     return html`
       <mu-auth provides="blazing:auth">
         <uni-market-nav href="/listings"> </uni-market-nav>
-        <uni-listing href="/listings" src="/api/listings/${name}">
+        <uni-listing href="/listings" src="/api/listings/${idString}">
         </uni-listing>
       </mu-auth>
     `;

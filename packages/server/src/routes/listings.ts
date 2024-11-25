@@ -25,19 +25,19 @@ router.get("/:listing", (req: Request, res: Response) => {
     .catch((err) => res.status(404).send(err));
 });
 
-router.put("/:listingName", (req: Request, res: Response) => {
-  const { listingName } = req.params;
+router.put("/:listingId", (req: Request, res: Response) => {
+  const { listingId } = req.params;
   const newListing = req.body;
 
-  Listings.update(listingName, newListing)
+  Listings.update(listingId, newListing)
     .then((listing: Listing) => res.json(listing))
     .catch((err) => res.status(404).end());
 });
 
-router.delete("/:listingName", (req: Request, res: Response) => {
-  const { listingName } = req.params;
+router.delete("/:listingId", (req: Request, res: Response) => {
+  const { listingId } = req.params;
 
-  Listings.remove(listingName)
+  Listings.remove(listingId)
     .then(() => res.status(204).end())
     .catch((err) => res.status(404).send(err));
 });
