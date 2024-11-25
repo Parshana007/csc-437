@@ -1,9 +1,19 @@
-import { css, html, shadow, Auth, Observer, define } from "@calpoly/mustang";
+import {
+  css,
+  html,
+  shadow,
+  Auth,
+  Observer,
+  define,
+  Form,
+  InputArray,
+} from "@calpoly/mustang";
 import reset from "./reset.css.js";
 
 export class UniListing extends HTMLElement {
   static uses = define({
-    "mu-auth": Auth.Provider,
+    "mu-form": Form.Element,
+    "input-array": InputArray.Element,
   });
   static template = html`
     <template>
@@ -25,7 +35,7 @@ export class UniListing extends HTMLElement {
               <dt>Price</dt>
               <dd><slot name="price">$0</slot></dd>
               <dt>Listed Date</dt>
-              <dd><slot name="listed-date">01/01/2024</slot></dd>
+              <dd><slot name="listedDate">01/01/2024</slot></dd>
               <dt>Condition</dt>
               <dd><slot name="condition">Condition</slot></dd>
               <dt>Pick Up Location</dt>
@@ -38,6 +48,24 @@ export class UniListing extends HTMLElement {
           </div>
         </section>
       </section>
+      <mu-form class="edit">
+        <label>
+          <span>Listing Name</span>
+          <input name="name" />
+        </label>
+        <label>
+          <span>Description</span>
+          <input name="description" />
+        </label>
+        <label>
+          <span>Price</span>
+          <input name="price" />
+        </label>
+        <label>
+          <span>Pick Up Location</span>
+          <input name="pickUpLocation" />
+        </label>
+      </mu-form>
     </template>
   `;
 
@@ -116,14 +144,42 @@ export class UniListing extends HTMLElement {
     });
   }
 
+  get form() {
+    return this.shadowRoot.querySelector("mu-form.edit");
+  }
+
+  submit(url, json) {
+    fetch(url, {
+      headers: { "Content-Type": "application/json", ...this.authorization },
+      method: "PUT",
+      body: JSON.stringify(json),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        this.renderSlots(json);
+        this.form.init = json;
+      })
+      .catch((error) =>
+        console.log(`Failed to render data on submit ${url}:`, error)
+      );
+  }
+
   // fetches data from url (ex.src="/api/listings/Computer) & renders them
   hydrate(url) {
-    fetch(url, { headers: this.authorization })
+    fetch(url, {
+      headers: { "Content-Type": "application/json", ...this.authorization },
+      method: "GET",
+    })
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json(); //includes all the attributes (ex. name, description...)
       })
-      .then((json) => this.renderSlots(json))
+      .then((json) => {
+        this.renderSlots(json);
+        this.form.init = json; // populate mu-form
+      })
       .catch((error) => console.log(`Failed to render data ${url}:`, error));
   }
 
@@ -145,7 +201,9 @@ export class UniListing extends HTMLElement {
           });
           console.log("response", response);
           if (!response.ok) {
-            throw new Error(`Error fetching seller info: ${response.statusText}`);
+            throw new Error(
+              `Error fetching seller info: ${response.statusText}`
+            );
           }
           const sellerData = await response.json(); // Assuming the response contains the seller details as JSON
           console.log("Seller data", sellerData);
@@ -154,8 +212,17 @@ export class UniListing extends HTMLElement {
           </span>`;
         } catch (error) {
           console.error("Failed to fetch seller data:", error);
-          return html`<span slot="${key}">Seller information unavailable</span>`;
+          return html`<span slot="${key}"
+            >Seller information unavailable</span
+          >`;
         }
+      }
+      if (key == "listedDate") {
+        const date = new Date(value); // Parse the ISO date string
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return html`<span slot="listedDate">${month}/${day}/${year}</slot>`;
       }
       if (key == "featuredImage") {
         return html`<img slot="image" src="../assets/${value}" alt=${value} />`;
@@ -174,5 +241,9 @@ export class UniListing extends HTMLElement {
     shadow(this)
       .template(UniListing.template)
       .styles(reset.styles, UniListing.styles);
+
+    this.addEventListener("mu-form:submit", (event) => {
+      this.submit(this.src, event.detail);
+    });
   }
 }
