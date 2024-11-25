@@ -57,9 +57,9 @@ app.get("/listings/:listing", (req: Request, res: Response) => {
   });
 });
 
-app.get("/users/:userName", (req: Request, res: Response) => {
-  const { userName } = req.params;
-  Users.get(userName).then((data: any) => {
+app.get("/users/:userId", (req: Request, res: Response) => {
+  const { userId } = req.params;
+  Users.get(userId).then((data: any) => {
     const page = new UserPage(data);
     res.set("Content-Type", "text/html").send(page.render());
   });

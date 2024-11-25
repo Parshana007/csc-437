@@ -33,6 +33,10 @@ export class UserProfile extends HTMLElement {
       </main>
       <mu-form class="edit">
         <label>
+          <span>User Name</span>
+          <input name="name" />
+        </label>
+        <label>
           <span>Contact Information</span>
           <input name="contactInfo" />
         </label>
@@ -134,7 +138,10 @@ export class UserProfile extends HTMLElement {
   }
 
   hydrate(url) {
-    fetch(url, { headers: this.authorization })
+    fetch(url, {
+      headers: { "Content-Type": "application/json", ...this.authorization },
+      method: "GET",
+    })
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json();

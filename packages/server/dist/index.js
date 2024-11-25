@@ -65,9 +65,9 @@ app.get("/listings/:listing", (req, res) => {
     res.set("Content-Type", "text/html").send(page.render());
   });
 });
-app.get("/users/:userName", (req, res) => {
-  const { userName } = req.params;
-  import_users_svc.default.get(userName).then((data) => {
+app.get("/users/:userId", (req, res) => {
+  const { userId } = req.params;
+  import_users_svc.default.get(userId).then((data) => {
     const page = new import_userPage.UserPage(data);
     res.set("Content-Type", "text/html").send(page.render());
   });

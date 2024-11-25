@@ -53,11 +53,12 @@ class UserPage {
     });
   }
   renderBody() {
-    const { name } = this.data;
+    const { _id } = this.data;
+    const idString = _id?.toString() || "unknown";
     return import_server.html`
       <mu-auth provides="blazing:auth">
         <uni-market-nav href="/listings"></uni-market-nav>
-        <user-profile src="/api/users/${name}"></user-profile>
+        <user-profile src="/api/users/${idString}"></user-profile>
       </mu-auth>
     `;
   }

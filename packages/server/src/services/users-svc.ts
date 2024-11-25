@@ -16,11 +16,11 @@ function index(): Promise<User[]> {
   return UserModel.find();
 }
 
-function get(userName: String): Promise<User> {
-  return UserModel.find({ name: userName })
+function get(userId: String): Promise<User> {
+  return UserModel.find({ _id: userId })
     .then((list) => list[0])
     .catch((err) => {
-      throw `${userName} Not Found`;
+      throw `${userId} Not Found`;
     });
 }
 
@@ -29,18 +29,18 @@ function create(json: User): Promise<User> {
   return u.save();
 }
 
-function update(userName: String, user: User): Promise<User> {
-  return UserModel.findOneAndUpdate({ name: userName }, user, {
+function update(userId: String, user: User): Promise<User> {
+  return UserModel.findOneAndUpdate({ _id: userId }, user, {
     new: true,
   }).then((updated) => {
-    if (!updated) throw `${userName} not updated`;
+    if (!updated) throw `${userId} not updated`;
     else return updated as User;
   });
 }
 
-function remove(userName: String): Promise<void> {
-  return UserModel.findOneAndDelete({ name: userName }).then((deleted) => {
-    if (!deleted) throw `${userName} not deleted`;
+function remove(userId: String): Promise<void> {
+  return UserModel.findOneAndDelete({ _id: userId }).then((deleted) => {
+    if (!deleted) throw `${userId} not deleted`;
   });
 }
 

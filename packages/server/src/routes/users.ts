@@ -18,26 +18,26 @@ router.post("/", (req: Request, res: Response) => {
     .catch((err) => res.status(500).send(err));
 });
 
-router.get("/:userName", (req: Request, res: Response) => {
-  const { userName } = req.params;
-  Users.get(userName)
+router.get("/:userId", (req: Request, res: Response) => {
+  const { userId } = req.params;
+  Users.get(userId)
     .then((user: User) => res.json(user))
     .catch((err) => res.status(404).send(err));
 });
 
-router.put("/:userName", (req: Request, res: Response) => {
-  const { userName } = req.params;
+router.put("/:userId", (req: Request, res: Response) => {
+  const { userId } = req.params;
   const newUser = req.body;
 
-  Users.update(userName, newUser)
+  Users.update(userId, newUser)
     .then((user: User) => res.json(user))
     .catch((err) => res.status(404).end());
 });
 
-router.delete("/:userName", (req: Request, res: Response) => {
-  const { userName } = req.params;
+router.delete("/:userId", (req: Request, res: Response) => {
+  const { userId } = req.params;
 
-  Users.remove(userName)
+  Users.remove(userId)
     .then(() => res.status(204).end())
     .catch((err) => res.status(404).send(err));
 });

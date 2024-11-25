@@ -41,17 +41,17 @@ router.post("/", (req, res) => {
   const newUser = req.body;
   import_users_svc.default.create(newUser).then((user) => res.status(201).json(user)).catch((err) => res.status(500).send(err));
 });
-router.get("/:userName", (req, res) => {
-  const { userName } = req.params;
-  import_users_svc.default.get(userName).then((user) => res.json(user)).catch((err) => res.status(404).send(err));
+router.get("/:userId", (req, res) => {
+  const { userId } = req.params;
+  import_users_svc.default.get(userId).then((user) => res.json(user)).catch((err) => res.status(404).send(err));
 });
-router.put("/:userName", (req, res) => {
-  const { userName } = req.params;
+router.put("/:userId", (req, res) => {
+  const { userId } = req.params;
   const newUser = req.body;
-  import_users_svc.default.update(userName, newUser).then((user) => res.json(user)).catch((err) => res.status(404).end());
+  import_users_svc.default.update(userId, newUser).then((user) => res.json(user)).catch((err) => res.status(404).end());
 });
-router.delete("/:userName", (req, res) => {
-  const { userName } = req.params;
-  import_users_svc.default.remove(userName).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+router.delete("/:userId", (req, res) => {
+  const { userId } = req.params;
+  import_users_svc.default.remove(userId).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
 var users_default = router;
