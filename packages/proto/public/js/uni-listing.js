@@ -128,15 +128,34 @@ export class UniListing extends HTMLElement {
   }
 
   // takes the json and maps to HTML elements
-  renderSlots(json) {
+  async renderSlots(json) {
     const entries = Object.entries(json); // json to key, value
     console.log("entries", entries);
-    const toSlot = ([key, value]) => {
-      if (key === "seller" && typeof value === "object" && value.name) {
-        // link element for seller
-        return html`<span slot="${key}">
-          <a href="../users/${value.name}">${value.name}</a>
-        </span>`;
+    const toSlot = async ([key, value]) => {
+      if (key === "seller") {
+        // Fetch seller information if the key is 'seller'
+        try {
+          const url = `/api/users/${value}`;
+          const response = await fetch(url, {
+            headers: {
+              "Content-Type": "application/json", // Specify JSON format
+              ...this.authorization, // Include additional authorization headers dynamically
+            },
+            method: "GET", // HTTP method
+          });
+          console.log("response", response);
+          if (!response.ok) {
+            throw new Error(`Error fetching seller info: ${response.statusText}`);
+          }
+          const sellerData = await response.json(); // Assuming the response contains the seller details as JSON
+          console.log("Seller data", sellerData);
+          return html`<span slot="${key}">
+            <a href="../users/${sellerData._id}">${sellerData.name}</a>
+          </span>`;
+        } catch (error) {
+          console.error("Failed to fetch seller data:", error);
+          return html`<span slot="${key}">Seller information unavailable</span>`;
+        }
       }
       if (key == "featuredImage") {
         return html`<img slot="image" src="../assets/${value}" alt=${value} />`;
@@ -145,7 +164,8 @@ export class UniListing extends HTMLElement {
       return html`<span slot="${key}">${value}</span>`;
     };
 
-    const fragment = entries.map(toSlot); //DOM fragment returned (contains HTML)
+    // Resolve all slots (use `Promise.all` since `toSlot` may be async)
+    const fragment = await Promise.all(entries.map(toSlot));
     this.replaceChildren(...fragment); //clears existing content & replaces with fragment
   }
 

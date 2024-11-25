@@ -22,14 +22,6 @@ __export(listings_svc_exports, {
 });
 module.exports = __toCommonJS(listings_svc_exports);
 var import_mongoose = require("mongoose");
-const UserSchema = new import_mongoose.Schema(
-  {
-    name: { type: String, required: true, trim: true },
-    contactInfo: { type: String, required: true, trim: true },
-    profilePic: { type: String, required: true, trim: true }
-  },
-  { collection: "market_users" }
-);
 const ListingSchema = new import_mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -49,7 +41,7 @@ const ListingSchema = new import_mongoose.Schema(
       required: true
     },
     pickUpLocation: { type: String, required: true, trim: true },
-    seller: { type: UserSchema, ref: "Profile", required: true },
+    seller: { type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     featuredImage: { type: String, required: true, trim: true }
   },
   { collection: "market_listings" }
