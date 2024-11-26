@@ -17,20 +17,23 @@ export class UserProfile extends HTMLElement {
   });
   static template = html`
     <template>
-      <main class="center-container">
-        <section class="userProfile">
-          <div class="userPhoto-container">
-            <slot name="profilePic"></slot>
-          </div>
-          <h2><slot name="name">User Name</slot></h2>
-          <section class="userDescription">
-            <dl>
-              <dt>Contact Information</dt>
-              <dd><slot name="contactInfo">ContactInfo</slot></dd>
-            </dl>
+      <section class="view">
+        <main class="center-container">
+          <section class="userProfile">
+            <div class="userPhoto-container">
+              <slot name="profilePic"></slot>
+            </div>
+            <h2><slot name="name">User Name</slot></h2>
+            <section class="userDescription">
+              <dl>
+                <dt>Contact Information</dt>
+                <dd><slot name="contactInfo">ContactInfo</slot></dd>
+              </dl>
+              <button id="edit">Edit</button>
+            </section>
           </section>
-        </section>
-      </main>
+        </main>
+      </section>
       <mu-form class="edit">
         <label>
           <span>User Name</span>
@@ -92,6 +95,29 @@ export class UserProfile extends HTMLElement {
       justify-content: center;
       align-items: center;
     }
+    :host {
+      display: contents;
+    }
+    :host([mode="edit"]),
+    :host([mode="new"]) {
+      --display-view-none: none;
+    }
+    :host([mode="view"]) {
+      --display-editor-none: none;
+    }
+    section.view {
+      display: var(--display-view-none, grid);
+      grid-template-columns: subgrid;
+      gap: inherit;
+      gap: var(--size-spacing-medium) var(--size-spacing-xlarge);
+      align-items: end;
+      grid-column: 1 / -1;
+    }
+    mu-form.edit {
+      display: var(--display-editor-none, grid);
+      grid-column: 1/-1;
+      grid-template-columns: subgrid;
+    }
   `;
 
   _authObserver = new Observer(this, "blazing:auth");
@@ -113,10 +139,26 @@ export class UserProfile extends HTMLElement {
       this._user = user;
       if (this.src) this.hydrate(this.src);
     });
+
+    if (!this.mode) {
+    this.mode = "view"; // Default to 'view' mode
+  }
   }
 
   get form() {
     return this.shadowRoot.querySelector("mu-form.edit");
+  }
+
+  get mode() {
+    return this.getAttribute("mode");
+  }
+
+  set mode(m) {
+    this.setAttribute("mode", m);
+  }
+
+  get editButton() {
+    return this.shadowRoot.getElementById("edit");
   }
 
   submit(url, json) {
@@ -131,6 +173,7 @@ export class UserProfile extends HTMLElement {
       .then((json) => {
         this.renderSlots(json);
         this.form.init = json;
+        this.mode = "view";
       })
       .catch((error) =>
         console.log(`Failed to render data on submit ${url}:`, error)
@@ -181,5 +224,7 @@ export class UserProfile extends HTMLElement {
     this.addEventListener("mu-form:submit", (event) => {
       this.submit(this.src, event.detail);
     });
+
+    this.editButton.addEventListener("click", () => (this.mode = "edit"));
   }
 }

@@ -17,6 +17,7 @@ export class UniListing extends HTMLElement {
   });
   static template = html`
     <template>
+    <section class="view">
       <section class="listing">
         <div class="listing-header">
           <h2><slot name="name">Default Title</slot></h2>
@@ -47,6 +48,8 @@ export class UniListing extends HTMLElement {
             </dl>
           </div>
         </section>
+        <button id="edit">Edit</button>
+      </section>
       </section>
       <mu-form class="edit">
         <label>
@@ -113,6 +116,30 @@ export class UniListing extends HTMLElement {
         --content-size-small
       ); /* Optional: Adds some space below the header */
     }
+
+    :host {
+      display: contents;
+    }
+    :host([mode="edit"]),
+    :host([mode="new"]) {
+      --display-view-none: none;
+    }
+    :host([mode="view"]) {
+      --display-editor-none: none;
+    }
+    section.view {
+      display: var(--display-view-none, grid);
+      grid-template-columns: subgrid;
+      gap: inherit;
+      gap: var(--size-spacing-medium) var(--size-spacing-xlarge);
+      align-items: end;
+      grid-column: 1 / -1;
+    }
+    mu-form.edit {
+      display: var(--display-editor-none, grid);
+      grid-column: 1/-1;
+      grid-template-columns: subgrid;
+    }
   `;
 
   _authObserver = new Observer(this, "blazing:auth");
@@ -142,10 +169,26 @@ export class UniListing extends HTMLElement {
       this._user = user;
       if (this.src) this.hydrate(this.src);
     });
+
+    if (!this.mode) {
+      this.mode = "view"; // Default to 'view' mode
+    }
   }
 
   get form() {
     return this.shadowRoot.querySelector("mu-form.edit");
+  }
+
+  get mode() {
+    return this.getAttribute("mode");
+  }
+
+  set mode(m) {
+    this.setAttribute("mode", m);
+  }
+
+  get editButton() {
+    return this.shadowRoot.getElementById("edit");
   }
 
   submit(url, json) {
@@ -160,6 +203,7 @@ export class UniListing extends HTMLElement {
       .then((json) => {
         this.renderSlots(json);
         this.form.init = json;
+        this.mode = "view";
       })
       .catch((error) =>
         console.log(`Failed to render data on submit ${url}:`, error)
@@ -245,5 +289,7 @@ export class UniListing extends HTMLElement {
     this.addEventListener("mu-form:submit", (event) => {
       this.submit(this.src, event.detail);
     });
+
+    this.editButton.addEventListener("click", () => (this.mode = "edit"));
   }
 }
