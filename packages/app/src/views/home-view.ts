@@ -1,11 +1,16 @@
 import { css, html, LitElement } from "lit";
 import { state } from "lit/decorators.js";
-import { Auth, Observer } from "@calpoly/mustang";
+import { Auth, Observer, define } from "@calpoly/mustang";
 import { Listing } from "server/models";
 import reset from "../styles/reset.css";
+import page from "../styles/page.css";
+import { ListingHeader } from "../components/listing-header";
 
 export class UnimarketListings extends LitElement {
   src = "/api/listings";
+  static uses = define({
+    "listing-header": ListingHeader,
+  });
 
   @state()
   listingIndex = new Array<Listing>();
@@ -16,7 +21,9 @@ export class UnimarketListings extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    console.log("UnimarketListings connected");
     this._authObserver.observe(({ user }) => {
+      console.log("Auth observer fired:", user);
       if (user) {
         this._user = user;
       }
@@ -25,6 +32,7 @@ export class UnimarketListings extends LitElement {
   }
 
   hydrate(url: string) {
+    console.log("Fetching listings from:", url);
     fetch(url, {
       headers: Auth.headers(this._user),
     })
@@ -36,8 +44,7 @@ export class UnimarketListings extends LitElement {
       .then((json: unknown) => {
         if (json) {
           console.log("Listings:", json);
-          const { data } = json as { data: Array<Listing> };
-          this.listingIndex = data;
+          this.listingIndex = json as Array<Listing>;
         }
       })
       .catch((err) => console.log("Failed to convert tour data:", err));
@@ -65,6 +72,7 @@ export class UnimarketListings extends LitElement {
 
   static styles = [
     reset.styles,
+    page.styles,
     css`
       .listings {
         display: grid;

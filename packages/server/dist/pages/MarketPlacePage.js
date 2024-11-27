@@ -44,8 +44,8 @@ class MarketPlacePage {
       stylesheets: ["/styles/page.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { ListingHeader } from "../js/listing-header.js";
-        import { UnimarketListings } from "../js/uni-market-listings.js";
+        import { ListingHeader } from "../scripts/listing-header.js";
+        import { UnimarketListings } from "../scripts/uni-market-listings.js";
 
         define({
             "listing-header": ListingHeader,

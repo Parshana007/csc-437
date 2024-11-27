@@ -15,7 +15,7 @@ export class ListingPage {
       stylesheets: ["/styles/listing.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { UniListing } from "../js/uni-listing.js";
+        import { UniListing } from "../scripts/uni-listing.js";
 
         define({
             "uni-listing": UniListing,

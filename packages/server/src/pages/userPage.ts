@@ -16,7 +16,7 @@ export class UserPage {
       stylesheets: ["/styles/user.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { UserProfile } from "../js/user-profile.js";
+        import { UserProfile } from "/scripts/user-profile.js";
 
         define({
             "user-profile": UserProfile,

@@ -28,7 +28,9 @@ export class UniMarketNav extends LitElement {
     super.connectedCallback();
 
     this._authObserver.observe(({ user }) => {
+      console.log("user", user);
       if (user && user.username !== this.userid) {
+        console.log("Updating userid from", this.userid, "to", user.username);
         this.userid = user.username;
       }
     });
@@ -50,7 +52,7 @@ export class UniMarketNav extends LitElement {
   protected render() {
     return html`
       <header>
-        <a href="#">
+        <a href="/listings">
           <h1 class="navBar">
             <svg class="icon-market">
               <use href="../assets/icons.svg#icon-market" />
@@ -60,7 +62,7 @@ export class UniMarketNav extends LitElement {
         </a>
         <a slot="actuator">
           Hello,
-          <span id="userid"></span>
+          <span id="userid">${this.userid}</span>
         </a>
         <li class="when-signed-in">
           <a id="signout" @click=${signOut}>Sign Out</a>

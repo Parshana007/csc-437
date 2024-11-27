@@ -23,5 +23,5 @@ class AppElement extends LitElement {
 define({
   "mu-auth": Auth.Provider,
   "uni-market-app": AppElement,
-  "uni-market-header": UniMarketNav
+  "uni-market-nav": UniMarketNav
 });
