@@ -62,7 +62,7 @@ export class UnimarketListings extends LitElement {
       <listing-header>
         <img slot="image" src="./assets/${featuredImage}" alt="${name}" />
         <span slot="listingName">
-          <a href="/listings/${_id}">${name}</a>
+          <a href="/app/listing/${_id}">${name}</a>
         </span>
         <span slot="price">Price: $${price}</span>
       </listing-header>

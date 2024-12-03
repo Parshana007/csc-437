@@ -30,7 +30,7 @@ export class LoginPage {
                   <h3 slot="title">Sign in and explore UniMarket!</h3>
                 </login-form>
                 <p class="register">
-                  Or did you want to
+                  Or did you want to 
                   <a href="./register"> register as a new user </a>
                   ?
                 </p>

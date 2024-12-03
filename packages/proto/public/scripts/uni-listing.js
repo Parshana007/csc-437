@@ -21,7 +21,7 @@ export class UniListing extends HTMLElement {
       <section class="listing">
         <div class="listing-header">
           <h2><slot name="name">Default Title</slot></h2>
-          <a href="#">
+          <a href="/listings">
             <svg class="crossSvg">
               <use href="../icons/icons.svg#icon-cross"></use>
             </svg>

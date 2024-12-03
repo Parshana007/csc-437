@@ -141,8 +141,8 @@ export class UserProfile extends HTMLElement {
     });
 
     if (!this.mode) {
-    this.mode = "view"; // Default to 'view' mode
-  }
+      this.mode = "view"; // Default to 'view' mode
+    }
   }
 
   get form() {

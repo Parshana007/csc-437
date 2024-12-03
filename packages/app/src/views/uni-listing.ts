@@ -1,25 +1,31 @@
 import { css, html, LitElement } from "lit";
-import { state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { Auth, Observer, define, Form, InputArray } from "@calpoly/mustang";
 import { User, Listing } from "server/models";
 import reset from "../styles/reset.css";
 import page from "../styles/page.css";
 
 export class UniListing extends LitElement {
-  src = "/api/listings";
   static uses = define({
     "mu-form": Form.Element,
     "input-array": InputArray.Element,
   });
 
-  @state()
-  listingData: Listing | null = null;
+  @property()
+  listingid?: string;
 
   @state()
-  sellerData: User | null = null;
+  listing?: Listing;
 
   @state()
-  mode: "view" | "edit" = "view";
+  sellerData?: User;
+
+  @state()
+  mode = "view";
+
+  get src() {
+    return `/api/listings/${this.listingid}`;
+  }
 
   _authObserver = new Observer<Auth.Model>(this, "blazing:auth");
   _user = new Auth.User();
@@ -29,54 +35,72 @@ export class UniListing extends LitElement {
     this._authObserver.observe(({ user }) => {
       if (user) {
         this._user = user;
-        this.fetchData();
       }
+      this.hydrate(this.src);
     });
   }
 
-  async fetchData() {
+  hydrate(url: string) {
+    fetch(url, {
+      headers: Auth.headers(this._user),
+    })
+      .then((res) => {
+        if (res.status !== 200) throw `Status: ${res.status}`;
+        return res.json(); //includes all the attributes (ex. name, description...)
+      })
+      .catch((error) => console.log(`Failed to render data ${url}:`, error))
+      .then((json: unknown) => {
+        if (json) {
+          console.log("Listing: ", json);
+          this.listing = json as Listing;
+          this.renderUser();
+        }
+      })
+      .catch((err) => console.log("Failed to convert listing data:", err));
+  }
+
+  submit(url: string, json: string) {
+    fetch(url, {
+      headers: Auth.headers(this._user),
+      method: "PUT",
+      body: JSON.stringify(json),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        // this.renderSlots(json);
+        // this.form.init = json;
+        if (json) {
+          console.log("Listing: ", json);
+          this.listing = json as Listing;
+        }
+        this.mode = "view";
+      })
+      .catch((error) =>
+        console.log(`Failed to render data on submit ${url}:`, error)
+      );
+  }
+
+  async renderUser() {
     try {
-      const res = await fetch(this.src, {
+      const url = `/api/users/${this.listing?.seller}`;
+      const response = await fetch(url, {
         headers: Auth.headers(this._user),
       });
-      if (!res.ok) throw new Error(`Status: ${res.status}`);
-      const json = await res.json();
-      this.listingData = json;
-
-      // Fetch seller information if available
-      if (json.seller) {
-        await this.fetchSeller(json.seller);
+      console.log("response", response);
+      if (!response.ok) {
+        throw new Error(`Error fetching seller info: ${response.statusText}`);
       }
-    } catch (err) {
-      console.error("Error fetching listing:", err);
+      const sellerData = await response.json(); // Assuming the response contains the seller details as JSON
+      console.log("Seller data", sellerData);
+      this.sellerData = sellerData;
+    } catch (error) {
+      console.error("Failed to fetch seller data:", error);
     }
   }
 
-  async fetchSeller(sellerId: string) {
-    try {
-      const res = await fetch(`/api/users/${sellerId}`, {
-        headers: Auth.headers(this._user),
-      });
-      if (!res.ok) throw new Error(`Error fetching seller: ${res.status}`);
-      this.sellerData = await res.json();
-    } catch (err) {
-      console.error("Error fetching seller data:", err);
-    }
-  }
-
-  render() {
-    return html`
-      <section class="listing">
-        ${this.mode === "view" ? this.renderView() : this.renderEdit()}
-      </section>
-    `;
-  }
-
-  renderView() {
-    if (!this.listingData) {
-      return html`<p>Loading...</p>`;
-    }
-
+  protected render() {
     const {
       name,
       description,
@@ -85,7 +109,7 @@ export class UniListing extends LitElement {
       listedDate,
       condition,
       featuredImage,
-    } = this.listingData;
+    } = this.listing || {};
 
     return html`
       <section class="view">
@@ -99,9 +123,7 @@ export class UniListing extends LitElement {
             </a>
           </div>
           <section class="listing-description">
-            ${featuredImage
-              ? html`<img src="../assets/${featuredImage}" alt="${name}" />`
-              : ""}
+            <img src="../assets/${featuredImage}" alt="${name}" />
             <div class="details">
               <dl>
                 <dt>Description</dt>
@@ -109,7 +131,7 @@ export class UniListing extends LitElement {
                 <dt>Price</dt>
                 <dd>$${price}</dd>
                 <dt>Listed Date</dt>
-                <dd>${new Date(listedDate).toLocaleDateString()}</dd>
+                <dd>${listedDate}</dd>
                 <dt>Condition</dt>
                 <dd>${condition}</dd>
                 <dt>Pick Up Location</dt>
@@ -117,7 +139,7 @@ export class UniListing extends LitElement {
                 <dt>Seller Information</dt>
                 <dd>
                   ${this.sellerData
-                    ? html`<a href="../users/${this.sellerData._id}">
+                    ? html`<a href="../user/${this.sellerData._id}">
                         ${this.sellerData.name}
                       </a>`
                     : html`<span>Loading seller information...</span>`}
@@ -128,69 +150,25 @@ export class UniListing extends LitElement {
           <button @click=${() => (this.mode = "edit")}>Edit</button>
         </section>
       </section>
-    `;
-  }
-
-  renderEdit() {
-    if (!this.listingData) {
-      return html`<p>Loading...</p>`;
-    }
-
-    const { name, description, price, pickUpLocation } = this.listingData;
-
-    return html`
-      <mu-form @submit=${this.handleSubmit}>
+      <mu-form class="edit">
         <label>
-          <span>Name</span>
-          <input name="name" value="${name}" />
+          <span>Listing Name</span>
+          <input name="name" />
         </label>
         <label>
           <span>Description</span>
-          <textarea name="description">${description}</textarea>
+          <input name="description" />
         </label>
         <label>
           <span>Price</span>
-          <input type="number" name="price" value="${price}" />
+          <input name="price" />
         </label>
         <label>
-          <span>Pick-Up Location</span>
-          <input name="pickUpLocation" value="${pickUpLocation}" />
+          <span>Pick Up Location</span>
+          <input name="pickUpLocation" />
         </label>
-        <button type="submit">Save</button>
-        <button type="button" @click=${() => (this.mode = "view")}>
-          Cancel
-        </button>
       </mu-form>
     `;
-  }
-
-  async handleSubmit(event: CustomEvent) {
-    const formData = event.detail;
-    const data = Object.fromEntries(new FormData(formData).entries());
-
-    try {
-      const res = await fetch(this.src, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          ...Auth.headers(this._user),
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!res.ok) throw new Error(`Status: ${res.status}`);
-      const updatedListing = await res.json();
-      this.listingData = updatedListing;
-
-      // Update seller information if changed
-      if (updatedListing.seller) {
-        await this.fetchSeller(updatedListing.seller);
-      }
-
-      this.mode = "view";
-    } catch (err) {
-      console.error("Error updating listing:", err);
-    }
   }
 
   static styles = [

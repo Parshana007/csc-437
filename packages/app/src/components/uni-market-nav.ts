@@ -52,36 +52,43 @@ export class UniMarketNav extends LitElement {
   protected render() {
     return html`
       <header>
-        <a href="/app">
-          <h1 class="navBar">
-            <svg class="icon-market">
-              <use href="../assets/icons.svg#icon-market" />
-            </svg>
-            <span>UniMarket</span>
-          </h1>
-        </a>
-        <a slot="actuator">
-          Hello,
-          <span id="userid">${this.userid}</span>
-        </a>
-        <!-- Conditionally render Sign Out/Sign In links -->
-        ${this.userid !== "anonymous"
-          ? html`
-              <li class="when-signed-in">
-                <a id="signout" @click=${signOut}>Sign Out</a>
-              </li>
-            `
-          : html`
-              <li class="when-signed-out">
-                <a href="/login">Sign In</a>
-              </li>
-            `}
-        <drop-down>
-          <label @change=${toggleDarkMode}>
-            <input type="checkbox" />
-            Dark Mode
-          </label>
-        </drop-down>
+        <main class="navBar">
+          <a href="/app">
+            <h1 class="navTitle">
+              <svg class="icon-market">
+                <use href="../assets/icons.svg#icon-market" />
+              </svg>
+              <span>UniMarket</span>
+            </h1>
+          </a>
+          <section class="navInfo">
+            <a slot="actuator">
+              Hello,
+              <span id="userid">${this.userid}</span>
+            </a>
+            <div class="dropdown">
+              <button class="dropbtn">Menu</button>
+              <!-- Conditionally render Sign Out/Sign In links -->
+              <div class="dropdown-content">
+                ${this.userid !== "anonymous"
+                  ? html`
+                      <li class="when-signed-in">
+                        <a id="signout" @click=${signOut}>Sign Out</a>
+                      </li>
+                    `
+                  : html`
+                      <li class="when-signed-out">
+                        <a href="/login">Sign In</a>
+                      </li>
+                    `}
+                <label @change=${toggleDarkMode}>
+                  <input type="checkbox" />
+                  Dark Mode
+                </label>
+              </div>
+            </div>
+          </section>
+        </main>
       </header>
     `;
   }
@@ -89,11 +96,55 @@ export class UniMarketNav extends LitElement {
   static styles = [
     reset.styles,
     css`
-      .navBar {
+      .navTitle {
         display: flex;
         align-items: center;
         flex-direction: row;
         gap: 0.5em;
+      }
+
+      .navBar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .navInfo {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        margin-right: 10px;
+      }
+
+      .dropbtn {
+        background-color: var(--color-sage);
+        color: white;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        align-self: center;
+      }
+
+      /* Dropdown Content (Hidden by Default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: var(--color-eggplant);
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      /* Show the dropdown menu on hover */
+      .dropdown:hover .dropdown-content {
+        display: block;
       }
 
       .icon-market {

@@ -5,28 +5,78 @@ import reset from "../../src/styles/reset.css";
 export class LoginForm extends HTMLElement {
   static template = html`<template>
     <form onsubmit="false;">
-      <slot name="title">
-        <h3>Sign in with Username and Password</h3>
-      </slot>
-      <label>
-        <span>
-          <slot name="username">Username</slot>
-        </span>
-        <input name="username" autocomplete="off" />
-      </label>
-      <label>
-        <span>
-          <slot name="password">Password</slot>
-        </span>
-        <input type="password" name="password" />
-      </label>
-      <slot name="submit">
-        <button type="submit">Sign In</button>
-      </slot>
+      <main class="center-container">
+        <slot name="title">
+          <h2>Sign in with Username and Password</h2>
+        </slot>
+        <section class="loginContent">
+          <label>
+            <span>
+              <slot name="username">Username</slot>
+            </span>
+            <input name="username" autocomplete="off" />
+          </label>
+          <label>
+            <span>
+              <slot name="password">Password</slot>
+            </span>
+            <input type="password" name="password" />
+          </label>
+          <slot name="submit">
+            <button type="submit">Sign In</button>
+          </slot>
+        </section>
+      </main>
     </form>
   </template>`;
 
   static styles = css`
+    .center-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loginContent {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--color-eggplant);
+      padding: var(--content-size-xlarge);
+      gap: 5px;
+      width: 80%;
+      max-width: 600px;
+      margin-bottom: var(--content-size-medium);
+    }
+
+    button {
+      background-color: var(--color-sage);
+      border-radius: 8px;
+      border-style: none;
+      box-sizing: border-box;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-block;
+      font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      height: 40px;
+      line-height: 20px;
+      list-style: none;
+      margin: 0;
+      outline: none;
+      padding: 10px 16px;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      transition: color 100ms;
+      vertical-align: baseline;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
     form {
       display: grid;
       grid-column: 1/-1;
