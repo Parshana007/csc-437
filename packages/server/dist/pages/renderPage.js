@@ -27,7 +27,7 @@ const defaults = {
   scripts: [
     `
     import { define, Auth } from "@calpoly/mustang";
-    import { UniMarketNav } from "../src/components/uni-market-nav.ts";
+    import { UniMarketNav } from "/scripts/uni-market-nav.js";
     import { Events } from "@calpoly/mustang";
 
       window.relayEvent = Events.relay;

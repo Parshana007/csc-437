@@ -30,7 +30,7 @@ export class UserPage {
     const idString = _id?.toString() || "unknown";
     return html`
       <mu-auth provides="blazing:auth">
-        <uni-market-nav href="/listings"></uni-market-nav>
+        <uni-market-nav></uni-market-nav>
         <user-profile src="/api/users/${idString}"></user-profile>
       </mu-auth>
     `;

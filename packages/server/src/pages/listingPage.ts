@@ -29,7 +29,7 @@ export class ListingPage {
     const idString = _id?.toString() || "unknown";
     return html`
       <mu-auth provides="blazing:auth">
-        <uni-market-nav href="/listings"> </uni-market-nav>
+        <uni-market-nav> </uni-market-nav>
         <uni-listing href="/listings" src="/api/listings/${idString}">
         </uni-listing>
       </mu-auth>

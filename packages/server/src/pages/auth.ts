@@ -24,7 +24,7 @@ export class LoginPage {
         <body>
           <mu-auth provides="blazing:auth">
             <article>
-              <uni-market-nav href="/listings"></uni-market-nav>
+              <uni-market-nav></uni-market-nav>
               <main class="page">
                 <login-form api="/auth/login">
                   <h3 slot="title">Sign in and explore UniMarket!</h3>
@@ -60,7 +60,7 @@ export class RegistrationPage {
       body: html`<body>
         <mu-auth provides="blazing:auth">
           <article>
-            <uni-market-nav href="/listings"></uni-market-nav>
+            <uni-market-nav></uni-market-nav>
             <main class="page">
               <registration-form api="/auth/register">
                 <h3 slot="title">Sign up to plan your next trip!</h3>

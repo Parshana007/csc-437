@@ -15,12 +15,15 @@
     />
     <title>Uni Market</title>
     <link rel="icon" href="assets/storeLogo.svg" type="image/svg+xml" />
-    <script type="module" crossorigin src="/assets/index-w1CNT4mJ.js"></script>
+    <script type="module" crossorigin src="/assets/index-DwO4ytG_.js"></script>
   </head>
   <body>
-    <mu-auth provides="blazing:auth" redirect="./login.html">
-      <uni-market-nav></uni-market-nav>
-      <uni-market-app></uni-market-app>
-    </mu-auth>
+    <mu-history provides="blazing:history">
+      <mu-auth provides="blazing:auth" redirect="./login">
+        <uni-market-nav></uni-market-nav>
+        <mu-switch></mu-switch>
+        <uni-market-app></uni-market-app>
+      </mu-auth>
+    </mu-history>
   </body>
 </html>

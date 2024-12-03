@@ -20,7 +20,7 @@ export class UniListing extends LitElement {
   @state()
   sellerData?: User;
 
-  @state()
+  @property({ reflect: true })
   mode = "view";
 
   get src() {
@@ -116,7 +116,7 @@ export class UniListing extends LitElement {
         <section class="listing">
           <div class="listing-header">
             <h2>${name}</h2>
-            <a href="/listings">
+            <a href="/app">
               <svg class="crossSvg">
                 <use href="../../public/assets/icons.svg#icon-cross"></use>
               </svg>
