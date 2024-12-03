@@ -52,7 +52,7 @@ export class UniMarketNav extends LitElement {
   protected render() {
     return html`
       <header>
-        <a href="/listings">
+        <a href="/app">
           <h1 class="navBar">
             <svg class="icon-market">
               <use href="../assets/icons.svg#icon-market" />
@@ -64,12 +64,18 @@ export class UniMarketNav extends LitElement {
           Hello,
           <span id="userid">${this.userid}</span>
         </a>
-        <li class="when-signed-in">
-          <a id="signout" @click=${signOut}>Sign Out</a>
-        </li>
-        <li class="when-signed-out">
-          <a href="/login">Sign In</a>
-        </li>
+        <!-- Conditionally render Sign Out/Sign In links -->
+        ${this.userid !== "anonymous"
+          ? html`
+              <li class="when-signed-in">
+                <a id="signout" @click=${signOut}>Sign Out</a>
+              </li>
+            `
+          : html`
+              <li class="when-signed-out">
+                <a href="/login">Sign In</a>
+              </li>
+            `}
         <drop-down>
           <label @change=${toggleDarkMode}>
             <input type="checkbox" />

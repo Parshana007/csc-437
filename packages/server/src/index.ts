@@ -9,7 +9,9 @@ import users from "./routes/users";
 import listings from "./routes/listings";
 import { connect } from "./services/mongo";
 import auth, { authenticateUser } from "./routes/auth";
-import { LoginPage } from "./pages/auth";
+import { LoginPage, RegistrationPage } from "./pages/auth";
+import fs from "node:fs/promises";
+import path from "path";
 connect("UniMarket");
 
 import express, { Request, Response } from "express";
@@ -29,6 +31,10 @@ app.use("/auth", auth);
 
 app.get("/login", (req: Request, res: Response) => {
   const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+app.get("/register", (req: Request, res: Response) => {
+  const page = new RegistrationPage();
   res.set("Content-Type", "text/html").send(page.render());
 });
 
@@ -63,6 +69,13 @@ app.get("/users/:userId", (req: Request, res: Response) => {
     const page = new UserPage(data);
     res.set("Content-Type", "text/html").send(page.render());
   });
+});
+
+app.use("/app", (req: Request, res: Response) => {
+  const indexHtml = path.resolve(staticDir, "index.html");
+  fs.readFile(indexHtml, { encoding: "utf8" }).then((html) =>
+    res.send(html)
+  );
 });
 
 app.listen(port, () => {

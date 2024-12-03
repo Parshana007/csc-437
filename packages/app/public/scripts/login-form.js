@@ -73,7 +73,7 @@ export class LoginForm extends HTMLElement {
       submitLoginForm(
         event,
         this.getAttribute("api"),
-        this.getAttribute("redirect") || "/listings"
+        this.getAttribute("redirect") || "/app"
       )
     );
   }

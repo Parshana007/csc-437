@@ -28,7 +28,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var auth_exports = {};
 __export(auth_exports, {
-  LoginPage: () => LoginPage
+  LoginPage: () => LoginPage,
+  RegistrationPage: () => RegistrationPage
 });
 module.exports = __toCommonJS(auth_exports);
 var import_server = require("@calpoly/mustang/server");
@@ -74,7 +75,41 @@ class LoginPage {
     });
   }
 }
+class RegistrationPage {
+  render() {
+    return (0, import_renderPage.default)({
+      scripts: [
+        `
+        import { define, Auth } from "@calpoly/mustang";
+        import { RegistrationForm } from "/scripts/registration-form.js";
+
+        define({
+          "mu-auth": Auth.Provider,
+          "registration-form": RegistrationForm
+        })
+        `
+      ],
+      body: import_server.html`<body>
+        <mu-auth provides="blazing:auth">
+          <article>
+            <uni-market-nav href="/listings"></uni-market-nav>
+            <main class="page">
+              <registration-form api="/auth/register">
+                <h3 slot="title">Sign up to plan your next trip!</h3>
+              </registration-form>
+              <p class="login">
+                Already signed up? You can
+                <a href="./login">log in</a> instead.
+              </p>
+            </main>
+          </article>
+        </mu-auth>
+      </body> `
+    });
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  LoginPage
+  LoginPage,
+  RegistrationPage
 });

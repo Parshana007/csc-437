@@ -47,12 +47,11 @@ export class UnimarketListings extends LitElement {
           this.listingIndex = json as Array<Listing>;
         }
       })
-      .catch((err) => console.log("Failed to convert tour data:", err));
+      .catch((err) => console.log("Failed to convert listing data:", err));
   }
 
   render() {
     const listingList = this.listingIndex.map(this.renderListing);
-
     return html` <section class="listings">${listingList}</section> `;
   }
 
