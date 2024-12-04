@@ -1,4 +1,7 @@
 import { Auth, define, History, Switch } from "@calpoly/mustang";
+// import { Msg } from "./messages";
+// import { Model, init } from "./model";
+// import update from "./update";
 import { html, LitElement } from "lit";
 import { UniMarketNav } from "./components/uni-market-nav";
 import { UnimarketListings } from "./views/home-view";
@@ -53,6 +56,11 @@ define({
       super(routes, "blazing:history", "blazing:auth");
     }
   },
+//   "mu-store": class AppStore extends Store.Provider<Model, Msg> {
+//     constructor() {
+//       super(update, init, "blazing:auth");
+//     }
+//   },
   "uni-market-app": AppElement,
   "uni-market-nav": UniMarketNav,
   "user-profile": UserProfile,

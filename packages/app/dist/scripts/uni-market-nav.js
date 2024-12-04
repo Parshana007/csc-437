@@ -9,7 +9,7 @@ export class UniMarketNav extends HTMLElement {
           <a href="/app">
             <h1 class="navBar">
               <svg class="icon-market">
-                <use href="../icons/icons.svg#icon-market" />
+                <use href="/assets/icons.svg#icon-market" />
               </svg>
               <span>UniMarket</span>
             </h1>
@@ -23,17 +23,6 @@ export class UniMarketNav extends HTMLElement {
               <button class="dropbtn">Menu</button>
               <!-- Conditionally render Sign Out/Sign In links -->
               <div class="dropdown-content">
-                ${this.userid !== "anonymous"
-                  ? html`
-                      <li class="when-signed-in">
-                        <a id="signout" href="/login">Sign Out</a>
-                      </li>
-                    `
-                  : html`
-                      <li class="when-signed-out">
-                        <a href="/login">Sign In</a>
-                      </li>
-                    `}
                 <label
                   onchange="relayEvent(
             event,

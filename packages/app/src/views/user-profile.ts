@@ -95,7 +95,7 @@ export class UserProfile extends LitElement {
         <main class="center-container">
           <section class="userProfile">
             <div class="userPhoto-container">
-              <img src="./assets/${profilePic}" alt=${name}/>
+              <img src="/assets/${profilePic}" alt=${name}/>
             </div>
             <h2>${name}</h2>
             <section class="userDescription">

@@ -56,7 +56,7 @@ export class UniMarketNav extends LitElement {
           <a href="/app">
             <h1 class="navTitle">
               <svg class="icon-market">
-                <use href="../assets/icons.svg#icon-market" />
+                <use href="/assets/icons.svg#icon-market" />
               </svg>
               <span>UniMarket</span>
             </h1>

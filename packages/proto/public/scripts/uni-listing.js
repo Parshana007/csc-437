@@ -269,7 +269,7 @@ export class UniListing extends HTMLElement {
         return html`<span slot="listedDate">${month}/${day}/${year}</slot>`;
       }
       if (key == "featuredImage") {
-        return html`<img slot="image" src="../assets/${value}" alt=${value} />`;
+        return html`<img slot="image" src="/assets/${value}" alt=${value} />`;
       }
       // another for links
       return html`<span slot="${key}">${value}</span>`;

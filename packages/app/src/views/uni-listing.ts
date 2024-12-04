@@ -14,7 +14,7 @@ export class UniListing extends LitElement {
   @property()
   listingid?: string;
 
-  @state()
+  @property({ attribute: false })
   listing?: Listing;
 
   @state()
@@ -118,12 +118,12 @@ export class UniListing extends LitElement {
             <h2>${name}</h2>
             <a href="/app">
               <svg class="crossSvg">
-                <use href="../../public/assets/icons.svg#icon-cross"></use>
+                <use href="/assets/icons.svg#icon-cross"></use>
               </svg>
             </a>
           </div>
           <section class="listing-description">
-            <img src="../assets/${featuredImage}" alt="${name}" />
+            <img src="/assets/${featuredImage}" alt="${name}" />
             <div class="details">
               <dl>
                 <dt>Description</dt>
@@ -150,7 +150,7 @@ export class UniListing extends LitElement {
           <button @click=${() => (this.mode = "edit")}>Edit</button>
         </section>
       </section>
-      <mu-form class="edit">
+      <mu-form class="edit" .init=${this.listing}>
         <label>
           <span>Listing Name</span>
           <input name="name" />

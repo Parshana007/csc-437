@@ -12,7 +12,7 @@ export class UnimarketListings extends HTMLElement {
           <listing-header>
             <img
               slot="image"
-              src="./assets/loftbed.jpg"
+              src="/assets/loftbed.jpg"
               alt="Desk with shelves and wheels"
             />
             <span slot="listingName"
@@ -69,7 +69,7 @@ export class UnimarketListings extends HTMLElement {
 
     return html`
       <listing-header>
-        <img slot="image" src="./assets/${featuredImage}" alt="${name}" />
+        <img slot="image" src="/assets/${featuredImage}" alt="${name}" />
         <span slot="listingName">
           <a href="/listings/${_id}">${name}</a>
         </span>

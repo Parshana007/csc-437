@@ -202,7 +202,7 @@ export class UserProfile extends HTMLElement {
       if (key == "profilePic") {
         return html`<img
           slot="profilePic"
-          src="../assets/${value}"
+          src="/assets/${value}"
           alt=${value}
         />`;
       }
