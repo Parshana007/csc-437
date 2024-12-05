@@ -5,7 +5,7 @@ import {
   Form,
 } from "@calpoly/mustang";
 import { css, html, LitElement } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { User } from "server/models";
 import reset from "../styles/reset.css";
 
@@ -17,7 +17,7 @@ export class UserProfile extends LitElement {
   @property()
   userid?: string;
 
-  @state()
+  @property({ attribute: false })
   user?: User;
 
   @property({ reflect: true })
@@ -40,6 +40,7 @@ export class UserProfile extends LitElement {
         this._user = user;
       }
       this.hydrate(this.src);
+
     });
   }
 
@@ -65,6 +66,8 @@ export class UserProfile extends LitElement {
   }
 
   submit(url: string, json: string) {
+    console.log("URL", url);
+    console.log("json", json);
     fetch(url, {
       headers: Auth.headers(this._user),
       method: "PUT",
@@ -110,7 +113,7 @@ export class UserProfile extends LitElement {
           </section>
         </main>
       </section>
-      <mu-form class="edit">
+      <mu-form class="edit" .init=${this.user}>
         <label>
           <span>User Name</span>
           <input name="name" />
