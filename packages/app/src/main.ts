@@ -6,7 +6,8 @@ import { html, LitElement } from "lit";
 import { UniMarketNav } from "./components/uni-market-nav";
 import { UnimarketListings } from "./OLDviews/home-view";
 // import { UserProfile } from "./OLDviews/user-profile";
-import { UniListing } from "./OLDviews/uni-listing";
+// import { UniListing } from "./OLDviews/uni-listing";
+import {UniListing } from "./views/uni-listing";
 import { UserViewProfile } from "./views/user-profile"
 
 class AppElement extends LitElement {

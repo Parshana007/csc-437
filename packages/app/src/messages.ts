@@ -1,4 +1,4 @@
-import { User } from "server/models";
+import { User, Listing } from "server/models";
 
 export type Msg =
   | [
@@ -10,4 +10,14 @@ export type Msg =
         onFailure?: (err: Error) => void;
       }
     ]
-  | ["profile/select", { userid: string }];
+  | ["profile/select", { userid: string }]
+  | [
+    "listing/save",
+    {
+      listingid: string;
+      listing: Listing;
+      onSuccess?: () => void;
+      onFailure?: (err: Error) => void;
+    }
+  ]
+| ["listing/select", { listingid: string }];

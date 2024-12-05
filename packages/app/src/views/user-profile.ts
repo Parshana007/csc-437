@@ -42,7 +42,6 @@ export class UserViewProfile extends View<Model, Msg> {
     name: string;
     profilePic: string;
   }) {
-    // const formData = event.detail;
     console.log("Form data:", formData);
     this.dispatchMessage([
       "profile/save",

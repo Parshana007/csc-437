@@ -1,4 +1,4 @@
-import { User } from "./user";
+// import { User } from "./user";
 import { Types } from "mongoose";
 
 export interface Listing {
@@ -9,7 +9,7 @@ export interface Listing {
   listedDate: Date;
   condition: Condition;
   pickUpLocation: string;
-  seller: User /*Just the name appears with the link to userspage*/;
+  seller: Types.ObjectId /*Just the name appears with the link to userspage*/;
   featuredImage: string /* Consider changing this to get a list of images?*/;
 }
 
