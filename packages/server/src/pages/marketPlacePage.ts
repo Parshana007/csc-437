@@ -16,8 +16,8 @@ export class MarketPlacePage {
       stylesheets: ["/styles/page.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { ListingHeader } from "../js/listing-header.js";
-        import { UnimarketListings } from "../js/uni-market-listings.js";
+        import { ListingHeader } from "../scripts/listing-header.js";
+        import { UnimarketListings } from "../scripts/uni-market-listings.js";
 
         define({
             "listing-header": ListingHeader,
@@ -28,7 +28,11 @@ export class MarketPlacePage {
   }
 
   renderBody() {
-    return html`<uni-market-nav href="/listings"></uni-market-nav>
-      <uni-market-listings src="/api/listings"></uni-market-listings> `;
+    return html`
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav></uni-market-nav>
+        <uni-market-listings src="/api/listings"></uni-market-listings>
+      </mu-auth>
+    `;
   }
 }

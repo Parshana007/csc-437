@@ -1,16 +1,5 @@
 import { Listing } from "../models/listing";
-import { Condition } from "../models/listing";
 import { Schema, model } from "mongoose";
-import { User } from "../models/user";
-
-const UserSchema = new Schema<User>(
-  {
-    name: { type: String, required: true, trim: true },
-    contactInfo: { type: String, required: true, trim: true },
-    profilePic: { type: String, required: true, trim: true },
-  },
-  { collection: "market_users" }
-);
 
 const ListingSchema = new Schema<Listing>(
   {
@@ -31,7 +20,7 @@ const ListingSchema = new Schema<Listing>(
       required: true,
     },
     pickUpLocation: { type: String, required: true, trim: true },
-    seller: { type: UserSchema, ref: "Profile", required: true },
+    seller: { type: Schema.Types.ObjectId, ref: "User", required: true },
     featuredImage: { type: String, required: true, trim: true },
   },
   { collection: "market_listings" }
@@ -47,32 +36,32 @@ function getAllListings(): Promise<Listing[]> {
   return ListingModel.find();
 }
 
-function get(listingName: String): Promise<Listing> {
-  return ListingModel.find({ name: listingName })
+function get(listingId: String): Promise<Listing> {
+  return ListingModel.find({ _id: listingId })
     .then((list) => list[0])
     .catch((err) => {
-      throw `${listingName} Not Found`;
+      throw `${listingId} Not Found`;
     });
 }
 
-function create(json: User): Promise<Listing> {
+function create(json: Listing): Promise<Listing> {
   const l = new ListingModel(json);
   return l.save();
 }
 
-function update(listingName: String, listing: Listing): Promise<Listing> {
-  return ListingModel.findOneAndUpdate({ name: listingName }, listing, {
+function update(listingId: String, listing: Listing): Promise<Listing> {
+  return ListingModel.findOneAndUpdate({ _id: listingId }, listing, {
     new: true,
   }).then((updated) => {
-    if (!updated) throw `${listingName} not updated`;
+    if (!updated) throw `${listingId} not updated`;
     else return updated as Listing;
   });
 }
 
-function remove(listingName: String): Promise<void> {
-  return ListingModel.findOneAndDelete({ name: listingName }).then(
+function remove(listingId: String): Promise<void> {
+  return ListingModel.findOneAndDelete({ _id: listingId }).then(
     (deleted) => {
-      if (!deleted) throw `${listingName} not deleted`;
+      if (!deleted) throw `${listingId} not deleted`;
     }
   );
 }

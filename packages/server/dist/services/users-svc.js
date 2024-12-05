@@ -34,26 +34,26 @@ const UserModel = (0, import_mongoose.model)("Profile", UserSchema);
 function index() {
   return UserModel.find();
 }
-function get(userName) {
-  return UserModel.find({ name: userName }).then((list) => list[0]).catch((err) => {
-    throw `${userName} Not Found`;
+function get(userId) {
+  return UserModel.find({ _id: userId }).then((list) => list[0]).catch((err) => {
+    throw `${userId} Not Found`;
   });
 }
 function create(json) {
   const u = new UserModel(json);
   return u.save();
 }
-function update(userName, user) {
-  return UserModel.findOneAndUpdate({ name: userName }, user, {
+function update(userId, user) {
+  return UserModel.findOneAndUpdate({ _id: userId }, user, {
     new: true
   }).then((updated) => {
-    if (!updated) throw `${userName} not updated`;
+    if (!updated) throw `${userId} not updated`;
     else return updated;
   });
 }
-function remove(userName) {
-  return UserModel.findOneAndDelete({ name: userName }).then((deleted) => {
-    if (!deleted) throw `${userName} not deleted`;
+function remove(userId) {
+  return UserModel.findOneAndDelete({ _id: userId }).then((deleted) => {
+    if (!deleted) throw `${userId} not deleted`;
   });
 }
 var users_svc_default = { index, get, create, update, remove };

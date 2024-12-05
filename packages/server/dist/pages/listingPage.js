@@ -44,7 +44,7 @@ class ListingPage {
       stylesheets: ["/styles/listing.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { UniListing } from "../js/uni-listing.js";
+        import { UniListing } from "../scripts/uni-listing.js";
 
         define({
             "uni-listing": UniListing,
@@ -53,15 +53,15 @@ class ListingPage {
     });
   }
   renderBody() {
-    const {
-      name
-    } = this.data;
+    const { _id } = this.data;
+    const idString = _id?.toString() || "unknown";
     return import_server.html`
-    <uni-market-nav href="/listings">
-    </uni-market-nav>
-    <uni-listing href="/listings" src="/api/listings/${name}">
-      </uni-listing>
-      `;
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav> </uni-market-nav>
+        <uni-listing href="/listings" src="/api/listings/${idString}">
+        </uni-listing>
+      </mu-auth>
+    `;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

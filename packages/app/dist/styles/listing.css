@@ -1,0 +1,43 @@
+.listing {
+  margin: var(--content-size-small);
+}
+
+.listing-description {
+  display: flex;
+  flex-direction: row;
+}
+
+.details {
+  padding: var(--size-type-large);
+}
+
+img {
+  max-height: calc(
+    70vh - var(--content-size-medium)
+  ); /* vh is the visual height */
+}
+
+.crossSvg {
+  width: var(--content-size-large);
+  height: var(--content-size-large);
+  fill: var(--color-sage);
+  stroke: var(--color-white);
+}
+
+dt {
+  font-weight: var(--font-bold); /* Make the terms bold for emphasis */
+}
+
+dd {
+  margin-bottom: var(--content-size-small);
+  margin-left: var(--content-size-small);
+}
+
+.listing-header {
+  display: flex;
+  align-items: center; /* Align the items vertically in the center */
+  justify-content: space-between; /* Push items to the edges */
+  padding-bottom: var(
+    --content-size-small
+  ); /* Optional: Adds some space below the header */
+}

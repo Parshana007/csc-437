@@ -45,13 +45,13 @@ router.get("/:listing", (req, res) => {
   const { listing } = req.params;
   import_listings_svc.default.get(listing).then((listing2) => res.json(listing2)).catch((err) => res.status(404).send(err));
 });
-router.put("/:listingName", (req, res) => {
-  const { listingName } = req.params;
+router.put("/:listingId", (req, res) => {
+  const { listingId } = req.params;
   const newListing = req.body;
-  import_listings_svc.default.update(listingName, newListing).then((listing) => res.json(listing)).catch((err) => res.status(404).end());
+  import_listings_svc.default.update(listingId, newListing).then((listing) => res.json(listing)).catch((err) => res.status(404).end());
 });
-router.delete("/:listingName", (req, res) => {
-  const { listingName } = req.params;
-  import_listings_svc.default.remove(listingName).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+router.delete("/:listingId", (req, res) => {
+  const { listingId } = req.params;
+  import_listings_svc.default.remove(listingId).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
 var listings_default = router;

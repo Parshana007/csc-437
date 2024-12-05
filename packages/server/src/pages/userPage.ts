@@ -16,7 +16,7 @@ export class UserPage {
       stylesheets: ["/styles/user.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { UserProfile } from "../js/user-profile.js";
+        import { UserProfile } from "/scripts/user-profile.js";
 
         define({
             "user-profile": UserProfile,
@@ -26,10 +26,13 @@ export class UserPage {
   }
 
   renderBody() {
-    const { name } = this.data;
+    const { _id } = this.data;
+    const idString = _id?.toString() || "unknown";
     return html`
-      <uni-market-nav href="/listings"></uni-market-nav>
-      <user-profile src="/api/users/${name}"></user-profile>
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav></uni-market-nav>
+        <user-profile src="/api/users/${idString}"></user-profile>
+      </mu-auth>
     `;
   }
 }

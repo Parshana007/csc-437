@@ -22,14 +22,6 @@ __export(listings_svc_exports, {
 });
 module.exports = __toCommonJS(listings_svc_exports);
 var import_mongoose = require("mongoose");
-const UserSchema = new import_mongoose.Schema(
-  {
-    name: { type: String, required: true, trim: true },
-    contactInfo: { type: String, required: true, trim: true },
-    profilePic: { type: String, required: true, trim: true }
-  },
-  { collection: "market_users" }
-);
 const ListingSchema = new import_mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -49,7 +41,7 @@ const ListingSchema = new import_mongoose.Schema(
       required: true
     },
     pickUpLocation: { type: String, required: true, trim: true },
-    seller: { type: UserSchema, ref: "Profile", required: true },
+    seller: { type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     featuredImage: { type: String, required: true, trim: true }
   },
   { collection: "market_listings" }
@@ -61,27 +53,27 @@ function index() {
 function getAllListings() {
   return ListingModel.find();
 }
-function get(listingName) {
-  return ListingModel.find({ name: listingName }).then((list) => list[0]).catch((err) => {
-    throw `${listingName} Not Found`;
+function get(listingId) {
+  return ListingModel.find({ _id: listingId }).then((list) => list[0]).catch((err) => {
+    throw `${listingId} Not Found`;
   });
 }
 function create(json) {
   const l = new ListingModel(json);
   return l.save();
 }
-function update(listingName, listing) {
-  return ListingModel.findOneAndUpdate({ name: listingName }, listing, {
+function update(listingId, listing) {
+  return ListingModel.findOneAndUpdate({ _id: listingId }, listing, {
     new: true
   }).then((updated) => {
-    if (!updated) throw `${listingName} not updated`;
+    if (!updated) throw `${listingId} not updated`;
     else return updated;
   });
 }
-function remove(listingName) {
-  return ListingModel.findOneAndDelete({ name: listingName }).then(
+function remove(listingId) {
+  return ListingModel.findOneAndDelete({ _id: listingId }).then(
     (deleted) => {
-      if (!deleted) throw `${listingName} not deleted`;
+      if (!deleted) throw `${listingId} not deleted`;
     }
   );
 }

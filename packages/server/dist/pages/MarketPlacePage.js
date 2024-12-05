@@ -44,8 +44,8 @@ class MarketPlacePage {
       stylesheets: ["/styles/page.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { ListingHeader } from "../js/listing-header.js";
-        import { UnimarketListings } from "../js/uni-market-listings.js";
+        import { ListingHeader } from "../scripts/listing-header.js";
+        import { UnimarketListings } from "../scripts/uni-market-listings.js";
 
         define({
             "listing-header": ListingHeader,
@@ -55,8 +55,12 @@ class MarketPlacePage {
     });
   }
   renderBody() {
-    return import_server.html`<uni-market-nav href="/listings"></uni-market-nav>
-      <uni-market-listings src="/api/listings"></uni-market-listings> `;
+    return import_server.html`
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav></uni-market-nav>
+        <uni-market-listings src="/api/listings"></uni-market-listings>
+      </mu-auth>
+    `;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

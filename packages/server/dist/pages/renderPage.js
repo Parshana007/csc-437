@@ -26,8 +26,8 @@ const defaults = {
   stylesheets: ["/styles/reset.css", "/styles/tokens.css", "/styles/page.css"],
   scripts: [
     `
-    import { define } from "@calpoly/mustang";
-    import { UniMarketNav } from "../js/uni-market-nav.js";
+    import { define, Auth } from "@calpoly/mustang";
+    import { UniMarketNav } from "/scripts/uni-market-nav.js";
     import { Events } from "@calpoly/mustang";
 
       window.relayEvent = Events.relay;
@@ -41,7 +41,8 @@ const defaults = {
       );
       
       define({
-        "uni-market-nav" : UniMarketNav
+        "uni-market-nav" : UniMarketNav, 
+        "mu-auth": Auth.Provider
       });
     `
   ],

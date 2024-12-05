@@ -15,7 +15,7 @@ export class ListingPage {
       stylesheets: ["/styles/listing.css"],
       scripts: [
         `import { define } from "@calpoly/mustang";
-        import { UniListing } from "../js/uni-listing.js";
+        import { UniListing } from "../scripts/uni-listing.js";
 
         define({
             "uni-listing": UniListing,
@@ -25,16 +25,14 @@ export class ListingPage {
   }
 
   renderBody() {
-    const {
-      name
-    } = this.data;
-
-    return html
-    `
-    <uni-market-nav href="/listings">
-    </uni-market-nav>
-    <uni-listing href="/listings" src="/api/listings/${name}">
-      </uni-listing>
-      `;
+    const { _id } = this.data;
+    const idString = _id?.toString() || "unknown";
+    return html`
+      <mu-auth provides="blazing:auth">
+        <uni-market-nav> </uni-market-nav>
+        <uni-listing href="/listings" src="/api/listings/${idString}">
+        </uni-listing>
+      </mu-auth>
+    `;
   }
 }
