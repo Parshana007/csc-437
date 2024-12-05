@@ -15,13 +15,8 @@ export class UniMarketNav extends HTMLElement {
             </h1>
           </a>
           <section class="navInfo">
-            <a slot="actuator">
-              Hello,
-              <span id="userid"></span>
-            </a>
             <div class="dropdown">
               <button class="dropbtn">Menu</button>
-              <!-- Conditionally render Sign Out/Sign In links -->
               <div class="dropdown-content">
                 <label
                   onchange="relayEvent(
@@ -125,42 +120,12 @@ export class UniMarketNav extends HTMLElement {
     }
   `;
 
-  _authObserver = new Observer(this, "blazing:auth");
+  
 
-  // runs each time the component is added to the dom
-  connectedCallback() {
-    this._authObserver.observe(({ user }) => {
-      if (user && user.username !== this.userid) {
-        this.userid = user.username;
-      }
-    });
-  }
-
-  get userid() {
-    return this._userid.textContent;
-  }
-
-  set userid(id) {
-    if (id === "anonymous") {
-      this._userid.textContent = "";
-      this._signout.disabled = true;
-    } else {
-      this._userid.textContent = id;
-      this._signout.disabled = false;
-    }
-  }
+  
 
   constructor() {
     super();
-    shadow(this)
-      .template(UniMarketNav.template)
-      .styles(UniMarketNav.styles);
-
-    this._userid = this.shadowRoot.querySelector("#userid");
-    this._signout = this.shadowRoot.querySelector("#signout");
-
-    this._signout.addEventListener("click", (event) =>
-      Events.relay(event, "auth:message", ["auth/signout"])
-    );
+    shadow(this).template(UniMarketNav.template).styles(UniMarketNav.styles);
   }
 }
