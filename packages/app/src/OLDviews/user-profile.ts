@@ -1,9 +1,4 @@
-import {
-  Auth,
-  Observer,
-  define,
-  Form,
-} from "@calpoly/mustang";
+import { Auth, Observer, define, Form } from "@calpoly/mustang";
 import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { User } from "server/models";
@@ -40,7 +35,6 @@ export class UserProfile extends LitElement {
         this._user = user;
       }
       this.hydrate(this.src);
-
     });
   }
 
@@ -98,7 +92,7 @@ export class UserProfile extends LitElement {
         <main class="center-container">
           <section class="userProfile">
             <div class="userPhoto-container">
-              <img src="/assets/${profilePic}" alt=${name}/>
+              <img src="/assets/${profilePic}" alt=${name} />
             </div>
             <h2>${name}</h2>
             <section class="userDescription">
@@ -169,6 +163,35 @@ export class UserProfile extends LitElement {
 
       a:hover {
         text-decoration: underline;
+      }
+
+      button {
+        background-color: var(--color-eggplant);
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        margin-top: 10px;
       }
 
       .center-container {

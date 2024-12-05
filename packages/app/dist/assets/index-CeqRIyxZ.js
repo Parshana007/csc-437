@@ -190,7 +190,7 @@ Expecting `+E.join(", ")+", got '"+(this.terminals_[U]||U)+"'":S="Parse error on
   img {
     max-width: 100%;
   }
-`,cn={styles:ya};var ba=Object.defineProperty,ma=(ae,M,C,te)=>{for(var oe=void 0,x=ae.length-1,_;x>=0;x--)(_=ae[x])&&(oe=_(M,C,oe)||oe);return oe&&ba(M,C,oe),oe};function ga(ae){const C=ae.target.checked;qi.relay(ae,"dark-mode",{checked:C})}function va(ae){qi.relay(ae,"auth:message",["auth/signout"])}const _n=class _n extends hr{constructor(){super(...arguments),this.userid="user",this._authObserver=new _r(this,"blazing:auth")}connectedCallback(){super.connectedCallback(),this._authObserver.observe(({user:M})=>{console.log("user",M),M&&M.username!==this.userid&&(console.log("Updating userid from",this.userid,"to",M.username),this.userid=M.username)})}static initializeOnce(){function M(C,te){C.classList.toggle("dark-mode",te)}document.body.addEventListener("dark-mode",C=>{var te;return M(C.currentTarget,(te=C.detail)==null?void 0:te.checked)})}render(){return nr`
+`,cn={styles:ya};var ba=Object.defineProperty,ma=(ae,M,C,te)=>{for(var oe=void 0,x=ae.length-1,_;x>=0;x--)(_=ae[x])&&(oe=_(M,C,oe)||oe);return oe&&ba(M,C,oe),oe};function ga(ae){const C=ae.target.checked;qi.relay(ae,"dark-mode",{checked:C})}function va(ae){qi.relay(ae,"auth:message",["auth/signout"])}const _n=class _n extends hr{constructor(){super(...arguments),this.userid="user",this._authObserver=new _r(this,"blazing:auth")}connectedCallback(){super.connectedCallback(),this._authObserver.observe(({user:M})=>{console.log("user",M),M&&(M.username==="anonymous"?(console.log("User is anonymous. Redirecting to /login."),window.location.href="/login"):M.username!==this.userid&&(console.log("Updating userid from",this.userid,"to",M.username),this.userid=M.username))})}static initializeOnce(){function M(C,te){C.classList.toggle("dark-mode",te)}document.body.addEventListener("dark-mode",C=>{var te;return M(C.currentTarget,(te=C.detail)==null?void 0:te.checked)})}render(){return nr`
       <header>
         <main class="navBar">
           <a href="/app">
@@ -577,7 +577,9 @@ use chrome, FireFox or Internet Explorer 11`)}var y=s(9732),d=s(4276),f=y.Buffer
                 <dt>Price</dt>
                 <dd>$${te}</dd>
                 <dt>Listed Date</dt>
-                <dd>${x}</dd>
+                <dd>
+                  ${x?new Date(x).toLocaleDateString("en-US"):""}
+                </dd>
                 <dt>Condition</dt>
                 <dd>${_}</dd>
                 <dt>Pick Up Location</dt>
@@ -595,22 +597,26 @@ use chrome, FireFox or Internet Explorer 11`)}var y=s(9732),d=s(4276),f=y.Buffer
         </section>
       </section>
       <mu-form class="edit" .init=${this.listing}>
-        <label>
-          <span>Listing Name</span>
-          <input name="name" />
-        </label>
-        <label>
-          <span>Description</span>
-          <input name="description" />
-        </label>
-        <label>
-          <span>Price</span>
-          <input name="price" />
-        </label>
-        <label>
-          <span>Pick Up Location</span>
-          <input name="pickUpLocation" />
-        </label>
+        <main class="center-container">
+          <section class="formContent">
+            <label>
+              <span>Listing Name</span>
+              <input name="name" />
+            </label>
+            <label>
+              <span>Description</span>
+              <input name="description" />
+            </label>
+            <label>
+              <span>Price</span>
+              <input name="price" />
+            </label>
+            <label>
+              <span>Pick Up Location</span>
+              <input name="pickUpLocation" />
+            </label>
+          </section>
+        </main>
       </mu-form>
     `}};Sn.uses=Dr({"mu-form":Fi.Element}),Sn.styles=[cn.styles,wo.styles,nn`
       .listing {
@@ -646,6 +652,53 @@ use chrome, FireFox or Internet Explorer 11`)}var y=s(9732),d=s(4276),f=y.Buffer
       dd {
         margin-bottom: var(--content-size-small);
         margin-left: var(--content-size-small);
+      }
+
+      .center-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .formContent {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--color-eggplant);
+        padding: var(--content-size-xlarge);
+        gap: 5px;
+        width: 80%;
+        max-width: 600px;
+        margin-bottom: var(--content-size-medium);
+      }
+
+      button {
+        background-color: var(--color-eggplant);
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        margin-top: 10px;
       }
 
       .listing-header {
@@ -705,14 +758,18 @@ use chrome, FireFox or Internet Explorer 11`)}var y=s(9732),d=s(4276),f=y.Buffer
         </main>
       </section>
       <mu-form class="edit" .init=${this.user}>
-        <label>
-          <span>User Name</span>
-          <input name="name" />
-        </label>
-        <label>
-          <span>Contact Information</span>
-          <input name="contactInfo" />
-        </label>
+        <main class="center-container">
+          <section class="formContent">
+            <label>
+              <span>User Name</span>
+              <input name="name" />
+            </label>
+            <label>
+              <span>Contact Information</span>
+              <input name="contactInfo" />
+            </label>
+          </section>
+        </main>
       </mu-form>
     `}};On.uses=Dr({"mu-form":Fi.Element}),On.styles=[cn.styles,nn`
       .userProfile {
@@ -737,15 +794,51 @@ use chrome, FireFox or Internet Explorer 11`)}var y=s(9732),d=s(4276),f=y.Buffer
         flex-direction: column;
       }
 
-      .edit {
+      .center-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .formContent {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--color-eggplant);
+        padding: var(--content-size-xlarge);
+        gap: 5px;
+        width: 80%;
+        max-width: 600px;
+        margin-bottom: var(--content-size-medium);
+      }
+
+      button {
         background-color: var(--color-sage);
-        color: white;
-        font-size: 16px;
-        border: none;
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #ffffff;
         cursor: pointer;
-        padding-left: 20px;
-        padding-right: 20px;
-        margin-top: 20px;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        margin-top: 10px;
       }
 
       .userDescription dl {

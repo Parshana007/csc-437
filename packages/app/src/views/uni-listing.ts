@@ -142,7 +142,11 @@ export class UniListing extends View<Model, Msg> {
                 <dt>Price</dt>
                 <dd>$${price}</dd>
                 <dt>Listed Date</dt>
-                <dd>${listedDate}</dd>
+                <dd>
+                  ${listedDate
+                    ? new Date(listedDate).toLocaleDateString("en-US")
+                    : ""}
+                </dd>
                 <dt>Condition</dt>
                 <dd>${condition}</dd>
                 <dt>Pick Up Location</dt>
@@ -162,22 +166,26 @@ export class UniListing extends View<Model, Msg> {
         </section>
       </section>
       <mu-form class="edit" .init=${this.listing}>
-        <label>
-          <span>Listing Name</span>
-          <input name="name" />
-        </label>
-        <label>
-          <span>Description</span>
-          <input name="description" />
-        </label>
-        <label>
-          <span>Price</span>
-          <input name="price" />
-        </label>
-        <label>
-          <span>Pick Up Location</span>
-          <input name="pickUpLocation" />
-        </label>
+        <main class="center-container">
+          <section class="formContent">
+            <label>
+              <span>Listing Name</span>
+              <input name="name" />
+            </label>
+            <label>
+              <span>Description</span>
+              <input name="description" />
+            </label>
+            <label>
+              <span>Price</span>
+              <input name="price" />
+            </label>
+            <label>
+              <span>Pick Up Location</span>
+              <input name="pickUpLocation" />
+            </label>
+          </section>
+        </main>
       </mu-form>
     `;
   }
@@ -219,6 +227,53 @@ export class UniListing extends View<Model, Msg> {
       dd {
         margin-bottom: var(--content-size-small);
         margin-left: var(--content-size-small);
+      }
+
+      .center-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .formContent {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--color-eggplant);
+        padding: var(--content-size-xlarge);
+        gap: 5px;
+        width: 80%;
+        max-width: 600px;
+        margin-bottom: var(--content-size-medium);
+      }
+
+      button {
+        background-color: var(--color-eggplant);
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        margin-top: 10px;
       }
 
       .listing-header {

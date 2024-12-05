@@ -29,9 +29,15 @@ export class UniMarketNav extends LitElement {
 
     this._authObserver.observe(({ user }) => {
       console.log("user", user);
-      if (user && user.username !== this.userid) {
-        console.log("Updating userid from", this.userid, "to", user.username);
-        this.userid = user.username;
+      if (user) {
+        if (user.username === "anonymous") {
+          // Redirect anonymous users to the login page
+          console.log("User is anonymous. Redirecting to /login.");
+          window.location.href = "/login";
+        } else if (user.username !== this.userid) {
+          console.log("Updating userid from", this.userid, "to", user.username);
+          this.userid = user.username;
+        }
       }
     });
   }
