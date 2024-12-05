@@ -1,90 +1,104 @@
-import { define, View, Form } from "@calpoly/mustang";
-import { css, html } from "lit";
-import { state, property } from "lit/decorators.js";
+import {
+  Auth,
+  Observer,
+  define,
+  Form,
+} from "@calpoly/mustang";
+import { css, html, LitElement } from "lit";
+import { property } from "lit/decorators.js";
 import { User } from "server/models";
-import { Msg } from "../messages";
-import { Model } from "../model";
 import reset from "../styles/reset.css";
-import { Types } from "mongoose";
 
-export class UserViewProfile extends View<Model, Msg> {
+export class UserProfile extends LitElement {
   static uses = define({
     "mu-form": Form.Element,
   });
+
   @property()
   userid?: string;
+
+  @property({ attribute: false })
+  user?: User;
 
   @property({ reflect: true })
   mode = "view";
 
-  @state()
-  get user(): User | undefined {
-    return this.model.user;
+  _authObserver = new Observer<Auth.Model>(this, "blazing:auth");
+
+  _user = new Auth.User();
+
+  get src() {
+    return `/api/users/${this.userid}`;
   }
 
-  constructor() {
-    super("blazing:model");
+  connectedCallback() {
+    super.connectedCallback();
+    console.log("UnimarketListings connected");
+    this._authObserver.observe(({ user }) => {
+      console.log("Auth observer fired:", user);
+      if (user) {
+        this._user = user;
+      }
+      this.hydrate(this.src);
 
-    this.addEventListener("mu-form:submit", (event) => {
-      const customEvent = event as CustomEvent<{
-        _id: string;
-        contactInfo: string;
-        name: string;
-        profilePic: string;
-      }>;
-      this.handleFormSubmit(customEvent.detail);
     });
   }
 
-  handleFormSubmit(formData: {
-    _id: string;
-    contactInfo: string;
-    name: string;
-    profilePic: string;
-  }) {
-    // const formData = event.detail;
-    console.log("Form data:", formData);
-    this.dispatchMessage([
-      "profile/save",
-      {
-        userid: formData._id,
-        user: {
-            ...formData,
-            _id: new Types.ObjectId(formData._id), // Convert _id to ObjectId
-          },
-        onSuccess: () => {
-          console.log("Profile saved successfully!");
-          this.mode = "view"; // Return to view mode
-        },
-        onFailure: (error: Error) => {
-          console.error("Failed to save profile:", error);
-        },
-      },
-    ]);
+  hydrate(url: string) {
+    console.log("Fetching listings from:", url);
+    fetch(url, {
+      headers: Auth.headers(this._user),
+    })
+      .then((res) => {
+        if (res.status !== 200) throw `Status: ${res.status}`;
+        return res.json();
+      })
+      .catch((error) => console.log(`Failed to render data ${url}:`, error))
+      .then((json: unknown) => {
+        if (json) {
+          console.log("User: ", json);
+          this.user = json as User;
+        }
+        // this.renderSlots(json);
+        // this.form.init = json; // populate mu-form
+      })
+      .catch((err) => console.log("Failed to convert user data:", err));
   }
 
-  attributeChangedCallback(
-    name: string,
-    old: string | null,
-    value: string | null
-  ) {
-    console.log(`Attribute changed: ${name}, Old: ${old}, New: ${value}`);
-    super.attributeChangedCallback(name, old, value);
-
-    if (name === "userid" && old !== value && value)
-      this.dispatchMessage(["profile/select", { userid: value }]);
+  submit(url: string, json: string) {
+    console.log("URL", url);
+    console.log("json", json);
+    fetch(url, {
+      headers: Auth.headers(this._user),
+      method: "PUT",
+      body: JSON.stringify(json),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        if (json) {
+          console.log("User: ", json);
+          this.user = json as User;
+        }
+        // this.renderSlots(json);
+        // this.form.init = json;
+        this.mode = "view";
+      })
+      .catch((error) =>
+        console.log(`Failed to render data on submit ${url}:`, error)
+      );
   }
 
   protected render() {
     const { name, contactInfo, profilePic } = this.user || {};
-    console.log("this.user", this.user);
 
     return html`
       <section class="view">
         <main class="center-container">
           <section class="userProfile">
             <div class="userPhoto-container">
-              <img src="/assets/${profilePic}" alt=${name} />
+              <img src="/assets/${profilePic}" alt=${name}/>
             </div>
             <h2>${name}</h2>
             <section class="userDescription">
@@ -92,11 +106,7 @@ export class UserViewProfile extends View<Model, Msg> {
                 <dt>Contact Information</dt>
                 <dd>${contactInfo}</dd>
               </dl>
-              <button
-                class="edit"
-                id="edit"
-                @click=${() => (this.mode = "edit")}
-              >
+              <button id="edit" @click=${() => (this.mode = "edit")}>
                 Edit
               </button>
             </section>
@@ -130,26 +140,9 @@ export class UserViewProfile extends View<Model, Msg> {
         margin-bottom: var(--content-size-medium);
       }
 
-      .userPhoto-container img {
+      .userPhoto-container {
         width: 15rem;
         height: 15rem;
-      }
-
-      .userDescription {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-      }
-
-      .edit {
-        background-color: var(--color-sage);
-        color: white;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        padding-left: 20px;
-        padding-right: 20px;
-        margin-top: 20px;
       }
 
       .userDescription dl {

@@ -10,8 +10,17 @@ export default function update(
 ) {
   switch (message[0]) {
     case "profile/save":
+      console.log("Applying selected profile to model:", message[1]);
+      console.log("User", user);
       saveProfile(message[1], user)
-        .then((profile) => apply((model) => ({ ...model, profile })))
+        .then((profile) => {
+          if (profile) {
+            console.log("Applying profile to model:", profile);
+            apply((model) => ({ ...model, user: profile }));
+          } else {
+            console.warn("No profile data returned from saveProfile");
+          }
+        })
         .then(() => {
           const { onSuccess } = message[1];
           if (onSuccess) onSuccess();
@@ -22,9 +31,14 @@ export default function update(
         });
       break;
     case "profile/select":
-      selectProfile(message[1], user).then((profile) =>
-        apply((model) => ({ ...model, profile }))
-      );
+      selectProfile(message[1], user).then((profile) => {
+        if (profile) {
+          console.log("Applying profile to model:", profile);
+          apply((model) => ({ ...model, user: profile }));
+        } else {
+          console.warn("No profile data returned from selectProfile");
+        }
+      });
       break;
     // put the rest of your cases here
     // default:
@@ -36,7 +50,7 @@ export default function update(
 function saveProfile(
   msg: {
     userid: string;
-    profile: User;
+    user: User;
   },
   user: Auth.User
 ) {
@@ -46,13 +60,14 @@ function saveProfile(
       "Content-Type": "application/json",
       ...Auth.headers(user),
     },
-    body: JSON.stringify(msg.profile),
+    body: JSON.stringify(msg.user),
   })
     .then((response: Response) => {
       if (response.status === 200) return response.json();
       else throw new Error(`Failed to save profile for ${msg.userid}`);
     })
     .then((json: unknown) => {
+      console.log("JSON for save profile", json);
       if (json) return json as User;
       return undefined;
     });
@@ -70,7 +85,7 @@ function selectProfile(msg: { userid: string }, user: Auth.User) {
     })
     .then((json: unknown) => {
       if (json) {
-        console.log("Profile:", json);
+        console.log("Fetched profile JSON:", json);
         return json as User;
       }
     });

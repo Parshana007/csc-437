@@ -1,12 +1,13 @@
-import { Auth, define, History, Switch } from "@calpoly/mustang";
-// import { Msg } from "./messages";
-// import { Model, init } from "./model";
-// import update from "./update";
+import { Auth, define, History, Switch, Store } from "@calpoly/mustang";
+import { Msg } from "./messages";
+import { Model, init } from "./model";
+import update from "./update";
 import { html, LitElement } from "lit";
 import { UniMarketNav } from "./components/uni-market-nav";
-import { UnimarketListings } from "./views/home-view";
-import { UserProfile } from "./views/user-profile";
-import { UniListing } from "./views/uni-listing";
+import { UnimarketListings } from "./OLDviews/home-view";
+// import { UserProfile } from "./OLDviews/user-profile";
+import { UniListing } from "./OLDviews/uni-listing";
+import { UserViewProfile } from "./views/user-profile"
 
 class AppElement extends LitElement {
   static uses = define({
@@ -24,6 +25,7 @@ class AppElement extends LitElement {
 }
 
 const routes = [
+    //consider making a view one and then making a edit page
   {
     path: "/app/listing/:listingId",
     view: (params: Switch.Params) => html`
@@ -56,13 +58,14 @@ define({
       super(routes, "blazing:history", "blazing:auth");
     }
   },
-//   "mu-store": class AppStore extends Store.Provider<Model, Msg> {
-//     constructor() {
-//       super(update, init, "blazing:auth");
-//     }
-//   },
+  "mu-store": class AppStore extends Store.Provider<Model, Msg> {
+    constructor() {
+      super(update, init, "blazing:auth");
+    }
+  },
   "uni-market-app": AppElement,
   "uni-market-nav": UniMarketNav,
-  "user-profile": UserProfile,
+//   "user-profile": UserProfile,
+  "user-profile": UserViewProfile,
   "uni-listing": UniListing,
 });
