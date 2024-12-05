@@ -20,11 +20,13 @@ export class UniListing extends View<Model, Msg> {
   mode = "view";
 
   @state()
-  sellerData?: User;
-
-  @state()
   get listing(): Listing | undefined {
     return this.model.listing;
+  }
+
+  @state()
+  get user(): User | undefined {
+    return this.model.user;
   }
 
   constructor() {
@@ -78,6 +80,23 @@ export class UniListing extends View<Model, Msg> {
     ]);
   }
 
+  // Handle successful listing selection
+  protected updated(
+    changedProperties: Map<string | number | symbol, unknown>
+  ): void {
+    super.updated(changedProperties);
+
+    // If listing data is loaded and has a seller, fetch the seller's profile
+    if (
+      this.listing?.seller &&
+      (!this.user ||
+        this.user._id?.toString() !== this.listing.seller.toString())
+    ) {
+      const sellerId = this.listing.seller.toString();
+      console.log("Dispatching profile/select for seller", sellerId);
+      this.dispatchMessage(["profile/select", { userid: sellerId }]);
+    }
+  }
 
   attributeChangedCallback(
     name: string,
@@ -130,9 +149,9 @@ export class UniListing extends View<Model, Msg> {
                 <dd>${pickUpLocation}</dd>
                 <dt>Seller Information</dt>
                 <dd>
-                  ${this.sellerData
-                    ? html`<a href="../user/${this.sellerData._id}">
-                        ${this.sellerData.name}
+                  ${this.user
+                    ? html`<a href="../user/${this.user._id}">
+                        ${this.user.name}
                       </a>`
                     : html`<span>Loading seller information...</span>`}
                 </dd>
