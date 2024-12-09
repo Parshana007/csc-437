@@ -63,7 +63,7 @@ export class RegistrationPage {
             <uni-market-nav></uni-market-nav>
             <main class="page">
               <registration-form api="/auth/register">
-                <h3 slot="title">Sign up to plan your next trip!</h3>
+                <h3 slot="title">Sign up to explore UniMarket!</h3>
               </registration-form>
               <p class="login">
                 Already signed up? You can

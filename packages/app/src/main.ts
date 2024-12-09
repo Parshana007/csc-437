@@ -70,3 +70,5 @@ define({
   "user-profile": UserViewProfile,
   "uni-listing": UniListing,
 });
+
+UniMarketNav.initializeOnce();

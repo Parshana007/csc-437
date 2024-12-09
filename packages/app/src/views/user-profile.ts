@@ -5,14 +5,14 @@ import { User } from "server/models";
 import { Msg } from "../messages";
 import { Model } from "../model";
 import reset from "../styles/reset.css";
-import { Types } from "mongoose";
 
 export class UserViewProfile extends View<Model, Msg> {
   static uses = define({
     "mu-form": Form.Element,
   });
-  @property()
-  userid?: string;
+
+  @property({ attribute: "userid" })
+  userid = "";
 
   @property({ reflect: true })
   mode = "view";
@@ -24,42 +24,6 @@ export class UserViewProfile extends View<Model, Msg> {
 
   constructor() {
     super("blazing:model");
-
-    this.addEventListener("mu-form:submit", (event) => {
-      const customEvent = event as CustomEvent<{
-        _id: string;
-        contactInfo: string;
-        name: string;
-        profilePic: string;
-      }>;
-      this.handleFormSubmit(customEvent.detail);
-    });
-  }
-
-  handleFormSubmit(formData: {
-    _id: string;
-    contactInfo: string;
-    name: string;
-    profilePic: string;
-  }) {
-    console.log("Form data:", formData);
-    this.dispatchMessage([
-      "profile/save",
-      {
-        userid: formData._id,
-        user: {
-          ...formData,
-          _id: new Types.ObjectId(formData._id), // Convert _id to ObjectId
-        },
-        onSuccess: () => {
-          console.log("Profile saved successfully!");
-          this.mode = "view"; // Return to view mode
-        },
-        onFailure: (error: Error) => {
-          console.error("Failed to save profile:", error);
-        },
-      },
-    ]);
   }
 
   attributeChangedCallback(
@@ -72,6 +36,20 @@ export class UserViewProfile extends View<Model, Msg> {
 
     if (name === "userid" && old !== value && value)
       this.dispatchMessage(["profile/select", { userid: value }]);
+  }
+
+  _handleSubmit(event: Form.SubmitEvent<User>) {
+    this.dispatchMessage([
+      "profile/save",
+      {
+        userid: this.userid,
+        user: event.detail,
+        onSuccess: () => {
+          (this.mode = "view")
+        },
+        onFailure: (error: Error) => console.log("ERROR:", error),
+      },
+    ]);
   }
 
   protected render() {
@@ -102,7 +80,11 @@ export class UserViewProfile extends View<Model, Msg> {
           </section>
         </main>
       </section>
-      <mu-form class="edit" .init=${this.user}>
+      <mu-form
+        class="edit"
+        .init=${this.user}
+        @mu-form:submit=${this._handleSubmit}
+      >
         <main class="center-container">
           <section class="formContent">
             <label>

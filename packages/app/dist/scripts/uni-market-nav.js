@@ -1,5 +1,4 @@
 import { css, html, shadow, Observer, Events } from "@calpoly/mustang";
-// import reset from "../styles/";
 
 export class UniMarketNav extends HTMLElement {
   static template = html`

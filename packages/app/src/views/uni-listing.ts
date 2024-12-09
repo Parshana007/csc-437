@@ -1,20 +1,19 @@
 import { define, View, Form } from "@calpoly/mustang";
 import { css, html } from "lit";
 import { state, property } from "lit/decorators.js";
-import { User, Listing, Condition } from "server/models";
+import { User, Listing } from "server/models";
 import { Msg } from "../messages";
 import { Model } from "../model";
 import reset from "../styles/reset.css";
 import page from "../styles/page.css";
-import { Types } from "mongoose";
 
 export class UniListing extends View<Model, Msg> {
   static uses = define({
     "mu-form": Form.Element,
   });
 
-  @property()
-  listingid?: string;
+  @property({ attribute: "listingid" })
+  listingid = "";
 
   @property({ reflect: true })
   mode = "view";
@@ -31,51 +30,18 @@ export class UniListing extends View<Model, Msg> {
 
   constructor() {
     super("blazing:model");
-
-    this.addEventListener("mu-form:submit", (event) => {
-      const customEvent = event as CustomEvent<{
-        _id: string;
-        name: string;
-        description: string;
-        price: number;
-        listedDate: Date;
-        condition: Condition;
-        seller: string;
-        featuredImage: string;
-        pickUpLocation: string;
-      }>;
-      this.handleFormSubmit(customEvent.detail);
-    });
   }
 
-  handleFormSubmit(formData: {
-    _id: string;
-    name: string;
-    description: string;
-    price: number;
-    listedDate: Date;
-    condition: Condition;
-    seller: string;
-    featuredImage: string;
-    pickUpLocation: string;
-  }) {
-    console.log("Form data:", formData);
+  _handleSubmit(event: Form.SubmitEvent<Listing>) {
     this.dispatchMessage([
       "listing/save",
       {
-        listingid: formData._id,
-        listing: {
-          ...formData,
-          _id: new Types.ObjectId(formData._id), // Convert _id to ObjectId
-          seller: new Types.ObjectId(formData.seller),
-        },
+        listingid: this.listingid,
+        listing: event.detail,
         onSuccess: () => {
-          console.log("Listing saved successfully!");
-          this.mode = "view"; // Return to view mode
+          this.mode = "view";
         },
-        onFailure: (error: Error) => {
-          console.error("Failed to save Listing:", error);
-        },
+        onFailure: (error: Error) => console.log("ERROR:", error),
       },
     ]);
   }
@@ -165,7 +131,11 @@ export class UniListing extends View<Model, Msg> {
           <button @click=${() => (this.mode = "edit")}>Edit</button>
         </section>
       </section>
-      <mu-form class="edit" .init=${this.listing}>
+      <mu-form
+        class="edit"
+        .init=${this.listing}
+        @mu-form:submit=${this._handleSubmit}
+      >
         <main class="center-container">
           <section class="formContent">
             <label>
